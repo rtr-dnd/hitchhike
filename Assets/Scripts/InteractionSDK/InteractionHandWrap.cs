@@ -1,9 +1,11 @@
 using UnityEngine;
 using Oculus.Interaction.Input;
+using Oculus.Interaction.HandGrab;
 
 public class InteractionHandWrap : HandWrap
 {
   private FromOVRHandDataSource ods;
+  private HandGrabInteractor grab;
 
   void Awake()
   {
@@ -11,11 +13,15 @@ public class InteractionHandWrap : HandWrap
     ods._cameraRigRef = gameObject.GetComponentInParent<OVRCameraRigRef>();
     ods.InjectHandSkeletonProvider(gameObject.GetComponentInParent<HandSkeletonOVR>());
     ods.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
+
+    grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
   }
 
   public override void Init(Transform original, Transform copied)
   {
+    originalSpace = original;
     ods.originalSpace = original;
+    thisSpace = copied;
     ods.thisSpace = copied;
   }
 
@@ -37,12 +43,23 @@ public class InteractionHandWrap : HandWrap
     ods.isUpdating = updating;
   }
 
-  // private SkinnedMeshRenderer GetRenderer()
-  // {
-  //   return gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
-  // }
-  // private OVRSkeleton GetSkelton()
-  // {
-  //   return gameObject.GetComponentInChildren<OVRSkeleton>();
-  // }
+  public HandGrabInteractable Unselect()
+  {
+    var interactable = grab.SelectedInteractable;
+    if (grab.HasSelectedInteractable) grab.Unselect();
+    return interactable;
+  }
+
+  public void Select(HandGrabInteractable interactable)
+  {
+    // grab._candidate = interactable;
+    // grab.Hover();
+    // grab.Select();
+    // grab.SelectInteractable(interactable);
+  }
+
+  void Update()
+  {
+
+  }
 }
