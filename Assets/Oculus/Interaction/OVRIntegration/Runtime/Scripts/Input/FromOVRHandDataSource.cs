@@ -27,8 +27,9 @@ namespace Oculus.Interaction.Input
     public class FromOVRHandDataSource : DataSource<HandDataAsset>
     {
         [Header("OVR Data Source")]
-        [SerializeField, Interface(typeof(IOVRCameraRigRef))]
-        private MonoBehaviour _cameraRigRef;
+        // [SerializeField, Interface(typeof(IOVRCameraRigRef))]
+        // private MonoBehaviour _cameraRigRef;
+        public MonoBehaviour _cameraRigRef;
 
         [SerializeField]
         private bool _processLateUpdates = false;
@@ -71,7 +72,9 @@ namespace Oculus.Interaction.Input
         public static Quaternion WristFixupRotation { get; } =
             new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
-        public Vector3 offset = Vector3.zero;
+        // public Vector3 offset = Vector3.zero;
+        public Transform originalSpace;
+        public Transform thisSpace;
         public bool isUpdating = true;
 
         protected virtual void Awake()
@@ -81,6 +84,9 @@ namespace Oculus.Interaction.Input
             HandSkeletonProvider = _handSkeletonProvider as IHandSkeletonProvider;
 
             UpdateConfig();
+
+            originalSpace = transform;
+            thisSpace = transform;
         }
 
         protected override void Start()
@@ -234,11 +240,15 @@ namespace Oculus.Interaction.Input
 
             // Read the poses directly from the poseData, so it isn't in conflict with
             // any modifications that the application makes to OVRSkeleton
-            _handDataAsset.Root = new Pose()
-            {
-                position = poseData.RootPose.Position.FromFlippedZVector3f() + offset,
-                rotation = poseData.RootPose.Orientation.FromFlippedZQuatf()
-            };
+            // _handDataAsset.Root = new Pose()
+            // {
+            //     position = poseData.RootPose.Position.FromFlippedZVector3f(),
+            //     rotation = poseData.RootPose.Orientation.FromFlippedZQuatf()
+            // };
+            _handDataAsset.Root = applyOffset(
+                poseData.RootPose.Position.FromFlippedZVector3f(),
+                poseData.RootPose.Orientation.FromFlippedZQuatf()
+            );
 
             if (_ovrHand.IsPointerPoseValid)
             {
@@ -263,6 +273,39 @@ namespace Oculus.Interaction.Input
             }
 
             _handDataAsset.Joints[0] = WristFixupRotation;
+        }
+
+        Pose applyOffset(Vector3 anchorPos, Quaternion anchorRot) {
+            var originalSpaceOrigin = originalSpace;
+            var thisSpaceOrigin = thisSpace;
+
+            var originalToActiveRot = Quaternion.Inverse(thisSpaceOrigin.rotation) * originalSpaceOrigin.rotation;
+            var originalToActiveScale = new Vector3(
+            thisSpaceOrigin.lossyScale.x / originalSpaceOrigin.lossyScale.x,
+            thisSpaceOrigin.lossyScale.y / originalSpaceOrigin.lossyScale.y,
+            thisSpaceOrigin.lossyScale.z / originalSpaceOrigin.lossyScale.z
+            );
+
+            var oMt = Matrix4x4.TRS(
+                anchorPos,
+                anchorRot,
+            new Vector3(1, 1, 1)
+            );
+
+            var resMat =
+            Matrix4x4.Translate(thisSpaceOrigin.position - originalSpaceOrigin.position) // orignal to copied translation
+            * Matrix4x4.TRS(
+                originalSpaceOrigin.position,
+                Quaternion.Inverse(originalToActiveRot),
+                originalToActiveScale
+            ) // translation back to original space and rotation & scale around original space
+            * Matrix4x4.Translate(-originalSpaceOrigin.position) // offset translation for next step
+            * oMt; // hand anchor
+
+            return new Pose(
+                resMat.GetColumn(3),
+                resMat.rotation
+            );
         }
 
         #region Inject
