@@ -4,6 +4,7 @@ using Oculus.Interaction.Input;
 public class InteractionHandWrap : HandWrap
 {
   private FromOVRHandDataSource ods;
+
   void Awake()
   {
     ods = gameObject.GetComponentInChildren<FromOVRHandDataSource>();
