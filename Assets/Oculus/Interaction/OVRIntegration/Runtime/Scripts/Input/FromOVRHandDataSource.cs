@@ -71,6 +71,9 @@ namespace Oculus.Interaction.Input
         public static Quaternion WristFixupRotation { get; } =
             new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
+        public Vector3 offset = Vector3.zero;
+        public bool isUpdating = true;
+
         protected virtual void Awake()
         {
             TrackingToWorldTransformer = _trackingToWorldTransformer as ITrackingToWorldTransformer;
@@ -158,6 +161,8 @@ namespace Oculus.Interaction.Input
 
         protected override void UpdateData()
         {
+            if (!isUpdating) return;
+
             _handDataAsset.Config = Config;
             _handDataAsset.IsDataValid = true;
             _handDataAsset.IsConnected =
@@ -231,7 +236,7 @@ namespace Oculus.Interaction.Input
             // any modifications that the application makes to OVRSkeleton
             _handDataAsset.Root = new Pose()
             {
-                position = poseData.RootPose.Position.FromFlippedZVector3f(),
+                position = poseData.RootPose.Position.FromFlippedZVector3f() + offset,
                 rotation = poseData.RootPose.Orientation.FromFlippedZQuatf()
             };
 
