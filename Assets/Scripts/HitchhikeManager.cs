@@ -2,15 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootScript;
 
-public class HitchhikeManager: MonoBehaviour
+public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 {
   public GameObject ovrHands;
   public GameObject handWrapPrefab;
-  List<HandWrap> handWraps;
+  [HideInInspector]
+  public List<HandWrap> handWraps;
   public GameObject originalHandArea;
   public List<GameObject> copiedHandAreas;
   List<GameObject> handAreas;
-  public QuestProGazeSwitchTechnique switchTechnique;
+  public SwitchTechnique switchTechnique;
+  private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
 
   void Start()
   {
@@ -20,15 +22,52 @@ public class HitchhikeManager: MonoBehaviour
 
     handWraps = new List<HandWrap>();
     handAreas.ForEach((e) => InitArea(e));
-    // ActivateHandWrap(handWraps[0]);
+
+    Invoke("AsyncStart", 1f);
+
+    switchTechnique.Init();
   }
 
-  void InitArea(GameObject area) {
+  void AsyncStart()
+  {
+    ActivateHandWrap(handWraps[0]);
+    initialized = true;
+  }
+
+  void Update()
+  {
+    if (!initialized) return;
+
+    int i = switchTechnique.UpdateSwitch();
+    if (GetHandWrapIndex(GetActiveHandWrap()) != i) ActivateHandWrap(handWraps[i]);
+  }
+
+  void InitArea(GameObject area)
+  {
     var initialHandPosition = area.GetChildWithName("InitialHandPosition");
     var handWrapInstance = GameObject.Instantiate(handWrapPrefab, ovrHands.transform);
     var handWrap = handWrapInstance.GetComponent<HandWrap>();
     handWrap.Init(originalHandArea.transform, area.transform);
-    // handWrap.SetEnabled(false);
+    handWrap.SetEnabled(true);
     handWraps.Add(handWrap);
+  }
+
+  private void ActivateHandWrap(HandWrap wrap)
+  {
+    handWraps.ForEach((e) =>
+    {
+      e.SetEnabled(e == wrap);
+    });
+  }
+  public HandWrap GetActiveHandWrap()
+  {
+    HandWrap wrap = null;
+    handWraps.ForEach((e) => { if (e.isEnabled) wrap = e; });
+    return wrap;
+  }
+  public int GetHandWrapIndex(HandWrap wrap)
+  {
+    var i = handWraps.FindIndex(e => e == wrap);
+    return i;
   }
 }
