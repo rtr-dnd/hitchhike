@@ -42,8 +42,6 @@ public class QuestProGazeSwitchTechnique : SwitchTechnique
       }
     }
 
-    Debug.Log(closestDistance);
-
     HandWrap currentGazeWrap = null;
     if (closestDistance < float.PositiveInfinity)
     {

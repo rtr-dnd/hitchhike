@@ -39,7 +39,19 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     if (!initialized) return;
 
     int i = switchTechnique.UpdateSwitch();
-    if (GetHandWrapIndex(GetActiveHandWrap()) != i) ActivateHandWrap(handWraps[i]);
+    if (GetHandWrapIndex(GetActiveHandWrap()) != i)
+    {
+      var beforeWrap = GetActiveHandWrap();
+      var interactable = (GetActiveHandWrap() as InteractionHandWrap).Unselect();
+      ActivateHandWrap(handWraps[i]);
+      var afterWrap = GetActiveHandWrap();
+      if (interactable != null)
+      {
+        interactable.gameObject.transform.position += afterWrap.thisSpace.position - beforeWrap.thisSpace.position;
+        // todo: rotation
+        (afterWrap as InteractionHandWrap).Select(interactable);
+      }
+    }
   }
 
   void InitArea(GameObject area)
