@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static OVRSkeleton;
@@ -76,6 +77,7 @@ namespace Oculus.Interaction.Input
         public Transform thisSpace;
         public bool isUpdating = true;
         public Vector3 defaultPosition = Vector3.zero;
+        public bool scaleHandModel;
 
         protected virtual void Awake()
         {
@@ -224,7 +226,13 @@ namespace Oculus.Interaction.Input
 
         private void UpdateDataPoses(SkeletonPoseData poseData)
         {
-            _handDataAsset.HandScale = poseData.RootScale;
+            // _handDataAsset.HandScale = poseData.RootScale;
+            _handDataAsset.HandScale = scaleHandModel ? new float[] {
+                thisSpace.lossyScale.x / originalSpace.lossyScale.x,
+                thisSpace.lossyScale.y / originalSpace.lossyScale.y,
+                thisSpace.lossyScale.z / originalSpace.lossyScale.z
+            }.Average() : poseData.RootScale;
+
             _handDataAsset.IsTracked = _ovrHand.IsTracked;
             _handDataAsset.IsHighConfidence = poseData.IsDataHighConfidence;
             _handDataAsset.IsDominantHand = _ovrHand.IsDominantHand;
@@ -289,9 +297,9 @@ namespace Oculus.Interaction.Input
 
             var originalToActiveRot = Quaternion.Inverse(thisSpaceOrigin.rotation) * originalSpaceOrigin.rotation;
             var originalToActiveScale = new Vector3(
-            thisSpaceOrigin.lossyScale.x / originalSpaceOrigin.lossyScale.x,
-            thisSpaceOrigin.lossyScale.y / originalSpaceOrigin.lossyScale.y,
-            thisSpaceOrigin.lossyScale.z / originalSpaceOrigin.lossyScale.z
+                thisSpaceOrigin.lossyScale.x / originalSpaceOrigin.lossyScale.x,
+                thisSpaceOrigin.lossyScale.y / originalSpaceOrigin.lossyScale.y,
+                thisSpaceOrigin.lossyScale.z / originalSpaceOrigin.lossyScale.z
             );
 
             var oMt = Matrix4x4.TRS(

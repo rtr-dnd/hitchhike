@@ -12,6 +12,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   public List<GameObject> copiedHandAreas;
   List<GameObject> handAreas;
   public SwitchTechnique switchTechnique;
+  public bool scaleHandModel;
   private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
 
   void Start()
@@ -60,7 +61,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     var initialHandPosition = area.GetChildWithName("InitialHandPosition");
     var handWrapInstance = GameObject.Instantiate(handWrapPrefab, ovrHands.transform);
     var handWrap = handWrapInstance.GetComponent<HandWrap>();
-    handWrap.Init(originalHandArea.transform, area.transform);
+    handWrap.Init(originalHandArea.transform, area.transform, scaleHandModel);
     handWrap.SetEnabled(true);
     handWraps.Add(handWrap);
   }

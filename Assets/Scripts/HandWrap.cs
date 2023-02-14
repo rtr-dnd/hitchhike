@@ -9,11 +9,12 @@ public class HandWrap : MonoBehaviour
   public Material enabledMaterial;
   public Material disabledMaterial;
   public bool isEnabled { get; private set; }
+  public bool scaleHandModel;
   [HideInInspector]
   public Transform originalSpace;
   [HideInInspector]
   public Transform thisSpace;
-  public virtual void Init(Transform original, Transform copied) {}
+  public virtual void Init(Transform original, Transform copied, bool scale) {}
   public virtual void SetEnabled(bool enabled)
   {
     isEnabled = enabled;
