@@ -19,13 +19,15 @@ public class InteractionHandWrap : HandWrap
     grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
   }
 
-  public override void Init(Transform original, Transform copied)
+  public override void Init(Transform original, Transform copied, bool scale)
   {
     originalSpace = original;
     ods.originalSpace = original;
     thisSpace = copied;
     ods.thisSpace = copied;
     ods.defaultPosition = copied.position;
+    scaleHandModel = scale;
+    ods.scaleHandModel = scale;
   }
 
   public override void SetEnabled(bool enabled)
