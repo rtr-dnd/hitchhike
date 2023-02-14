@@ -1,9 +1,11 @@
 using UnityEngine;
 using Oculus.Interaction.Input;
 using Oculus.Interaction.HandGrab;
+using Oculus.Interaction;
 
 public class InteractionHandWrap : HandWrap
 {
+  public SkinnedMeshRenderer meshRenderer;
   private FromOVRHandDataSource ods;
   private HandGrabInteractor grab;
 
@@ -35,7 +37,8 @@ public class InteractionHandWrap : HandWrap
 
   public override void ChangeMaterial(bool enabled)
   {
-    // base.ChangeMaterial(enabled);
+    // Debug.Log("setting to " + enabled.ToString());
+    meshRenderer.materials = new Material[] { enabled ? enabledMaterial : disabledMaterial };
   }
 
   public override void SetUpdating(bool updating)
@@ -57,10 +60,5 @@ public class InteractionHandWrap : HandWrap
     // grab.Hover();
     // grab.Select();
     // grab.SelectInteractable(interactable);
-  }
-
-  void Update()
-  {
-
   }
 }

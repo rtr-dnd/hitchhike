@@ -254,8 +254,8 @@ extern void FromOVRHandDataSource_InjectHandSkeletonProvider_m98B9B404DF74A3773C
 extern void FromOVRHandDataSource__ctor_m1BCB30129AC6C3D3A860FAC898123F6685CBC832 (void);
 // 0x00000079 System.Void Oculus.Interaction.Input.FromOVRHandDataSource::.cctor()
 extern void FromOVRHandDataSource__cctor_m30064FBA7DC59EDE5FEAB756B291F93D4D630925 (void);
-// 0x0000007A System.Void Oculus.Interaction.Input.FromOVRHandDataSource::<Start>b__25_0()
-extern void FromOVRHandDataSource_U3CStartU3Eb__25_0_m276A23CFCD4BF7E9A8127631F3AA8304FD872A0B (void);
+// 0x0000007A System.Void Oculus.Interaction.Input.FromOVRHandDataSource::<Start>b__26_0()
+extern void FromOVRHandDataSource_U3CStartU3Eb__26_0_m2C847B13E252B3EB92AEE1A9636F5798DB8FCCF9 (void);
 // 0x0000007B Oculus.Interaction.Input.IOVRCameraRigRef Oculus.Interaction.Input.FromOVRHmdDataSource::get_CameraRigRef()
 extern void FromOVRHmdDataSource_get_CameraRigRef_m9701F8D26583D60BF41D866E77293BAD713FA800 (void);
 // 0x0000007C System.Void Oculus.Interaction.Input.FromOVRHmdDataSource::set_CameraRigRef(Oculus.Interaction.Input.IOVRCameraRigRef)
@@ -558,7 +558,7 @@ static Il2CppMethodPointer s_methodPointers[215] =
 	FromOVRHandDataSource_InjectHandSkeletonProvider_m98B9B404DF74A3773C81A884A8F4880E97C8B73E,
 	FromOVRHandDataSource__ctor_m1BCB30129AC6C3D3A860FAC898123F6685CBC832,
 	FromOVRHandDataSource__cctor_m30064FBA7DC59EDE5FEAB756B291F93D4D630925,
-	FromOVRHandDataSource_U3CStartU3Eb__25_0_m276A23CFCD4BF7E9A8127631F3AA8304FD872A0B,
+	FromOVRHandDataSource_U3CStartU3Eb__26_0_m2C847B13E252B3EB92AEE1A9636F5798DB8FCCF9,
 	FromOVRHmdDataSource_get_CameraRigRef_m9701F8D26583D60BF41D866E77293BAD713FA800,
 	FromOVRHmdDataSource_set_CameraRigRef_mF7F1292CCD53BFD490169C7292E43482B0439CDD,
 	FromOVRHmdDataSource_get_ProcessLateUpdates_mE04DAAF8178D3ED9184F047B2AB1A39B0B7B23A0,
