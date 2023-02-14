@@ -72,10 +72,10 @@ namespace Oculus.Interaction.Input
         public static Quaternion WristFixupRotation { get; } =
             new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
-        // public Vector3 offset = Vector3.zero;
         public Transform originalSpace;
         public Transform thisSpace;
         public bool isUpdating = true;
+        public Vector3 defaultPosition = Vector3.zero;
 
         protected virtual void Awake()
         {
@@ -167,7 +167,15 @@ namespace Oculus.Interaction.Input
 
         protected override void UpdateData()
         {
-            if (!isUpdating) return;
+            if (!isUpdating)
+            {
+                _handDataAsset.Root = new Pose()
+                {
+                    position = defaultPosition,
+                    rotation = _handDataAsset.Root.rotation
+                };
+                return;
+            }
 
             _handDataAsset.Config = Config;
             _handDataAsset.IsDataValid = true;
