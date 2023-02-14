@@ -23,6 +23,7 @@ public class InteractionHandWrap : HandWrap
     ods.originalSpace = original;
     thisSpace = copied;
     ods.thisSpace = copied;
+    ods.defaultPosition = copied.position;
   }
 
   public override void SetEnabled(bool enabled)
