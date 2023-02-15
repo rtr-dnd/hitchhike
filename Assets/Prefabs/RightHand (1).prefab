@@ -83,6 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
+  scaleHandModel: 0
   originalSpace: {fileID: 0}
   thisSpace: {fileID: 0}
   meshRenderer: {fileID: 742047448361733820}
@@ -141,6 +142,7 @@ MonoBehaviour:
   thisSpace: {fileID: 0}
   isUpdating: 1
   defaultPosition: {x: 0, y: 0, z: 0}
+  scaleHandModel: 0
 --- !u!1 &2091680617986374206
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6156801246807748109
 Transform:
   m_ObjectHideFlags: 0
@@ -474,7 +476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4247437054266558717
 Transform:
   m_ObjectHideFlags: 0
@@ -1007,6 +1009,10 @@ PrefabInstance:
     - target: {fileID: 5419937293532398298, guid: 424c2298facd2bf419beffd69e8cc855, type: 3}
       propertyPath: m_Name
       value: HandPokeInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419937293532398298, guid: 424c2298facd2bf419beffd69e8cc855, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5419937293532398301, guid: 424c2298facd2bf419beffd69e8cc855, type: 3}
       propertyPath: m_RootOrder
