@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RootScript;
+using System.Linq;
 
 public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 {
@@ -73,6 +74,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
         interactable.gameObject.transform.position = resMat.GetColumn(3);
         interactable.gameObject.transform.rotation = resMat.rotation;
+        interactable.gameObject.transform.localScale *= new List<float> { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
         // (afterWrap as InteractionHandWrap).Select(interactable);
       }
     }
