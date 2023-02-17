@@ -39,7 +39,7 @@ public class SingletonMonoBehaviour<T> : MonoBehaviourWithInit where T : MonoBeh
   //初期化
   //=================================================================================
 
-  protected sealed override void Awake(){
+  protected override void Awake(){
     //存在しているインスタンスが自分であれば問題なし
     if(this == Instance){
       return;

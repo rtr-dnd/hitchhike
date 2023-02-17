@@ -19,8 +19,9 @@ public class InteractionHandWrap : HandWrap
     grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
   }
 
-  public override void Init(Transform original, Transform copied, bool scale)
+  public override void Init(HandArea handArea, Transform original, Transform copied, bool scale)
   {
+    area = handArea;
     originalSpace = original;
     ods.originalSpace = original;
     thisSpace = copied;
@@ -39,7 +40,6 @@ public class InteractionHandWrap : HandWrap
 
   public override void ChangeMaterial(bool enabled)
   {
-    // Debug.Log("setting to " + enabled.ToString());
     meshRenderer.materials = new Material[] { enabled ? enabledMaterial : disabledMaterial };
   }
 

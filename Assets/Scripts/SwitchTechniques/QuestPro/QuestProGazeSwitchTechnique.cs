@@ -15,8 +15,8 @@ public class QuestProGazeSwitchTechnique : SwitchTechnique
 
   public override int UpdateSwitch()
   {
-    int i = HitchhikeManager.Instance.GetHandWrapIndex(
-      HitchhikeManager.Instance.GetActiveHandWrap()
+    int i = HitchhikeManager.Instance.GetHandAreaIndex(
+      HitchhikeManager.Instance.GetActiveHandArea()
     );
 
     if (eyeGazes == null) return i;
@@ -46,7 +46,8 @@ public class QuestProGazeSwitchTechnique : SwitchTechnique
     if (closestDistance < float.PositiveInfinity)
     {
       currentGazeWrap = GetHandWrapFromHit(closestHit);
-      if (currentGazeWrap != null) return HitchhikeManager.Instance.GetHandWrapIndex(currentGazeWrap);
+      if (currentGazeWrap != null) return HitchhikeManager.Instance.GetHandAreaIndex(
+       HitchhikeManager.Instance.GetAreaFromWrap(currentGazeWrap));
     }
 
     return i;
