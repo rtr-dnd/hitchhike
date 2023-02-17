@@ -14,7 +14,8 @@ public class HandWrap : MonoBehaviour
   public Transform originalSpace;
   [HideInInspector]
   public Transform thisSpace;
-  public virtual void Init(Transform original, Transform copied, bool scale) {}
+  protected HandArea area;
+  public virtual void Init(HandArea handArea, Transform original, Transform copied, bool scale) {}
   public virtual void SetEnabled(bool enabled)
   {
     isEnabled = enabled;
