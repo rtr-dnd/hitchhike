@@ -3807,7 +3807,7 @@ IL_0038:
 		ArrayList_t7A8E5AF0C4378015B5731ABE2BED8F2782FEEF8A* L_8 = __this->___messages_4;
 		int32_t L_9 = V_0;
 		NullCheck(L_8);
-		VirtualActionInvoker2< int32_t, int32_t >::Invoke(39 /* System.Void System.Collections.ArrayList::RemoveRange(System.Int32,System.Int32) */, L_8, 0, L_9);
+		VirtualActionInvoker2< int32_t, int32_t >::Invoke(41 /* System.Void System.Collections.ArrayList::RemoveRange(System.Int32,System.Int32) */, L_8, 0, L_9);
 	}
 
 IL_0045:
