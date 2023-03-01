@@ -13,6 +13,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   public List<HandArea> handAreas { get; private set; }
   public SwitchTechnique switchTechnique;
   public bool scaleHandModel;
+  public bool DisableDnd = false;
   private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
 
   void Start()
@@ -47,7 +48,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
       var interactable = (GetActiveHandArea().wrap as InteractionHandWrap).Unselect();
       ActivateHandArea(handAreas[i]);
       var afterArea = GetActiveHandArea();
-      if (interactable != null)
+      if (interactable != null && !DisableDnd)
       {
         var beforeToAfterRot = Quaternion.Inverse(afterArea.transform.rotation) * beforeArea.transform.rotation;
         var beforeToAfterScale = new Vector3(
@@ -74,7 +75,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
         interactable.gameObject.transform.position = resMat.GetColumn(3);
         interactable.gameObject.transform.rotation = resMat.rotation;
-        interactable.gameObject.transform.localScale *= new List<float> { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
+        if (scaleHandModel) interactable.gameObject.transform.localScale *= new List<float> { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
         // (afterWrap as InteractionHandWrap).Select(interactable);
       }
     }
