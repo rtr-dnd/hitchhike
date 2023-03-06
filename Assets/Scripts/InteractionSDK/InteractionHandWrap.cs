@@ -19,7 +19,7 @@ public class InteractionHandWrap : HandWrap
     grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
   }
 
-  public override void Init(HandArea handArea, Transform original, Transform copied, bool scale)
+  public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, float ratio)
   {
     area = handArea;
     originalSpace = original;
@@ -29,6 +29,8 @@ public class InteractionHandWrap : HandWrap
     ods.defaultPosition = copied.position;
     scaleHandModel = scale;
     ods.scaleHandModel = scale;
+    filterRatio = ratio;
+    ods.filterRatio = ratio;
   }
 
   public override void SetEnabled(bool enabled)

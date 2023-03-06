@@ -78,6 +78,9 @@ namespace Oculus.Interaction.Input
         public bool isUpdating = true;
         public Vector3 defaultPosition = Vector3.zero;
         public bool scaleHandModel;
+        public float filterRatio;
+        private Vector3 filteredPosition;
+        private Quaternion filteredRotation;
 
         protected virtual void Awake()
         {
@@ -89,6 +92,8 @@ namespace Oculus.Interaction.Input
 
             originalSpace = transform;
             thisSpace = transform;
+            filteredPosition = defaultPosition;
+            filteredRotation = _handDataAsset.Root.rotation;
         }
 
         protected override void Start()
@@ -318,9 +323,12 @@ namespace Oculus.Interaction.Input
             * Matrix4x4.Translate(-originalSpaceOrigin.position) // offset translation for next step
             * oMt; // hand anchor
 
+            filteredPosition = filteredPosition * (1 - filterRatio) + resMat.GetPosition() * filterRatio;
+            filteredRotation = Quaternion.Lerp(filteredRotation, resMat.rotation, filterRatio);
+
             return new Pose(
-                resMat.GetColumn(3),
-                resMat.rotation
+                filteredPosition,
+                filteredRotation
             );
         }
 
