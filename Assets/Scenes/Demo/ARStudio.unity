@@ -938,7 +938,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ovrHands: {fileID: 523943264}
-  handWrapPrefab: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
+  hitchhikeHandedness: 1
+  LeftHandPrefab: {fileID: 0}
+  RightHandPrefab: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
+  handWrapPrefabs: []
   switchTechnique: {fileID: 898713011}
   scaleHandModel: 0
   DisableDnd: 0
