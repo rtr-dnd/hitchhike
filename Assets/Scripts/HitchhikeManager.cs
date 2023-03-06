@@ -80,7 +80,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     {
       // todo: d&d
       var beforeArea = GetActiveHandArea();
-      var interactables = GetActiveHandArea().wraps.Select(wrap => (wrap as InteractionHandWrap).Unselect()).ToList();
+      var interactables = GetActiveHandArea().wraps.Select(wrap => (wrap as InteractionHandWrap).Unselect()).ToList().Distinct().ToList();
       ActivateHandArea(handAreas[i]);
       var afterArea = GetActiveHandArea();
 
