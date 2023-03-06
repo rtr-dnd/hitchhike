@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2091680617718908060}
   - component: {fileID: 7487864012029617996}
   m_Layer: 0
-  m_Name: RightHand (1)
+  m_Name: RightHitchhikeHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
