@@ -580,7 +580,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 04bb0fba773e51e499b94e9ad063eb18, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04bb0fba773e51e499b94e9ad063eb18, type: 3}
       propertyPath: m_LocalScale.x
@@ -2385,7 +2385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ovrHands: {fileID: 972732058}
-  handWrapPrefab: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
+  handWrapPrefabs:
+  - {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
   switchTechnique: {fileID: 898713011}
   scaleHandModel: 1
   DisableDnd: 0

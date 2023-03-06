@@ -93,7 +93,7 @@ namespace Oculus.Interaction.Input
             originalSpace = transform;
             thisSpace = transform;
             filteredPosition = defaultPosition;
-            filteredRotation = _handDataAsset.Root.rotation;
+            filteredRotation = Quaternion.identity;
         }
 
         protected override void Start()
