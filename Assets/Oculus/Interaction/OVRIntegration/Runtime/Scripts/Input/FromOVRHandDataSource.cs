@@ -78,7 +78,7 @@ namespace Oculus.Interaction.Input
         public bool isUpdating = true;
         public Vector3 defaultPosition = Vector3.zero;
         public bool scaleHandModel;
-        public float filterRatio;
+        public float filterRatio = 1f;
         private Vector3 filteredPosition;
         private Quaternion filteredRotation;
 
