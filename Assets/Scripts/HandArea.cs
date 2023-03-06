@@ -10,29 +10,30 @@ public class HandArea : MonoBehaviour
   public Sprite enabledSprite;
   public Sprite disabledSprite;
   [HideInInspector]
-  public HandWrap wrap;
+  public List<HandWrap> wraps;
   [HideInInspector]
   public bool isEnabled;
 
   public float filterRatio = 1; // for low pass filter; 1: no filter, 0: all filter
 
-  public HandWrap Init(GameObject handWrapPrefab, Transform parent, Transform originalSpace, bool scaleHandModel)
+  public void Init(List<GameObject> handWrapPrefabs, Transform parent, Transform originalSpace, bool scaleHandModel)
   {
     var _parent = parent == null ? transform : parent;
 
-    var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
-    var handWrap = handWrapInstance.GetComponent<HandWrap>();
-    wrap = handWrap;
-    handWrap.Init(this, originalSpace, transform, scaleHandModel, filterRatio);
-    handWrap.SetEnabled(true);
-
-    return handWrap;
+    handWrapPrefabs.ForEach((handWrapPrefab) =>
+    {
+      var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
+      var handWrap = handWrapInstance.GetComponent<HandWrap>();
+      wraps.Add(handWrap);
+      handWrap.Init(this, originalSpace, transform, scaleHandModel, filterRatio);
+      handWrap.SetEnabled(true);
+    });
   }
 
   public void SetEnabled(bool enabled)
   {
     isEnabled = enabled;
-    wrap.SetEnabled(enabled);
+    wraps.ForEach((wrap) => wrap.SetEnabled(enabled));
     ChangeSprite(enabled);
   }
 
