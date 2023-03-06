@@ -569,10 +569,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitchhikeInteraction Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 6711023691916530263, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
-      propertyPath: filterRatio
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
 --- !u!1001 &217632156
@@ -2389,6 +2385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ovrHands: {fileID: 972732058}
+  hitchhikeHandedness: 2
+  LeftHandPrefab: {fileID: 4183834348577388022, guid: c99e6684015c7b94183e4696fcbe950d, type: 3}
+  RightHandPrefab: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
   handWrapPrefabs:
   - {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
   switchTechnique: {fileID: 898713011}
@@ -2776,7 +2775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9179193541392433493, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9179193541392433493, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.x
@@ -3382,7 +3381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1179821297643952101, guid: f656b1b8de09d9e46b861ea1c3cc6bca, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1179821297643952101, guid: f656b1b8de09d9e46b861ea1c3cc6bca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4045,7 +4044,7 @@ Transform:
   - {fileID: 2101505827}
   - {fileID: 1443974891}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -75.938, z: 0}
 --- !u!1001 &1762488104
 PrefabInstance:
@@ -4386,7 +4385,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2007886158
 PrefabInstance:
