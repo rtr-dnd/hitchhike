@@ -3,9 +3,21 @@ using UnityEngine;
 using RootScript;
 using System.Linq;
 
+public enum Handedness
+{
+  None,
+  Right,
+  Left,
+  Bimanual
+}
+
 public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 {
   public GameObject ovrHands;
+  public Handedness hitchhikeHandedness = Handedness.Right;
+  public GameObject LeftHandPrefab;
+  public GameObject RightHandPrefab;
+  [HideInInspector]
   public List<GameObject> handWrapPrefabs;
   [HideInInspector]
   public List<HandArea> handAreas { get; private set; }
@@ -16,6 +28,31 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
   void Start()
   {
+    handWrapPrefabs = new List<GameObject>();
+    switch (hitchhikeHandedness)
+    {
+      case Handedness.None:
+        ovrHands.transform.Find("RightHand").gameObject.SetActive(true);
+        ovrHands.transform.Find("LeftHand").gameObject.SetActive(true);
+        break;
+      case Handedness.Right:
+        handWrapPrefabs.Add(RightHandPrefab);
+        ovrHands.transform.Find("RightHand").gameObject.SetActive(false);
+        ovrHands.transform.Find("LeftHand").gameObject.SetActive(true);
+        break;
+      case Handedness.Left:
+        handWrapPrefabs.Add(LeftHandPrefab);
+        ovrHands.transform.Find("RightHand").gameObject.SetActive(true);
+        ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
+        break;
+      default: // bimanual
+        handWrapPrefabs.Add(LeftHandPrefab);
+        handWrapPrefabs.Add(RightHandPrefab);
+        ovrHands.transform.Find("RightHand").gameObject.SetActive(false);
+        ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
+        break;
+    }
+    
     handAreas = new List<HandArea>();
     var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
     handAreas.Add(originalHandArea);

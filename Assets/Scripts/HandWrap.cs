@@ -15,7 +15,7 @@ public class HandWrap : MonoBehaviour
   [HideInInspector]
   public Transform thisSpace;
 
-  public float filterRatio;
+  public float filterRatio = 1f;
   protected HandArea area;
   public virtual void Init(HandArea handArea, Transform original, Transform copied, bool scale, float filterRatio) {}
   public virtual void SetEnabled(bool enabled)
