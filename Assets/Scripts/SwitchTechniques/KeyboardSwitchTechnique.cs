@@ -1,5 +1,8 @@
 using UnityEngine;
 
+namespace Hitchhike
+{
+
 public class KeyboardSwitchTechnique : SwitchTechnique
 {
   public override int UpdateSwitch()
@@ -11,4 +14,5 @@ public class KeyboardSwitchTechnique : SwitchTechnique
 
     return i >= HitchhikeManager.Instance.handAreas.Count - 1 ? 0 : i + 1;
   }
+}
 }

@@ -79,6 +79,7 @@ namespace Oculus.Interaction.Input
         public Vector3 defaultPosition = Vector3.zero;
         public bool scaleHandModel;
         public float filterRatio = 1f;
+        public Pose rawHandPose {get; private set;}
         private Vector3 filteredPosition;
         private Quaternion filteredRotation;
 
@@ -297,6 +298,9 @@ namespace Oculus.Interaction.Input
         }
 
         Pose applyOffset(Vector3 anchorPos, Quaternion anchorRot) {
+            // update raw hand pose
+            rawHandPose = new Pose(anchorPos, anchorRot);
+
             var originalSpaceOrigin = originalSpace;
             var thisSpaceOrigin = thisSpace;
 

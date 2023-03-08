@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Hitchhike
+{
+
 public class QuestProGazeSwitchTechnique : SwitchTechnique
 {
   public Transform head;
@@ -82,4 +85,6 @@ public class QuestProGazeSwitchTechnique : SwitchTechnique
     if (gazeGizmo != null) gazeGizmo.transform.position = filteredPosition.Value + filteredDirection.Value * 0.5f;
     return new Ray(filteredPosition.Value, filteredDirection.Value);
   }
+}
+
 }

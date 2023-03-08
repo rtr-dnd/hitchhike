@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Hitchhike
+{
+
 public class HandWrap : MonoBehaviour
 {
   public Material enabledMaterial;
@@ -29,6 +32,8 @@ public class HandWrap : MonoBehaviour
 
   public float filterRatio = 1f;
   protected HandArea area;
+  public int handPrefabIndex;
+
   public virtual void Init(HandArea handArea, Transform original, Transform copied, bool scale, float filterRatio) {}
   public virtual void SetEnabled(bool enabled)
   {
@@ -38,4 +43,6 @@ public class HandWrap : MonoBehaviour
   }
   public virtual void ChangeMaterial(bool enabled) {}
   public virtual void SetUpdating(bool updating) {}
+}
+
 }
