@@ -22,6 +22,10 @@ public class HandArea : MonoBehaviour
   {
     var _parent = parent == null ? transform : parent;
 
+    billboard = _billboard;
+    original= _original;
+    if (!original && billboard) Billboard();
+
     handWrapPrefabs.ForEach((handWrapPrefab) =>
     {
       var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
@@ -30,9 +34,6 @@ public class HandArea : MonoBehaviour
       handWrap.Init(this, isOriginal ? transform : _original.transform, transform, scaleHandModel, filterRatio);
       handWrap.SetEnabled(true);
     });
-
-    billboard = _billboard;
-    original= _original;
   }
 
   public void Update()
@@ -58,10 +59,7 @@ public class HandArea : MonoBehaviour
 
       if (billboard)
       {
-        if (transform.hasChanged || original.transform.hasChanged)
-        {
-          // billboard process
-        }
+        if (transform.hasChanged || original.transform.hasChanged) Billboard();
       }
 
       if (transform.hasChanged)
@@ -75,6 +73,16 @@ public class HandArea : MonoBehaviour
   public void LateUpdate()
   {
     if (isOriginal && transform.hasChanged) transform.hasChanged = false;
+  }
+
+  void Billboard()
+  {
+    var vec = original.transform.position - transform.position;
+    transform.forward = new Vector3(
+      -vec.x,
+      0,
+      -vec.z      
+    );
   }
 
   public void SetEnabled(bool enabled)
