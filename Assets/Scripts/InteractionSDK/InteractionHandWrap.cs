@@ -24,6 +24,7 @@ public class InteractionHandWrap : HandWrap
     {
       _thisSpace = value;
       ods.thisSpace = value;
+      ods.defaultPosition = value.position;
     }
   }
 
@@ -42,7 +43,6 @@ public class InteractionHandWrap : HandWrap
     area = handArea;
     originalSpace = original;
     thisSpace = copied;
-    ods.defaultPosition = copied.position;
     scaleHandModel = scale;
     ods.scaleHandModel = scale;
     filterRatio = ratio;
