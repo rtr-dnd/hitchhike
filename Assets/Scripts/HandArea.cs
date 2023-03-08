@@ -13,17 +13,21 @@ public class HandArea : MonoBehaviour
   public List<HandWrap> wraps;
   [HideInInspector]
   public bool isEnabled;
+  [HideInInspector]
   public bool billboard;
+  [HideInInspector]
+  public GameObject billboardingTarget;
   private HandArea original;
 
   public float filterRatio = 1; // for low pass filter; 1: no filter, 0: all filter
 
-  public void Init(List<GameObject> handWrapPrefabs, Transform parent, HandArea _original, bool scaleHandModel, bool _billboard)
+  public void Init(List<GameObject> handWrapPrefabs, Transform parent, HandArea _original, bool scaleHandModel, bool _billboard, GameObject _billboardingTarget)
   {
     var _parent = parent == null ? transform : parent;
 
-    billboard = _billboard;
     original= _original;
+    billboard = _billboard;
+    billboardingTarget = _billboardingTarget;
     if (!original && billboard) Billboard();
 
     handWrapPrefabs.ForEach((handWrapPrefab) =>
@@ -59,7 +63,7 @@ public class HandArea : MonoBehaviour
 
       if (billboard)
       {
-        if (transform.hasChanged || original.transform.hasChanged) Billboard();
+        if (transform.hasChanged || billboardingTarget.transform.hasChanged) Billboard();
       }
 
       if (transform.hasChanged)
@@ -77,7 +81,7 @@ public class HandArea : MonoBehaviour
 
   void Billboard()
   {
-    var vec = original.transform.position - transform.position;
+    var vec = billboardingTarget.transform.position - transform.position;
     transform.forward = new Vector3(
       -vec.x,
       0,
