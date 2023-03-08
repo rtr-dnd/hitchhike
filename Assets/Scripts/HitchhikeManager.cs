@@ -27,11 +27,23 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   [HideInInspector]
   public List<HandArea> handAreas { get; private set; }
   public SwitchTechnique switchTechnique;
+  public GlobalTechnique globalTechnique;
+  public bool isGlobal;
   public bool scaleHandModel;
   public bool DisableDnd = false;
   private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
   public bool billboard = true;
-  public GameObject billboardingTarget; // if nothing is specified, billboard to originalHandArea
+  [SerializeField]
+  GameObject _billboardingTarget; // if nothing is specified, billboard to originalHandArea
+  [HideInInspector]
+  public GameObject billboardingTarget
+  {
+    get
+    {
+      return _billboardingTarget == null ? handAreas[0].gameObject : _billboardingTarget;
+    }
+    private set { _billboardingTarget = value; }
+  }
 
   void Start()
   {
@@ -63,13 +75,14 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     handAreas = new List<HandArea>();
     var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
     handAreas.Add(originalHandArea);
-    var copiedHandAreas = new List<HandArea>(FindObjectsOfType<HandArea>()).FindAll(e => !e.isOriginal);
+    var copiedHandAreas = new List<HandArea>(FindObjectsOfType<HandArea>()).FindAll(e => (!e.isOriginal && !e.isInvisible));
     handAreas.AddRange(copiedHandAreas);
     handAreas.ForEach((e) => InitArea(e));
 
     Invoke("AsyncStart", 1f);
 
     switchTechnique.Init();
+    globalTechnique.Init();
   }
 
   void AsyncStart()
@@ -82,9 +95,30 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   {
     if (!initialized) return;
 
+    UpdateRawHandPoses();
+
+    if (globalTechnique != null)
+    {
+      if (!isGlobal && globalTechnique.isGlobalActive())
+      {
+        isGlobal = true;
+        globalTechnique.OnGlobalStart(GetActiveHandArea());
+      }
+      if (isGlobal)
+      {
+        globalTechnique.OnGlobalMove(GetActiveHandArea());
+        if (!globalTechnique.isGlobalActive())
+        {
+          isGlobal = false;
+          globalTechnique.OnGlobalEnd(GetActiveHandArea());
+        }
+        return; // skip hitchhike when global
+      }
+    }
+
     // hitchhike
     int i = switchTechnique.UpdateSwitch();
-    if (GetHandAreaIndex(GetActiveHandArea()) != i)
+    if (i >= 0 && i < handAreas.Count && GetHandAreaIndex(GetActiveHandArea()) != i)
     {
       // todo: d&d
       var beforeArea = GetActiveHandArea();
@@ -128,8 +162,6 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
         }
       });
     }
-
-    UpdateRawHandPoses();
   }
 
   void UpdateRawHandPoses()
@@ -139,7 +171,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
   void InitArea(HandArea area)
   {
-    area.Init(handWrapPrefabs, ovrHands.transform, handAreas[0], scaleHandModel, billboard, billboardingTarget == null ? handAreas[0].gameObject : billboardingTarget);
+    area.Init(handWrapPrefabs, ovrHands.transform, handAreas[0], scaleHandModel, billboard, billboardingTarget);
     area.SetEnabled(true);
   }
 

@@ -22,6 +22,7 @@ public class HandArea : MonoBehaviour
   [HideInInspector]
   public GameObject billboardingTarget;
   private HandArea original;
+  public bool isInvisible = false; // prevent hitchhikemanager from detecting this area; for ExtendedHitchhikeGlobalTechnique
 
   public float filterRatio = 1; // for low pass filter; 1: no filter, 0: all filter
 
@@ -98,6 +99,18 @@ public class HandArea : MonoBehaviour
     isEnabled = enabled;
     wraps.ForEach((wrap) => wrap.SetEnabled(enabled));
     ChangeSprite(enabled);
+  }
+  
+  public void SetHandVisibility(bool visible)
+  {
+    wraps.ForEach((wrap) => wrap.gameObject.SetActive(visible));
+  }
+  
+  public void SetVisibility(bool visible)
+  {
+    SetEnabled(visible);
+    gameObject.SetActive(visible);
+    SetHandVisibility(visible);
   }
 
   void ChangeSprite(bool enabled)
