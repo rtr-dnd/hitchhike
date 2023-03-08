@@ -8,12 +8,24 @@ public class HandWrap : MonoBehaviour
 {
   public Material enabledMaterial;
   public Material disabledMaterial;
-  public bool isEnabled { get; private set; }
+  public bool isEnabled { get; protected set; }
   public bool scaleHandModel;
   [HideInInspector]
-  public Transform originalSpace;
+  protected Transform _originalSpace;
   [HideInInspector]
-  public Transform thisSpace;
+  public virtual Transform originalSpace
+  {
+    get { return _originalSpace; }
+    set { _originalSpace = value; }
+  }
+  [HideInInspector]
+  protected Transform _thisSpace;
+  [HideInInspector]
+  public virtual Transform thisSpace
+  {
+    get { return _thisSpace; }
+    set { _thisSpace = value; }
+  }
 
   public float filterRatio = 1f;
   protected HandArea area;

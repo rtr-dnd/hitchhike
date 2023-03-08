@@ -13,10 +13,12 @@ public class HandArea : MonoBehaviour
   public List<HandWrap> wraps;
   [HideInInspector]
   public bool isEnabled;
+  public bool billboard;
+  private HandArea original;
 
   public float filterRatio = 1; // for low pass filter; 1: no filter, 0: all filter
 
-  public void Init(List<GameObject> handWrapPrefabs, Transform parent, Transform originalSpace, bool scaleHandModel)
+  public void Init(List<GameObject> handWrapPrefabs, Transform parent, HandArea _original, bool scaleHandModel, bool _billboard)
   {
     var _parent = parent == null ? transform : parent;
 
@@ -25,9 +27,54 @@ public class HandArea : MonoBehaviour
       var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
       var handWrap = handWrapInstance.GetComponent<HandWrap>();
       wraps.Add(handWrap);
-      handWrap.Init(this, originalSpace, transform, scaleHandModel, filterRatio);
+      handWrap.Init(this, isOriginal ? transform : _original.transform, transform, scaleHandModel, filterRatio);
       handWrap.SetEnabled(true);
     });
+
+    billboard = _billboard;
+    original= _original;
+  }
+
+  public void Update()
+  {
+    if (isOriginal)
+    {
+      if (transform.hasChanged)
+      {
+        wraps.ForEach((w) => 
+        {
+          w.thisSpace = transform;
+          w.originalSpace = transform;
+        });
+        // doesn't reset haschanged yet; other handareas will refer to it. will be reset in lateupdate
+      }
+    }
+    else
+    {
+      if (original.transform.hasChanged)
+      {
+        wraps.ForEach((w) => w.originalSpace = original.transform);
+      }
+
+      if (billboard)
+      {
+        if (transform.hasChanged || original.transform.hasChanged)
+        {
+          // billboard process
+        }
+      }
+
+      if (transform.hasChanged)
+      {
+        wraps.ForEach((w) => w.thisSpace = transform);
+        transform.hasChanged = false;
+      }
+    }
+  }
+
+  public void LateUpdate()
+  {
+    if (isOriginal && transform.hasChanged) transform.hasChanged = false;
   }
 
   public void SetEnabled(bool enabled)
