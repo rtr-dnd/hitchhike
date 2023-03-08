@@ -88,6 +88,11 @@ public class InteractionHandWrap : HandWrap
     // grab.Select();
     // grab.SelectInteractable(interactable);
   }
+
+  public void Detect()
+  {
+    Debug.Log("gesture detected");
+  }
 }
 
 }

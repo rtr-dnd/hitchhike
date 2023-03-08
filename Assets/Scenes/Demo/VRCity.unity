@@ -2379,6 +2379,7 @@ GameObject:
   - component: {fileID: 898713010}
   - component: {fileID: 898713015}
   - component: {fileID: 898713014}
+  - component: {fileID: 898713016}
   m_Layer: 0
   m_Name: HitchhikeManager
   m_TagString: Untagged
@@ -2430,9 +2431,14 @@ MonoBehaviour:
   RightHandPrefab: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
   handWrapPrefabs:
   - {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
+  rawHandPoses: []
   switchTechnique: {fileID: 898713011}
+  globalTechnique: {fileID: 898713016}
+  isGlobal: 0
   scaleHandModel: 1
   DisableDnd: 0
+  billboard: 1
+  _billboardingTarget: {fileID: 0}
 --- !u!4 &898713013
 Transform:
   m_ObjectHideFlags: 0
@@ -2485,6 +2491,20 @@ MonoBehaviour:
   ApplyRotation: 1
   ReferenceFrame: {fileID: 0}
   TrackingMode: 1
+--- !u!114 &898713016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898713009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de116669684d1b4f88b7b4298e72687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handAreaPrefab: {fileID: 9179193541392433489, guid: 2294671708734a443bc75f063e23deed, type: 3}
+  globalHandMaterial: {fileID: 2100000, guid: d27c0fcf15703d141b902aa10d2dcd76, type: 2}
 --- !u!1 &960552402
 GameObject:
   m_ObjectHideFlags: 0
