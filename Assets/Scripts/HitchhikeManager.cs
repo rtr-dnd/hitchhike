@@ -26,6 +26,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   public bool DisableDnd = false;
   private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
   public bool billboard = true;
+  public GameObject billboardingTarget; // if nothing is specified, billboard to originalHandArea
 
   void Start()
   {
@@ -125,7 +126,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
   void InitArea(HandArea area)
   {
-    area.Init(handWrapPrefabs, ovrHands.transform, handAreas[0], scaleHandModel, billboard);
+    area.Init(handWrapPrefabs, ovrHands.transform, handAreas[0], scaleHandModel, billboard, billboardingTarget == null ? handAreas[0].gameObject : billboardingTarget);
     area.SetEnabled(true);
   }
 

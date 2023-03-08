@@ -5224,6 +5224,8 @@ MonoBehaviour:
   switchTechnique: {fileID: 898713011}
   scaleHandModel: 0
   DisableDnd: 1
+  billboard: 1
+  billboardingTarget: {fileID: 1755243609}
 --- !u!4 &898713013
 Transform:
   m_ObjectHideFlags: 0
@@ -10569,6 +10571,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84e38d7f6eafbd44c94f15c42908c48c, type: 3}
+--- !u!1 &1755243609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+  m_PrefabInstance: {fileID: 2092742110}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1762488104
 PrefabInstance:
   m_ObjectHideFlags: 0
