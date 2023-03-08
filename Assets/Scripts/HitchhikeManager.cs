@@ -3,6 +3,9 @@ using UnityEngine;
 using RootScript;
 using System.Linq;
 
+namespace Hitchhike
+{
+
 public enum Handedness
 {
   None,
@@ -19,6 +22,8 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   public GameObject RightHandPrefab;
   [HideInInspector]
   public List<GameObject> handWrapPrefabs;
+  [HideInInspector]
+  public List<Pose> rawHandPoses;
   [HideInInspector]
   public List<HandArea> handAreas { get; private set; }
   public SwitchTechnique switchTechnique;
@@ -77,6 +82,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   {
     if (!initialized) return;
 
+    // hitchhike
     int i = switchTechnique.UpdateSwitch();
     if (GetHandAreaIndex(GetActiveHandArea()) != i)
     {
@@ -122,6 +128,13 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
         }
       });
     }
+
+    UpdateRawHandPoses();
+  }
+
+  void UpdateRawHandPoses()
+  {
+    rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
   }
 
   void InitArea(HandArea area)
@@ -156,4 +169,6 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     var area = handAreas.Find(a => a.wraps.Contains(wrap));
     return area;
   }
+}
+
 }

@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+    
+namespace Hitchhike
+{
 
 public class HandArea : MonoBehaviour
 {
@@ -30,14 +34,14 @@ public class HandArea : MonoBehaviour
     billboardingTarget = _billboardingTarget;
     if (!original && billboard) Billboard();
 
-    handWrapPrefabs.ForEach((handWrapPrefab) =>
+    foreach (var (handWrapPrefab, index) in handWrapPrefabs.Select((value, index) => (value, index)))
     {
       var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
       var handWrap = handWrapInstance.GetComponent<HandWrap>();
       wraps.Add(handWrap);
       handWrap.Init(this, isOriginal ? transform : _original.transform, transform, scaleHandModel, filterRatio);
       handWrap.SetEnabled(true);
-    });
+    }
   }
 
   public void Update()
@@ -100,4 +104,6 @@ public class HandArea : MonoBehaviour
   {
     image.sprite = enabled ? enabledSprite : disabledSprite;
   }
+}
+
 }

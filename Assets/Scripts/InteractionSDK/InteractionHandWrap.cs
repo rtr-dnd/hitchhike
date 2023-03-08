@@ -3,6 +3,8 @@ using Oculus.Interaction.Input;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction;
 
+namespace Hitchhike
+{
 public class InteractionHandWrap : HandWrap
 {
   public SkinnedMeshRenderer meshRenderer;
@@ -67,6 +69,11 @@ public class InteractionHandWrap : HandWrap
     ods.isUpdating = updating;
   }
 
+  public Pose GetRawHandPose()
+  {
+    return ods.rawHandPose;
+  }
+
   public HandGrabInteractable Unselect()
   {
     var interactable = grab.SelectedInteractable;
@@ -81,4 +88,6 @@ public class InteractionHandWrap : HandWrap
     // grab.Select();
     // grab.SelectInteractable(interactable);
   }
+}
+
 }
