@@ -8,6 +8,24 @@ public class InteractionHandWrap : HandWrap
   public SkinnedMeshRenderer meshRenderer;
   private FromOVRHandDataSource ods;
   private HandGrabInteractor grab;
+  public override Transform originalSpace
+  {
+    get { return _originalSpace; }
+    set
+    {
+      _originalSpace = value;
+      ods.originalSpace = value;
+    }
+  }
+  public override Transform thisSpace
+  {
+    get { return _thisSpace; }
+    set
+    {
+      _thisSpace = value;
+      ods.thisSpace = value;
+    }
+  }
 
   void Awake()
   {
@@ -23,9 +41,7 @@ public class InteractionHandWrap : HandWrap
   {
     area = handArea;
     originalSpace = original;
-    ods.originalSpace = original;
     thisSpace = copied;
-    ods.thisSpace = copied;
     ods.defaultPosition = copied.position;
     scaleHandModel = scale;
     ods.scaleHandModel = scale;
