@@ -18,8 +18,11 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 {
   public GameObject ovrHands;
   public Handedness hitchhikeHandedness = Handedness.Right;
-  public GameObject LeftHandPrefab;
-  public GameObject RightHandPrefab;
+
+  [HideInInspector]
+  public GameObject leftHandPrefab;
+  [HideInInspector]
+  public GameObject rightHandPrefab;
   [HideInInspector]
   public List<GameObject> handWrapPrefabs;
   [HideInInspector]
@@ -47,6 +50,8 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
   void Start()
   {
+    leftHandPrefab = ovrHands.transform.Find("LeftHitchhikeHand").gameObject;
+    rightHandPrefab = ovrHands.transform.Find("RightHitchhikeHand").gameObject;
     handWrapPrefabs = new List<GameObject>();
     switch (hitchhikeHandedness)
     {
@@ -55,18 +60,18 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
         ovrHands.transform.Find("LeftHand").gameObject.SetActive(true);
         break;
       case Handedness.Right:
-        handWrapPrefabs.Add(RightHandPrefab);
+        handWrapPrefabs.Add(rightHandPrefab);
         ovrHands.transform.Find("RightHand").gameObject.SetActive(false);
         ovrHands.transform.Find("LeftHand").gameObject.SetActive(true);
         break;
       case Handedness.Left:
-        handWrapPrefabs.Add(LeftHandPrefab);
+        handWrapPrefabs.Add(leftHandPrefab);
         ovrHands.transform.Find("RightHand").gameObject.SetActive(true);
         ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
         break;
       default: // bimanual
-        handWrapPrefabs.Add(LeftHandPrefab);
-        handWrapPrefabs.Add(RightHandPrefab);
+        handWrapPrefabs.Add(leftHandPrefab);
+        handWrapPrefabs.Add(rightHandPrefab);
         ovrHands.transform.Find("RightHand").gameObject.SetActive(false);
         ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
         break;
@@ -88,6 +93,8 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   void AsyncStart()
   {
     ActivateHandArea(handAreas.Find((e) => e.isOriginal));
+    rightHandPrefab.SetActive(false);
+    leftHandPrefab.SetActive(false);
     initialized = true;
   }
 
@@ -97,7 +104,8 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
     UpdateRawHandPoses();
 
-    if (globalTechnique != null)
+    if (globalTechnique != null && GetHandAreaIndex(GetActiveHandArea()) != 0)
+    // todo: currently original hand area is not movable globally
     {
       if (!isGlobal && globalTechnique.isGlobalActive())
       {

@@ -11,13 +11,14 @@ public class ExtendedHitchhikeGlobalTechnique : GlobalTechnique
     HandArea area;
     public Material globalHandMaterial;
     Vector3 previousPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+    public bool isActive;
 
     public override void Init()
     {
         var handAreaInstance = GameObject.Instantiate(handAreaPrefab);
         area = handAreaInstance.GetComponent<HandArea>();
         area.Init(
-            new List<GameObject>(){ HitchhikeManager.Instance.RightHandPrefab },
+            new List<GameObject>(){ HitchhikeManager.Instance.rightHandPrefab },
             HitchhikeManager.Instance.ovrHands.transform,
             HitchhikeManager.Instance.handAreas[0],
             true,
@@ -38,9 +39,15 @@ public class ExtendedHitchhikeGlobalTechnique : GlobalTechnique
         area.SetVisibility(false);
     }
 
+    public void SetIsActive(bool value)
+    {
+        isActive = value;
+    }
+
     public override bool isGlobalActive()
     {
-        return Input.GetKey(KeyCode.Space);
+        // return Input.GetKey(KeyCode.Space);
+        return isActive;
     }
 
     int delay;
