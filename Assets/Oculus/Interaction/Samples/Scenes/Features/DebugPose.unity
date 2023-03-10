@@ -1975,9 +1975,9 @@ MonoBehaviour:
   - Finger: 1
     StateThresholds: {fileID: 11400000, guid: 29b0a95ffa0254044901c8c821379040, type: 2}
   - Finger: 2
-    StateThresholds: {fileID: 11400000, guid: 6654d266dec806d458e8c45751c96535, type: 2}
+    StateThresholds: {fileID: 11400000, guid: b104e669de43188478f03a384f394e96, type: 2}
   - Finger: 3
-    StateThresholds: {fileID: 11400000, guid: 8b470e0c4b48d474c9a42d7f661d48c7, type: 2}
+    StateThresholds: {fileID: 11400000, guid: 5af0f68a39f4f944ab1fc99821facc04, type: 2}
   - Finger: 4
     StateThresholds: {fileID: 11400000, guid: 8b470e0c4b48d474c9a42d7f661d48c7, type: 2}
   _disableProactiveEvaluation: 0
