@@ -31,6 +31,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   public List<HandArea> handAreas { get; private set; }
   public SwitchTechnique switchTechnique;
   public GlobalTechnique globalTechnique;
+  [HideInInspector]
   public bool isGlobal;
   public bool scaleHandModel;
   public bool DisableDnd = false;
