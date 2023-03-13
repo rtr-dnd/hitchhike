@@ -43,6 +43,11 @@ public class HandWrap : MonoBehaviour
   }
   public virtual void ChangeMaterial(bool enabled) {}
   public virtual void SetUpdating(bool updating) {}
+
+  // void Update()
+  // {
+  //   Debug.Log(originalSpace.transform.posi)
+  // }
 }
 
 }
