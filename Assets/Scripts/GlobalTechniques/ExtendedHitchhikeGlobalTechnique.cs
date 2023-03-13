@@ -29,11 +29,13 @@ public class ExtendedHitchhikeGlobalTechnique : GlobalTechnique
             },
             HitchhikeManager.Instance.ovrHands.transform,
             HitchhikeManager.Instance.handAreas[0],
+            false,
             true,
-            true,
+            false,
             HitchhikeManager.Instance.billboardingTarget
         );
         area.isInvisible = true;
+        area.autoUpdateOriginal = false;
         area.gameObject.GetComponent<MeshRenderer>().enabled = false;
         area.image.enabled = false;
         area.wraps[0].enabledMaterial = globalHandMaterial;
@@ -69,6 +71,7 @@ public class ExtendedHitchhikeGlobalTechnique : GlobalTechnique
     public override void OnGlobalStart(HandArea _area)
     {
         area.SetVisibility(true);
+        area.SyncDelayedOriginal();
         area.transform.position = _area.transform.position;
         area.transform.rotation = _area.transform.rotation;
         area.transform.localScale = _area.transform.lossyScale * 2;

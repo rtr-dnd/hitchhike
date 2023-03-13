@@ -105,8 +105,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
     UpdateRawHandPoses();
 
-    if (globalTechnique != null && GetHandAreaIndex(GetActiveHandArea()) != 0)
-    // todo: currently original hand area is not movable globally
+    if (globalTechnique != null)
     {
       if (!isGlobal && globalTechnique.isGlobalActive())
       {
@@ -180,7 +179,15 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
 
   void InitArea(HandArea area)
   {
-    area.Init(handWrapPrefabs, ovrHands.transform, handAreas[0], scaleHandModel, billboard, billboardingTarget);
+    area.Init(
+      handWrapPrefabs,
+      ovrHands.transform,
+      handAreas[0],
+      true,
+      scaleHandModel,
+      billboard,
+      billboardingTarget
+    );
     area.SetEnabled(true);
   }
 
