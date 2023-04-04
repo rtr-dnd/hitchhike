@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 357608681140859821}
   - component: {fileID: 5320593786762684172}
   - component: {fileID: 6078733992036812539}
+  - component: {fileID: 5374527156218182038}
+  - component: {fileID: 7124872121243959070}
   - component: {fileID: 1876455456580871369}
-  - component: {fileID: 1876455456580871370}
-  - component: {fileID: 52070661221575706}
-  - component: {fileID: 1876455456580871375}
+  - component: {fileID: 5515718828403331357}
   - component: {fileID: 6488211161674868017}
+  - component: {fileID: 1876455456580871370}
   m_Layer: 0
   m_Name: HitchhikeGrab
   m_TagString: Untagged
@@ -95,7 +96,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd9780be7e512049b4d33d5c9d0ac92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activeState: {fileID: 1876455456580871370}
+  _activeState: {fileID: 5374527156218182038}
+--- !u!114 &5374527156218182038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876455456580871371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a8d5cf844b463aabaed6d6db3da8c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sequence: {fileID: 7124872121243959070}
+  _activateIfStepsStarted: 0
+  _activateIfStepsComplete: 1
+--- !u!114 &7124872121243959070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876455456580871371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7ab4178b1f98e40bc6baf2176709df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stepsToActivate:
+  - _activeState: {fileID: 1876455456580871369}
+    _minActiveTime: 0.3
+    _maxStepTime: 0
+  - _activeState: {fileID: 1876455456580871370}
+    _minActiveTime: 0.3
+    _maxStepTime: 0
+  _remainActiveWhile: {fileID: 1876455456580871370}
+  _remainActiveCooldown: 0.5
 --- !u!114 &1876455456580871369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,16 +140,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876455456580871371}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aebd5da9a8bd22243b407f1927f4965b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _activeStates:
-  - {fileID: 1876455456580871370}
-  - {fileID: 52070661221575706}
+  - {fileID: 5515718828403331357}
+  - {fileID: 6488211161674868017}
   _logicOperator: 0
---- !u!114 &1876455456580871370
+--- !u!114 &5515718828403331357
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,31 +164,15 @@ MonoBehaviour:
   _hand: {fileID: 357608681140859821}
   _fingerFeatureStateProvider: {fileID: 3814307876763830470}
   _shapes:
-  - {fileID: 11400000, guid: 835d4b6bfd19c054ebd5d9a3d436e33a, type: 2}
---- !u!114 &52070661221575706
+  - {fileID: 11400000, guid: 83b8258604734af4ea9f971610af4fac, type: 2}
+--- !u!114 &6488211161674868017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876455456580871371}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aebd5da9a8bd22243b407f1927f4965b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activeStates:
-  - {fileID: 1876455456580871375}
-  - {fileID: 6488211161674868017}
-  _logicOperator: 1
---- !u!114 &1876455456580871375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1876455456580871371}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6f9440d09721c849864899e8986e219, type: 3}
   m_Name: 
@@ -168,30 +189,22 @@ MonoBehaviour:
     RotationOffset: {x: 0, y: 0, z: 0}
     UpVectorType: 2
     FeatureThresholds: {fileID: 11400000, guid: 039cf5a7424e1e046b79287e9375cf09, type: 2}
---- !u!114 &6488211161674868017
+--- !u!114 &1876455456580871370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876455456580871371}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f9440d09721c849864899e8986e219, type: 3}
+  m_Script: {fileID: 11500000, guid: 08f7cfb1f9629da4494ac0840f3a3cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hand: {fileID: 357608681140859821}
-  _transformFeatureStateProvider: {fileID: 5790829305139610755}
-  _transformFeatureConfigs:
-    _values:
-    - _mode: 0
-      _feature: 4
-      _state: 12
-  _transformConfig:
-    PositionOffset: {x: 0, y: 0, z: 0}
-    RotationOffset: {x: 0, y: 0, z: 0}
-    UpVectorType: 2
-    FeatureThresholds: {fileID: 11400000, guid: 039cf5a7424e1e046b79287e9375cf09, type: 2}
+  _fingerFeatureStateProvider: {fileID: 3814307876763830470}
+  _shapes:
+  - {fileID: 11400000, guid: f576a15eb4073cd45a72efbd2229abab, type: 2}
 --- !u!1 &2091680617718908063
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0860d1551aab941981a769c86c8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLeftHand: 0
   enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
   scaleHandModel: 0
