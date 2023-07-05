@@ -88,7 +88,7 @@ public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
     Invoke("AsyncStart", 1f);
 
     switchTechnique.Init();
-    globalTechnique.Init();
+    if (globalTechnique != null) globalTechnique.Init();
   }
 
   void AsyncStart()

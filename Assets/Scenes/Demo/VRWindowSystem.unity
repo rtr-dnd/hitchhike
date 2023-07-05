@@ -5237,7 +5237,7 @@ MonoBehaviour:
   handWrapPrefabs: []
   rawHandPoses: []
   switchTechnique: {fileID: 898713011}
-  globalTechnique: {fileID: 898713016}
+  globalTechnique: {fileID: 0}
   isGlobal: 0
   scaleHandModel: 0
   DisableDnd: 1
@@ -14034,6 +14034,10 @@ PrefabInstance:
     - target: {fileID: 1179821297643952097, guid: f656b1b8de09d9e46b861ea1c3cc6bca, type: 3}
       propertyPath: m_Name
       value: SceneSwitcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179821297643952097, guid: f656b1b8de09d9e46b861ea1c3cc6bca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1179821297643952101, guid: f656b1b8de09d9e46b861ea1c3cc6bca, type: 3}
       propertyPath: m_RootOrder
