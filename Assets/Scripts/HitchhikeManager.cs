@@ -36,7 +36,6 @@ namespace Hitchhike
     public bool isGlobal;
     public bool scaleHandModel;
     public bool DisableDnd = false;
-    private bool initialized = false; // for delayed initial load: ensures hands are displayed correctly
     public bool billboard = true;
     [SerializeField]
     GameObject _billboardingTarget; // if nothing is specified, billboard to originalHandArea
@@ -86,24 +85,16 @@ namespace Hitchhike
       handAreas.AddRange(copiedHandAreas);
       handAreas.ForEach((e) => InitArea(e));
 
-      Invoke("AsyncStart", 1f);
+      ActivateHandArea(handAreas.Find((e) => e.isOriginal));
+      rightHandPrefab.SetActive(false);
+      leftHandPrefab.SetActive(false);
 
       switchTechnique.Init();
       if (globalTechnique != null) globalTechnique.Init();
     }
 
-    void AsyncStart()
-    {
-      ActivateHandArea(handAreas.Find((e) => e.isOriginal));
-      rightHandPrefab.SetActive(false);
-      leftHandPrefab.SetActive(false);
-      initialized = true;
-    }
-
     void Update()
     {
-      if (!initialized) return;
-
       UpdateRawHandPoses();
 
       if (globalTechnique != null)
@@ -178,7 +169,7 @@ namespace Hitchhike
       rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
     }
 
-    public void AddArea(Vector3 position, Quaternion rotation)
+    public HandArea AddArea(Vector3 position, Quaternion rotation)
     {
       rightHandPrefab.SetActive(true);
       leftHandPrefab.SetActive(true);
@@ -187,10 +178,16 @@ namespace Hitchhike
       handAreas.Add(newArea);
       rightHandPrefab.SetActive(false);
       leftHandPrefab.SetActive(false);
-      StartCoroutine(HitchhikeExtensions.DelayMethod(1f, () =>
-      {
-        newArea.SetEnabled(false);
-      }));
+      newArea.SetEnabled(false);
+      return newArea;
+    }
+    public bool DeleteArea(HandArea area)
+    {
+      if (area.isOriginal) return false;
+      if (area == GetActiveHandArea()) ActivateHandArea(handAreas[0]);
+      handAreas.Remove(area);
+      Destroy(area.gameObject);
+      return true;
     }
 
     void InitArea(HandArea area)

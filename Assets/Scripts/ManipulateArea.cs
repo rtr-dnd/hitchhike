@@ -8,6 +8,7 @@ namespace Hitchhike
   public class ManipulateArea : MonoBehaviour
   {
     public GameObject wrap;
+    private HandArea area;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +20,15 @@ namespace Hitchhike
     {
       if (Input.GetKeyDown(KeyCode.A))
       {
-        HitchhikeManager.Instance.AddArea(transform.position, transform.rotation);
+        area = HitchhikeManager.Instance.AddArea(transform.position, transform.rotation);
       }
       if (Input.GetKeyDown(KeyCode.W))
       {
         GameObject.Instantiate(wrap, this.transform);
+      }
+      if (Input.GetKeyDown(KeyCode.D))
+      {
+        HitchhikeManager.Instance.DeleteArea(area);
       }
     }
   }
