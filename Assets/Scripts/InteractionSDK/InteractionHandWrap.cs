@@ -10,6 +10,10 @@ namespace Hitchhike
     public SkinnedMeshRenderer meshRenderer;
     private FromOVRHandDataSource ods;
     private HandGrabInteractor grab;
+    private int state = 0;
+    // 0: before Init()
+    // 1: waiting for IsHighConfidence
+    // 2: found first confident hand pose; is valid
     public override Transform originalSpace
     {
       get { return _originalSpace; }
@@ -40,6 +44,24 @@ namespace Hitchhike
       grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
     }
 
+    void Update()
+    {
+      // initializing; waits for first confident hand data and then disables itself
+      if (state == 1)
+      {
+        var hand = gameObject.GetComponent<Hand>();
+        if (hand.IsHighConfidence)
+        {
+          state = 2;
+          SetUpdating(isEnabled);
+        }
+        else
+        {
+          SetUpdating(true);
+        }
+      }
+    }
+
     public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, float ratio)
     {
       area = handArea;
@@ -49,6 +71,7 @@ namespace Hitchhike
       ods.scaleHandModel = scale;
       filterRatio = ratio;
       ods.filterRatio = ratio;
+      state = 1;
     }
 
     public override void SetEnabled(bool enabled)
