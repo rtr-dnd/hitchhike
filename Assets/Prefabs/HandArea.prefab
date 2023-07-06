@@ -293,5 +293,11 @@ MonoBehaviour:
   image: {fileID: 1242507951878917160}
   enabledSprite: {fileID: 21300000, guid: ab231648809926a40a1d0af8b314912f, type: 3}
   disabledSprite: {fileID: 21300000, guid: b17008a30100e84409de68d44daae052, type: 3}
-  wrap: {fileID: 0}
+  wraps: []
   isEnabled: 0
+  billboard: 0
+  billboardingTarget: {fileID: 0}
+  autoUpdateOriginal: 1
+  delayedOriginalTransform: {fileID: 0}
+  isInvisible: 0
+  filterRatio: 1

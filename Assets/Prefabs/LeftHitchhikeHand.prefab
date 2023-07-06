@@ -645,7 +645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0860d1551aab941981a769c86c8869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLeftHand: 1
   enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
   scaleHandModel: 0
