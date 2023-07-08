@@ -116,6 +116,10 @@ GameObject:
   - component: {fileID: 8796069784169745259}
   - component: {fileID: 4555378823670211273}
   - component: {fileID: 7151685253751060612}
+  - component: {fileID: 5410535425716501073}
+  - component: {fileID: 8746259219353191266}
+  - component: {fileID: 5083090021758493420}
+  - component: {fileID: 5620892508958220038}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -132,7 +136,7 @@ RectTransform:
   m_GameObject: {fileID: 3007803152990605340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.0000000025259}
-  m_LocalScale: {x: 0.10259567, y: 0.24948992, z: 0.10259567}
+  m_LocalScale: {x: 0.07329022, y: 0.17822562, z: 0.07329022}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9179193541392433493}
@@ -232,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5670f183d01ea9f4b967539b3d7d44e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 0.05
+  size: 0.03
 --- !u!114 &7151685253751060612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +249,112 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d104b640b0ed54ba9c42780363fa37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &5410535425716501073
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007803152990605340}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8746259219353191266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007803152990605340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transferOnSecondSelection: 0
+  _addNewPointsToFront: 0
+  _forwardElement: {fileID: 0}
+  _oneGrabTransformer: {fileID: 5620892508958220038}
+  _twoGrabTransformer: {fileID: 0}
+  _maxGrabPoints: -1
+--- !u!114 &5083090021758493420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007803152990605340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a7676b01585ce43908639a27765dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactorFilters: []
+  _maxInteractors: -1
+  _maxSelectingInteractors: -1
+  _data: {fileID: 0}
+  _pointableElement: {fileID: 8746259219353191266}
+  _rigidbody: {fileID: 5410535425716501073}
+  _resetGrabOnGrabsUpdated: 1
+  _physicsGrabbable: {fileID: 0}
+  _scoringModifier:
+    _positionRotationWeight: 0.8
+  _supportedGrabTypes: 3
+  _pinchGrabRules:
+    _thumbRequirement: 1
+    _indexRequirement: 1
+    _middleRequirement: 1
+    _ringRequirement: 0
+    _pinkyRequirement: 0
+    _unselectMode: 0
+  _palmGrabRules:
+    _thumbRequirement: 1
+    _indexRequirement: 2
+    _middleRequirement: 2
+    _ringRequirement: 2
+    _pinkyRequirement: 1
+    _unselectMode: 0
+  _movementProvider: {fileID: 0}
+  _handAligment: 1
+  _handGrabPoses: []
+--- !u!114 &5620892508958220038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007803152990605340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9597e632dfbca247bcf65e49c67078e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _constraints:
+    ConstraintsAreRelative: 0
+    MinX:
+      Constrain: 0
+      Value: 0
+    MaxX:
+      Constrain: 0
+      Value: 0
+    MinY:
+      Constrain: 0
+      Value: 0
+    MaxY:
+      Constrain: 0
+      Value: 0
+    MinZ:
+      Constrain: 0
+      Value: 0
+    MaxZ:
+      Constrain: 0
+      Value: 0
 --- !u!1 &5906711491162323777
 GameObject:
   m_ObjectHideFlags: 0
