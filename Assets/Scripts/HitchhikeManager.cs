@@ -99,18 +99,19 @@ namespace Hitchhike
 
       if (globalTechnique != null)
       {
-        if (!isGlobal && globalTechnique.isGlobalActive())
+        globalTechnique.UpdateGlobal();
+        if (!isGlobal && globalTechnique.isGlobalMoveActive())
         {
           isGlobal = true;
-          globalTechnique.OnGlobalStart(GetActiveHandArea());
+          globalTechnique.OnGlobalMoveStart(GetActiveHandArea());
         }
         if (isGlobal)
         {
-          globalTechnique.OnGlobalMove(GetActiveHandArea());
-          if (!globalTechnique.isGlobalActive())
+          globalTechnique.OnGlobalMoveStay(GetActiveHandArea());
+          if (!globalTechnique.isGlobalMoveActive())
           {
             isGlobal = false;
-            globalTechnique.OnGlobalEnd(GetActiveHandArea());
+            globalTechnique.OnGlobalMoveEnd(GetActiveHandArea());
           }
           return; // skip hitchhike when global
         }
@@ -169,11 +170,11 @@ namespace Hitchhike
       rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
     }
 
-    public HandArea AddArea(Vector3 position, Quaternion rotation)
+    public HandArea AddArea(Vector3 position)
     {
       rightHandPrefab.SetActive(true);
       leftHandPrefab.SetActive(true);
-      var newArea = GameObject.Instantiate(handAreaPrefab, position, rotation).GetComponent<HandArea>();
+      var newArea = GameObject.Instantiate(handAreaPrefab, position, handAreaPrefab.transform.rotation).GetComponent<HandArea>();
       InitArea(newArea);
       handAreas.Add(newArea);
       rightHandPrefab.SetActive(false);
