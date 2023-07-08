@@ -15,12 +15,18 @@ namespace Hitchhike
 
     }
 
+    public void AddArea()
+    {
+      Debug.Log("adding area");
+      area = HitchhikeManager.Instance.AddArea(transform.position);
+    }
+
     // Update is called once per frame
     void Update()
     {
       if (Input.GetKeyDown(KeyCode.A))
       {
-        area = HitchhikeManager.Instance.AddArea(transform.position, transform.rotation);
+        area = HitchhikeManager.Instance.AddArea(transform.position);
       }
       if (Input.GetKeyDown(KeyCode.W))
       {
