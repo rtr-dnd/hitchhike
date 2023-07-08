@@ -60,11 +60,14 @@ namespace Hitchhike
 
     public override void UpdateGlobal()
     {
+      // display gaze gizmo
       Ray gazeRay = GetGazeRay();
       RaycastHit closestHit = new RaycastHit();
       float closestDistance = float.PositiveInfinity;
+      bool intersectsHandArea = false;
       foreach (var hit in Physics.RaycastAll(gazeRay, maxRaycastDistance))
       {
+        if (hit.transform.GetComponentInParent<HandArea>() != null) intersectsHandArea = true;
         // finding a nearest hit
         var colliderDistance = Vector3.Distance(hit.collider.gameObject.transform.position, head.transform.position);
         if (colliderDistance < closestDistance)
@@ -73,14 +76,13 @@ namespace Hitchhike
           closestDistance = colliderDistance;
         }
       }
-      if (closestDistance < float.PositiveInfinity
-        && closestHit.transform.GetComponentInParent<HandArea>() == null
-        && closestHit.transform.GetComponentInParent<HandWrap>() == null
-      )
+      if (closestDistance < float.PositiveInfinity && !intersectsHandArea)
       {
         gazePointGizmo.SetActive(true);
         gazePointGizmo.transform.position = closestHit.point + closestHit.normal * 0.05f;
         gazePointGizmo.transform.forward = -closestHit.normal;
+        var gizmoScale = Mathf.Min(closestDistance * 0.05f, 1f);
+        gazePointGizmo.transform.localScale = new Vector3(gizmoScale, gizmoScale, gizmoScale);
         currentGazePoint = closestHit.point;
       }
       else
