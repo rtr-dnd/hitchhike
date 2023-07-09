@@ -7,8 +7,10 @@ namespace Hitchhike
 
   public class QuestProHOMERGlobalTechnique : GlobalTechnique
   {
-    public GameObject gazePointGizmo;
     public Transform head;
+    [SerializeField]
+    float HOMERHeight = 0.9f;
+    public GameObject gazePointGizmo;
     List<OVREyeGaze> eyeGazes;
     int maxRaycastDistance = 100;
     Vector3? currentGazePoint = null;
@@ -22,41 +24,13 @@ namespace Hitchhike
     bool isLefty;
     [HideInInspector]
     public bool isActive;
+    int preferredHandIndex;
+    public Sprite handAreaGlobalSprite;
 
     public override void Init()
     {
       eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
-
-      // isLefty = HitchhikeManager.Instance.hitchhikeHandedness == Handedness.Left;
-      // var handAreaInstance = GameObject.Instantiate(globalHandAreaPrefab);
-      // area = handAreaInstance.GetComponent<HandArea>();
-      // area.Init(
-      //     new List<GameObject>()
-      //     {
-      //           isLefty ? HitchhikeManager.Instance.leftHandPrefab : HitchhikeManager.Instance.rightHandPrefab
-      //     },
-      //     HitchhikeManager.Instance.ovrHands.transform,
-      //     HitchhikeManager.Instance.handAreas[0],
-      //     false,
-      //     true,
-      //     false,
-      //     HitchhikeManager.Instance.billboardingTarget
-      // );
-      // area.isInvisible = true;
-      // area.autoUpdateOriginal = false;
-      // area.gameObject.GetComponent<MeshRenderer>().enabled = false;
-      // area.image.enabled = false;
-      // area.wraps[0].enabledMaterial = globalHandMaterial;
-      // area.wraps[0].transform.Find(isLefty ? "HandInteractorsLeft" : "HandInteractorsRight").gameObject.SetActive(false);
-      // area.SetEnabled(true);
-      // Invoke("AsyncInit", 1f);
     }
-
-    // void AsyncInit()
-    // {
-    //   area.SetEnabled(false);
-    //   area.SetVisibility(false);
-    // }
 
     public override void UpdateGlobal()
     {
@@ -124,59 +98,84 @@ namespace Hitchhike
       return new Ray(filteredPosition.Value, filteredDirection.Value);
     }
 
-    public void SetIsActiveLeft(bool value)
+    public override void ActivateGlobalMove(int prefIndex)
     {
-      if (!isLefty) return;
-      isActive = value;
+      base.ActivateGlobalMove(prefIndex);
+      isActive = true;
+      preferredHandIndex = prefIndex;
     }
-    public void SetIsActiveRight(bool value)
+
+    public override void DeactivateGlobalMove()
     {
-      if (isLefty) return;
-      isActive = value;
+      base.DeactivateGlobalMove();
+      isActive = false;
     }
 
     public override bool isGlobalMoveActive()
     {
-      // return Input.GetKey(KeyCode.Space);
       return isActive;
     }
 
-    int delay;
+    Vector3 handToArea;
+    Vector3 initialHandPosition;
+    Vector3 initialRawHandPosition;
+    Vector3 initialRawHandForward;
+    Quaternion initialAreaRotation;
+    GameObject tempGO_1; // looks at copied hand
+    GameObject tempGO_2; // looks at original hand
+    GameObject tempGO_3; // looks at new copied hand pos
+    Vector3 origin;
+    float d_ratio;
+    Quaternion originalToCopiedQ;
     public override void OnGlobalMoveStart(HandArea _area)
     {
-      area.SetVisibility(true);
-      area.SyncDelayedOriginal();
-      area.transform.position = _area.transform.position;
-      area.transform.rotation = _area.transform.rotation;
-      area.transform.localScale = _area.transform.lossyScale * 2;
-      area.SetEnabled(true);
-      _area.SetHandVisibility(false);
-      defaultAreaMaterial = _area.GetComponent<MeshRenderer>().material;
-      _area.GetComponent<MeshRenderer>().material = globalAreaMaterial;
-      delay = 10; // timeout for init of bigger hand
+      _area.SetHandsVisible(false);
+      _area.ChangeSprite(handAreaGlobalSprite);
+
+      // homer
+      initialHandPosition = _area.wraps[preferredHandIndex].transform.position;
+      handToArea = _area.transform.position - initialHandPosition;
+      initialRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
+      initialRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
+      initialAreaRotation = _area.transform.rotation;
+      tempGO_1 = new GameObject("tempgo_1_global_homer");
+      tempGO_2 = new GameObject("tempgo_2_global_homer");
+      tempGO_3 = new GameObject("tempgo_3_global_homer");
+      origin = new Vector3(head.position.x, HOMERHeight, head.position.z);
+      d_ratio = Vector3.Distance(initialHandPosition, origin) / Vector3.Distance(initialRawHandPosition, origin);
+
+      tempGO_1.transform.position = origin;
+      tempGO_1.transform.LookAt(initialHandPosition);
+      tempGO_2.transform.position = origin;
+      tempGO_2.transform.LookAt(initialRawHandPosition);
+      originalToCopiedQ = Quaternion.Inverse(tempGO_2.transform.rotation) * tempGO_1.transform.rotation;
     }
 
     public override void OnGlobalMoveStay(HandArea _area)
     {
-      if (delay > 0)
-      {
-        delay--;
-        return;
-      }
+      var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
+      var currentRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
+      tempGO_3.transform.position = origin;
+      tempGO_3.transform.LookAt(currentRawHandPosition);
+      tempGO_3.transform.rotation *= originalToCopiedQ;
+      var current_d = Vector3.Distance(currentRawHandPosition, origin);
 
-      var delta = Vector3.zero;
-      if (!float.IsNaN(previousPosition.x)) delta = area.wraps[0].transform.position - previousPosition;
-      _area.transform.position += delta;
-      previousPosition = area.wraps[0].transform.position;
+      var final_pos = origin + (tempGO_3.transform.forward * current_d * d_ratio) + handToArea;
+      _area.transform.position = final_pos;
+
+      _area.transform.rotation = initialAreaRotation;
+      _area.transform.Rotate(Vector3.up, Quaternion.FromToRotation(initialRawHandForward, currentRawHandForward).eulerAngles.y);
+
+      _area.AfterTransformChange();
     }
 
     public override void OnGlobalMoveEnd(HandArea _area)
     {
-      area.SetEnabled(false);
-      area.SetVisibility(false);
-      _area.SetHandVisibility(true);
-      _area.GetComponent<MeshRenderer>().material = defaultAreaMaterial;
-      previousPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+      Destroy(tempGO_1);
+      Destroy(tempGO_2);
+      Destroy(tempGO_3);
+      _area.SetHandsVisible(true);
+      _area.ChangeSprite(true);
     }
   }
 }

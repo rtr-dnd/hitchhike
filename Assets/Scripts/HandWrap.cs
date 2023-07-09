@@ -12,6 +12,7 @@ namespace Hitchhike
     public Material enabledMaterial;
     public Material disabledMaterial;
     public bool isEnabled { get; protected set; }
+    public bool isVisible { get; protected set; }
     public bool scaleHandModel;
     [HideInInspector]
     protected Transform _originalSpace;
@@ -41,6 +42,10 @@ namespace Hitchhike
       isEnabled = enabled;
       ChangeMaterial(enabled);
       SetUpdating(enabled);
+    }
+    public virtual void SetVisible(bool visible)
+    {
+      isVisible = visible;
     }
     public virtual void ChangeMaterial(bool enabled) { }
     public virtual void SetUpdating(bool updating) { }

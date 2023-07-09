@@ -292,6 +292,7 @@ MonoBehaviour:
   scaleHandModel: 0
   filterRatio: 1
   handPrefabIndex: 0
+  invisibleMaterial: {fileID: 2100000, guid: 4208fec7a7d596b4e9c2f124ea12f588, type: 2}
   meshRenderer: {fileID: 742047448361733820}
 --- !u!1 &2091680617900060057
 GameObject:
