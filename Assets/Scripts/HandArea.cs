@@ -28,6 +28,7 @@ namespace Hitchhike
     [HideInInspector]
     public Transform delayedOriginalTransform; // for ExtendedHitchhikeGlobalTechnique
     public bool isInvisible = false; // prevent hitchhikemanager from detecting this area; for ExtendedHitchhikeGlobalTechnique
+    public bool isHandHidden = false; // QuestProHOMERGlobalTechnique hides hand during the global move
 
     public float filterRatio = 1; // for low pass filter; 1: no filter, 0: all filter
 
@@ -67,18 +68,31 @@ namespace Hitchhike
       }
     }
 
+    public void AfterTransformChange() // call this after your script changed the transform of this area on Update()
+    {
+      if (isOriginal)
+      {
+        wraps.ForEach((w) =>
+        {
+          w.thisSpace = transform;
+          w.originalSpace = transform;
+        });
+        // doesn't reset haschanged yet; other handareas will refer to it. will be reset in lateupdate
+      }
+      else
+      {
+        wraps.ForEach((w) => w.thisSpace = transform);
+        transform.hasChanged = false;
+      }
+    }
+
     public void Update()
     {
       if (isOriginal)
       {
         if (transform.hasChanged)
         {
-          wraps.ForEach((w) =>
-          {
-            w.thisSpace = transform;
-            w.originalSpace = transform;
-          });
-          // doesn't reset haschanged yet; other handareas will refer to it. will be reset in lateupdate
+          AfterTransformChange();
         }
       }
       else
@@ -92,8 +106,7 @@ namespace Hitchhike
 
         if (transform.hasChanged)
         {
-          wraps.ForEach((w) => w.thisSpace = transform);
-          transform.hasChanged = false;
+          AfterTransformChange();
         }
       }
     }
@@ -135,21 +148,31 @@ namespace Hitchhike
       ChangeSprite(enabled);
     }
 
-    public void SetHandVisibility(bool visible)
+    public void SetHandActive(bool active)
     {
-      wraps.ForEach((wrap) => wrap.gameObject.SetActive(visible));
+      wraps.ForEach((wrap) => wrap.gameObject.SetActive(active));
     }
 
-    public void SetVisibility(bool visible)
+    public void SetIsActive(bool active)
     {
-      SetEnabled(visible);
-      gameObject.SetActive(visible);
-      SetHandVisibility(visible);
+      SetEnabled(active);
+      gameObject.SetActive(active);
+      SetHandActive(active);
     }
 
-    void ChangeSprite(bool enabled)
+    public void SetHandsVisible(bool visible)
+    {
+      wraps.ForEach((wrap) => wrap.SetVisible(visible));
+    }
+
+    public void ChangeSprite(bool enabled)
     {
       image.sprite = enabled ? enabledSprite : disabledSprite;
+    }
+
+    public void ChangeSprite(Sprite sprite) // for globaltechnique
+    {
+      image.sprite = sprite;
     }
   }
 

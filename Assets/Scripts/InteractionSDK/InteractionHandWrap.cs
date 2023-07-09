@@ -31,6 +31,7 @@ namespace Hitchhike
         _thisSpace = value;
         ods.thisSpace = value;
         ods.defaultPosition = value.position;
+        if (area.isOriginal) Debug.Log(value.position);
       }
     }
 
@@ -92,6 +93,12 @@ namespace Hitchhike
       ods.isUpdating = updating;
     }
 
+    public override void SetVisible(bool visible)
+    {
+      base.SetVisible(visible);
+      meshRenderer.gameObject.SetActive(visible);
+    }
+
     public Pose GetRawHandPose()
     {
       return ods.rawHandPose;
@@ -110,6 +117,11 @@ namespace Hitchhike
       // grab.Hover();
       // grab.Select();
       // grab.SelectInteractable(interactable);
+    }
+
+    public HandGrabInteractable GetCurrentInteractable()
+    {
+      return grab.SelectedInteractable;
     }
 
     public void Detect()

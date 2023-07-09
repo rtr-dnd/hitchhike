@@ -9,6 +9,8 @@ namespace Hitchhike
     public virtual void UpdateGlobal() { }
 
     public virtual bool isGlobalMoveActive() { return false; }
+    public virtual void ActivateGlobalMove(int preferredHandIndex) { }
+    public virtual void DeactivateGlobalMove() { }
 
     public virtual void OnGlobalMoveStart(HandArea area) { }
     public virtual void OnGlobalMoveStay(HandArea area) { }

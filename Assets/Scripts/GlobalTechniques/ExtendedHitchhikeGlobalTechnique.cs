@@ -47,7 +47,7 @@ namespace Hitchhike
     void AsyncInit()
     {
       area.SetEnabled(false);
-      area.SetVisibility(false);
+      area.SetIsActive(false);
     }
 
     public void SetIsActiveLeft(bool value)
@@ -70,13 +70,13 @@ namespace Hitchhike
     int delay;
     public override void OnGlobalMoveStart(HandArea _area)
     {
-      area.SetVisibility(true);
+      area.SetIsActive(true);
       area.SyncDelayedOriginal();
       area.transform.position = _area.transform.position;
       area.transform.rotation = _area.transform.rotation;
       area.transform.localScale = _area.transform.lossyScale * 2;
       area.SetEnabled(true);
-      _area.SetHandVisibility(false);
+      _area.SetHandActive(false);
       defaultAreaMaterial = _area.GetComponent<MeshRenderer>().material;
       _area.GetComponent<MeshRenderer>().material = globalAreaMaterial;
       delay = 10; // timeout for init of bigger hand
@@ -99,8 +99,8 @@ namespace Hitchhike
     public override void OnGlobalMoveEnd(HandArea _area)
     {
       area.SetEnabled(false);
-      area.SetVisibility(false);
-      _area.SetHandVisibility(true);
+      area.SetIsActive(false);
+      _area.SetHandActive(true);
       _area.GetComponent<MeshRenderer>().material = defaultAreaMaterial;
       previousPosition = new Vector3(float.NaN, float.NaN, float.NaN);
     }
