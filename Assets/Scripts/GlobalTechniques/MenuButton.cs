@@ -5,46 +5,33 @@ using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
 using UnityEngine;
 
-public class MenuButton : MonoBehaviour
+public class MenuButton : UIElement
 {
-  enum State
-  {
-    inactive,
-    hover,
-    active
-  };
-
   Grabbable grabbable;
   HandGrabInteractable hgi;
   [SerializeField]
   OneGrabTranslateTransformer ogt;
-  bool isHovered;
-  bool isActive;
-  public Material defaultMaterial;
-  public Material hoverMaterial;
-  public Material activeMaterial;
   GameObject gizmo;
 
   // Start is called before the first frame update
-  void Start()
+  protected override void Start()
   {
+    base.Start();
     grabbable = transform.GetComponent<Grabbable>();
     hgi = transform.GetComponent<HandGrabInteractable>();
   }
 
-  public void OnHover()
+  public override void OnHover()
   {
-    isHovered = true;
-    transform.GetComponent<MeshRenderer>().material = hoverMaterial;
+    base.OnHover();
   }
 
-  public void OnHoverEnd()
+  public override void OnHoverEnd()
   {
-    isHovered = false;
-    transform.GetComponent<MeshRenderer>().material = isActive ? activeMaterial : defaultMaterial;
+    base.OnHoverEnd();
   }
 
-  public void OnSelect()
+  public override void OnSelect()
   {
     isActive = true;
     gizmo = GameObject.Instantiate(gameObject, transform.parent);
@@ -60,7 +47,7 @@ public class MenuButton : MonoBehaviour
     HitchhikeManager.Instance.globalTechnique.ActivateGlobalMove(activeHandIndex == -1 ? 0 : activeHandIndex);
   }
 
-  public void OnRelease()
+  public override void OnSelectEnd()
   {
     isActive = false;
     gameObject.GetComponent<MeshRenderer>().enabled = true;
