@@ -15,17 +15,13 @@ namespace Hitchhike
     int maxRaycastDistance = 100;
     Vector3? currentGazePoint = null;
 
-    public GameObject globalHandAreaPrefab;
     HandArea area;
-    public Material globalHandMaterial;
-    public Material globalAreaMaterial;
     Material defaultAreaMaterial;
     Vector3 previousPosition = new Vector3(float.NaN, float.NaN, float.NaN);
     bool isLefty;
     [HideInInspector]
     public bool isActive;
     int preferredHandIndex;
-    public Sprite handAreaGlobalSprite;
 
     public override void Init()
     {
@@ -130,7 +126,7 @@ namespace Hitchhike
     public override void OnGlobalMoveStart(HandArea _area)
     {
       _area.SetHandsVisible(false);
-      _area.ChangeSprite(handAreaGlobalSprite);
+      _area.ChangeSprite(HandArea.Status.global);
 
       // homer
       initialHandPosition = _area.wraps[preferredHandIndex].transform.position;
@@ -175,7 +171,7 @@ namespace Hitchhike
       Destroy(tempGO_2);
       Destroy(tempGO_3);
       _area.SetHandsVisible(true);
-      _area.ChangeSprite(true);
+      _area.ChangeSprite(HandArea.Status.enabled);
     }
   }
 }

@@ -12,6 +12,7 @@ public class MenuButton : UIElement
   [SerializeField]
   OneGrabTranslateTransformer ogt;
   GameObject gizmo;
+  HandArea area;
 
   // Start is called before the first frame update
   protected override void Start()
@@ -19,6 +20,12 @@ public class MenuButton : UIElement
     base.Start();
     grabbable = transform.GetComponent<Grabbable>();
     hgi = transform.GetComponent<HandGrabInteractable>();
+    area = transform.GetComponentInParent<HandArea>();
+  }
+
+  private void Update()
+  {
+    if (!isActive) meshRenderer.enabled = area.isEnabled;
   }
 
   public override void OnHover()

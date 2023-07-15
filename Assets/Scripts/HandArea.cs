@@ -14,6 +14,7 @@ namespace Hitchhike
     public Image image;
     public Sprite enabledSprite;
     public Sprite disabledSprite;
+    public Sprite globalSprite;
     [HideInInspector]
     public List<HandWrap> wraps;
     [HideInInspector]
@@ -145,7 +146,7 @@ namespace Hitchhike
     {
       isEnabled = enabled;
       wraps.ForEach((wrap) => wrap.SetEnabled(enabled));
-      ChangeSprite(enabled);
+      ChangeSprite(enabled ? Status.enabled : Status.disabled);
     }
 
     public void SetHandActive(bool active)
@@ -165,14 +166,29 @@ namespace Hitchhike
       wraps.ForEach((wrap) => wrap.SetVisible(visible));
     }
 
-    public void ChangeSprite(bool enabled)
+    public enum Status
     {
-      image.sprite = enabled ? enabledSprite : disabledSprite;
+      enabled,
+      disabled,
+      global
     }
-
-    public void ChangeSprite(Sprite sprite) // for globaltechnique
+    public void ChangeSprite(Status status)
     {
-      image.sprite = sprite;
+      switch (status)
+      {
+        case Status.enabled:
+          image.sprite = enabledSprite;
+          break;
+        case Status.disabled:
+          image.sprite = disabledSprite;
+          break;
+        case Status.global:
+          image.sprite = globalSprite;
+          break;
+        default:
+          image.sprite = disabledSprite;
+          break;
+      }
     }
   }
 

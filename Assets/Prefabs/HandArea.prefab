@@ -326,7 +326,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7151685253751060612}
         m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
-        m_MethodName: OnRelease
+        m_MethodName: OnSelectEnd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32092,7 +32092,7 @@ MeshCollider:
   m_GameObject: {fileID: 5642308794268043500}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -32474,6 +32474,7 @@ MonoBehaviour:
   image: {fileID: 1242507951878917160}
   enabledSprite: {fileID: 21300000, guid: ab231648809926a40a1d0af8b314912f, type: 3}
   disabledSprite: {fileID: 21300000, guid: b17008a30100e84409de68d44daae052, type: 3}
+  globalSprite: {fileID: 21300000, guid: bf2616fb7e5092c408380b4a18868560, type: 3}
   wraps: []
   isEnabled: 0
   billboard: 0
