@@ -13,6 +13,8 @@ public class MenuButton : UIElement
   OneGrabTranslateTransformer ogt;
   GameObject gizmo;
   HandArea area;
+  ConstantRatio cr;
+  public float size;
 
   // Start is called before the first frame update
   protected override void Start()
@@ -21,11 +23,17 @@ public class MenuButton : UIElement
     grabbable = transform.GetComponent<Grabbable>();
     hgi = transform.GetComponent<HandGrabInteractable>();
     area = transform.GetComponentInParent<HandArea>();
+    cr = transform.GetComponent<ConstantRatio>();
   }
 
   private void Update()
   {
     if (!isActive) meshRenderer.enabled = area.isEnabled;
+    cr.size = Mathf.Max(
+      area.transform.lossyScale.x,
+      area.transform.lossyScale.y,
+      area.transform.lossyScale.z
+    ) * size;
   }
 
   public override void OnHover()
@@ -51,7 +59,7 @@ public class MenuButton : UIElement
     gameObject.GetComponent<MeshRenderer>().enabled = false;
     int activeHandIndex = HitchhikeManager.Instance.GetActiveHandArea().wraps.FindIndex(w =>
       (w as InteractionHandWrap).GetCurrentInteractable() == hgi);
-    HitchhikeManager.Instance.globalTechnique.ActivateGlobalMove(activeHandIndex == -1 ? 0 : activeHandIndex);
+    HitchhikeManager.Instance.globalTechnique.ActivateGlobal(activeHandIndex == -1 ? 0 : activeHandIndex, GlobalTechnique.Mode.Move);
   }
 
   public override void OnSelectEnd()
@@ -61,6 +69,6 @@ public class MenuButton : UIElement
     transform.position = gizmo.transform.position;
     transform.rotation = gizmo.transform.rotation;
     Destroy(gizmo);
-    HitchhikeManager.Instance.globalTechnique.DeactivateGlobalMove();
+    HitchhikeManager.Instance.globalTechnique.DeactivateGlobal();
   }
 }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
-public class ConstantSphere : MonoBehaviour
+public class ConstantRatio : MonoBehaviour
 {
+  [HideInInspector]
   public float size;
 
   void Update()
