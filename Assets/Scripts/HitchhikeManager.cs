@@ -100,18 +100,18 @@ namespace Hitchhike
       if (globalTechnique != null)
       {
         globalTechnique.UpdateGlobal();
-        if (!isGlobal && globalTechnique.isGlobalMoveActive())
+        if (!isGlobal && globalTechnique.isGlobalActive())
         {
           isGlobal = true;
-          globalTechnique.OnGlobalMoveStart(GetActiveHandArea());
+          globalTechnique.OnGlobalStart(GetActiveHandArea());
         }
         if (isGlobal)
         {
-          globalTechnique.OnGlobalMoveStay(GetActiveHandArea());
-          if (!globalTechnique.isGlobalMoveActive())
+          globalTechnique.OnGlobalStay(GetActiveHandArea());
+          if (!globalTechnique.isGlobalActive())
           {
             isGlobal = false;
-            globalTechnique.OnGlobalMoveEnd(GetActiveHandArea());
+            globalTechnique.OnGlobalEnd(GetActiveHandArea());
           }
           return; // skip hitchhike when global
         }

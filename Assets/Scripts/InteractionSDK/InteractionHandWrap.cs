@@ -31,7 +31,6 @@ namespace Hitchhike
         _thisSpace = value;
         ods.thisSpace = value;
         ods.defaultPosition = value.position;
-        if (area.isOriginal) Debug.Log(value.position);
       }
     }
 

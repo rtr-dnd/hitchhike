@@ -5,15 +5,21 @@ namespace Hitchhike
 
   public class GlobalTechnique : MonoBehaviour
   {
+    public enum Mode
+    {
+      Move,
+      Scale
+    }
+    public Mode mode;
     public virtual void Init() { }
     public virtual void UpdateGlobal() { }
 
-    public virtual bool isGlobalMoveActive() { return false; }
-    public virtual void ActivateGlobalMove(int preferredHandIndex) { }
-    public virtual void DeactivateGlobalMove() { }
+    public virtual bool isGlobalActive() { return false; }
+    public virtual void ActivateGlobal(int preferredHandIndex, Mode _mode) { }
+    public virtual void DeactivateGlobal() { }
 
-    public virtual void OnGlobalMoveStart(HandArea area) { }
-    public virtual void OnGlobalMoveStay(HandArea area) { }
-    public virtual void OnGlobalMoveEnd(HandArea area) { }
+    public virtual void OnGlobalStart(HandArea area) { }
+    public virtual void OnGlobalStay(HandArea area) { }
+    public virtual void OnGlobalEnd(HandArea area) { }
   }
 }

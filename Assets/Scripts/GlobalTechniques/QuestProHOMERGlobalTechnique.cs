@@ -94,22 +94,68 @@ namespace Hitchhike
       return new Ray(filteredPosition.Value, filteredDirection.Value);
     }
 
-    public override void ActivateGlobalMove(int prefIndex)
+    public override void ActivateGlobal(int prefIndex, Mode _mode)
     {
-      base.ActivateGlobalMove(prefIndex);
+      base.ActivateGlobal(prefIndex, _mode);
+      mode = _mode;
       isActive = true;
       preferredHandIndex = prefIndex;
     }
 
-    public override void DeactivateGlobalMove()
+    public override void DeactivateGlobal()
     {
-      base.DeactivateGlobalMove();
+      base.DeactivateGlobal();
       isActive = false;
     }
-
-    public override bool isGlobalMoveActive()
+    public override bool isGlobalActive()
     {
       return isActive;
+    }
+
+
+    public override void OnGlobalStart(HandArea _area)
+    {
+      _area.SetHandsVisible(false);
+      _area.ChangeSprite(HandArea.Status.global);
+
+      switch (mode)
+      {
+        case Mode.Move:
+          OnMoveStart(_area);
+          break;
+        case Mode.Scale:
+          OnScaleStart(_area);
+          break;
+      }
+    }
+
+    public override void OnGlobalStay(HandArea _area)
+    {
+      switch (mode)
+      {
+        case Mode.Move:
+          OnMoveStay(_area);
+          break;
+        case Mode.Scale:
+          OnScaleStay(_area);
+          break;
+      }
+      _area.AfterTransformChange();
+    }
+
+    public override void OnGlobalEnd(HandArea _area)
+    {
+      switch (mode)
+      {
+        case Mode.Move:
+          OnMoveEnd(_area);
+          break;
+        case Mode.Scale:
+          OnScaleEnd(_area);
+          break;
+      }
+      _area.SetHandsVisible(true);
+      _area.ChangeSprite(HandArea.Status.enabled);
     }
 
     Vector3 handToArea;
@@ -123,11 +169,8 @@ namespace Hitchhike
     Vector3 origin;
     float d_ratio;
     Quaternion originalToCopiedQ;
-    public override void OnGlobalMoveStart(HandArea _area)
+    void OnMoveStart(HandArea _area)
     {
-      _area.SetHandsVisible(false);
-      _area.ChangeSprite(HandArea.Status.global);
-
       // homer
       initialHandPosition = _area.wraps[preferredHandIndex].transform.position;
       handToArea = _area.transform.position - initialHandPosition;
@@ -147,7 +190,7 @@ namespace Hitchhike
       originalToCopiedQ = Quaternion.Inverse(tempGO_2.transform.rotation) * tempGO_1.transform.rotation;
     }
 
-    public override void OnGlobalMoveStay(HandArea _area)
+    void OnMoveStay(HandArea _area)
     {
       var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
       var currentRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
@@ -161,17 +204,42 @@ namespace Hitchhike
 
       _area.transform.rotation = initialAreaRotation;
       _area.transform.Rotate(Vector3.up, Quaternion.FromToRotation(initialRawHandForward, currentRawHandForward).eulerAngles.y);
-
-      _area.AfterTransformChange();
     }
 
-    public override void OnGlobalMoveEnd(HandArea _area)
+    void OnMoveEnd(HandArea _area)
     {
       Destroy(tempGO_1);
       Destroy(tempGO_2);
       Destroy(tempGO_3);
-      _area.SetHandsVisible(true);
-      _area.ChangeSprite(HandArea.Status.enabled);
+    }
+
+    Vector3 initialAreaScale;
+    Vector3 initialAreaPosition;
+    Vector3 pivotPosition;
+    void OnScaleStart(HandArea _area)
+    {
+      initialRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
+      initialAreaScale = _area.transform.localScale;
+      initialAreaPosition = _area.transform.position;
+      pivotPosition = _area.transform.position - new Vector3(0, _area.transform.lossyScale.y, 0);
+    }
+
+    void OnScaleStay(HandArea _area)
+    {
+      var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
+      var diff = HitchhikeManager.Instance.handAreas[0].transform.InverseTransformPoint(currentRawHandPosition)
+        - HitchhikeManager.Instance.handAreas[0].transform.InverseTransformPoint(initialRawHandPosition);
+      var scaleX = initialAreaScale.x + (initialAreaScale.x * diff.x);
+      var scaleY = initialAreaScale.y + (initialAreaScale.y * diff.y);
+      _area.transform.localScale = new Vector3(
+        scaleX, scaleY, scaleX
+      );
+      _area.transform.position = pivotPosition + (initialAreaPosition - pivotPosition) * (scaleY / initialAreaScale.y);
+    }
+
+    void OnScaleEnd(HandArea _area)
+    {
+
     }
   }
 }

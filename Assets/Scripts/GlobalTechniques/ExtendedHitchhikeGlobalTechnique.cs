@@ -61,14 +61,14 @@ namespace Hitchhike
       isActive = value;
     }
 
-    public override bool isGlobalMoveActive()
+    public override bool isGlobalActive()
     {
       // return Input.GetKey(KeyCode.Space);
       return isActive;
     }
 
     int delay;
-    public override void OnGlobalMoveStart(HandArea _area)
+    public override void OnGlobalStart(HandArea _area)
     {
       area.SetIsActive(true);
       area.SyncDelayedOriginal();
@@ -82,7 +82,7 @@ namespace Hitchhike
       delay = 10; // timeout for init of bigger hand
     }
 
-    public override void OnGlobalMoveStay(HandArea _area)
+    public override void OnGlobalStay(HandArea _area)
     {
       if (delay > 0)
       {
@@ -96,7 +96,7 @@ namespace Hitchhike
       previousPosition = area.wraps[0].transform.position;
     }
 
-    public override void OnGlobalMoveEnd(HandArea _area)
+    public override void OnGlobalEnd(HandArea _area)
     {
       area.SetEnabled(false);
       area.SetIsActive(false);
