@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RootScript;
 using System.Linq;
+using Oculus.Interaction.HandGrab;
 
 namespace Hitchhike
 {
@@ -127,41 +128,56 @@ namespace Hitchhike
         ActivateHandArea(handAreas[i]);
         var afterArea = GetActiveHandArea();
 
-        interactables.ForEach(interactable =>
+        foreach (var rawInteractable in interactables)
         {
-          if (interactable != null && !DisableDnd)
+          // determine if dnd can be performed
+          if (rawInteractable == null || DisableDnd) continue;
+          var interactable = rawInteractable;
+          var pdd = interactable.GetComponent<PreventDragAndDrop>();
+          if (pdd != null)
           {
-            var beforeToAfterRot = Quaternion.Inverse(afterArea.transform.rotation) * beforeArea.transform.rotation;
-            var beforeToAfterScale = new Vector3(
-              afterArea.transform.lossyScale.x / beforeArea.transform.lossyScale.x,
-              afterArea.transform.lossyScale.y / beforeArea.transform.lossyScale.y,
-              afterArea.transform.lossyScale.z / beforeArea.transform.lossyScale.z
-            );
-
-            var oMt = Matrix4x4.TRS(
-              interactable.gameObject.transform.position,
-              interactable.gameObject.transform.rotation,
-              new Vector3(1, 1, 1)
-            );
-
-            var resMat =
-              Matrix4x4.Translate(afterArea.transform.position -
-                                  beforeArea.transform.position) // orignal to copied translation
-              * Matrix4x4.TRS(
-                beforeArea.transform.position,
-                Quaternion.Inverse(beforeToAfterRot),
-                beforeToAfterScale
-              ) // translation back to original space and rotation & scale around original space
-              * Matrix4x4.Translate(-beforeArea.transform.position) // offset translation for next step
-              * oMt; // hand anchor
-
-            interactable.gameObject.transform.position = resMat.GetColumn(3);
-            interactable.gameObject.transform.rotation = resMat.rotation;
-            if (scaleHandModel)
-              interactable.gameObject.transform.localScale *= new List<float>
-                { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
+            var mtoi = pdd.moveThisObjectInstead;
+            if (mtoi != null && mtoi.GetComponent<HandGrabInteractable>() != null)
+            {
+              interactable = mtoi.GetComponent<HandGrabInteractable>();
+            }
+            else
+            {
+              continue;
+            }
           }
-        });
+
+          // actual dnd
+          var beforeToAfterRot = Quaternion.Inverse(afterArea.transform.rotation) * beforeArea.transform.rotation;
+          var beforeToAfterScale = new Vector3(
+            afterArea.transform.lossyScale.x / beforeArea.transform.lossyScale.x,
+            afterArea.transform.lossyScale.y / beforeArea.transform.lossyScale.y,
+            afterArea.transform.lossyScale.z / beforeArea.transform.lossyScale.z
+          );
+
+          var oMt = Matrix4x4.TRS(
+            interactable.gameObject.transform.position,
+            interactable.gameObject.transform.rotation,
+            new Vector3(1, 1, 1)
+          );
+
+          var resMat =
+            Matrix4x4.Translate(afterArea.transform.position -
+                                beforeArea.transform.position) // orignal to copied translation
+            * Matrix4x4.TRS(
+              beforeArea.transform.position,
+              Quaternion.Inverse(beforeToAfterRot),
+              beforeToAfterScale
+            ) // translation back to original space and rotation & scale around original space
+            * Matrix4x4.Translate(-beforeArea.transform.position) // offset translation for next step
+            * oMt; // hand anchor
+
+          interactable.gameObject.transform.position = resMat.GetColumn(3);
+          interactable.gameObject.transform.rotation = resMat.rotation;
+          if (scaleHandModel)
+            interactable.gameObject.transform.localScale *= new List<float>
+                { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
+        }
       }
     }
 
@@ -182,6 +198,22 @@ namespace Hitchhike
       newArea.SetEnabled(false);
       return newArea;
     }
+    public HandArea AddArea(Vector3 position, Transform parent)
+    {
+      rightHandPrefab.SetActive(true);
+      leftHandPrefab.SetActive(true);
+      var newArea = GameObject.Instantiate(handAreaPrefab, parent).GetComponent<HandArea>();
+      newArea.transform.position = position;
+      newArea.transform.rotation = handAreaPrefab.transform.rotation;
+      InitArea(newArea);
+      handAreas.Add(newArea);
+      rightHandPrefab.SetActive(false);
+      leftHandPrefab.SetActive(false);
+      newArea.SetEnabled(false);
+      return newArea;
+    }
+
+
     public bool DeleteArea(HandArea area)
     {
       if (area.isOriginal) return false;

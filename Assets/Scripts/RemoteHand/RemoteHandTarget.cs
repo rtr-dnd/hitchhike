@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class RemoteHandTarget : MonoBehaviour
 {
+  public bool isChildGrabbable;
+  public GameObject grabbableChild;
+  Vector3 childPos;
+  Quaternion childRot;
   bool _isHovered;
   [HideInInspector]
   public bool isHovered
@@ -74,5 +78,21 @@ public class RemoteHandTarget : MonoBehaviour
   public void OnMove()
   {
 
+  }
+
+  public void OnChildGrab()
+  {
+    if (isChildGrabbable && grabbableChild != null)
+    {
+      childPos = grabbableChild.transform.localPosition;
+      childRot = grabbableChild.transform.localRotation;
+    }
+  }
+  public void OnChildRelease()
+  {
+    transform.position = grabbableChild.transform.position - childPos;
+    grabbableChild.transform.localPosition = childPos;
+    transform.rotation = grabbableChild.transform.rotation * Quaternion.Inverse(childRot);
+    grabbableChild.transform.localRotation = childRot;
   }
 }
