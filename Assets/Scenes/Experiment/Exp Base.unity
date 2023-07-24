@@ -5563,7 +5563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &592236290
 Transform:
   m_ObjectHideFlags: 0
@@ -16269,6 +16269,8 @@ MonoBehaviour:
   scaleHandModel: 0
   DisableDnd: 0
   billboard: 1
+  originalFollowsHeadMovement: 1
+  head: {fileID: 1397372922}
   _billboardingTarget: {fileID: 1397372928}
 --- !u!4 &1551041707
 Transform:
@@ -21775,7 +21777,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1983133446
 Transform:
   m_ObjectHideFlags: 0

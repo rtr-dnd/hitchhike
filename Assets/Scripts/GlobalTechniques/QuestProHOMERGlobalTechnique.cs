@@ -164,6 +164,7 @@ namespace Hitchhike
     }
 
     Vector3 handToArea;
+    Vector3 rawHandToArea;
     Vector3 initialHandPosition;
     Vector3 initialRawHandPosition;
     Vector3 initialRawHandForward;
@@ -180,6 +181,7 @@ namespace Hitchhike
       initialHandPosition = _area.wraps[preferredHandIndex].transform.position;
       handToArea = _area.transform.position - initialHandPosition;
       initialRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
+      rawHandToArea = _area.transform.position - initialRawHandPosition;
       initialRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
       initialAreaRotation = _area.transform.rotation;
       tempGO_1 = new GameObject("tempgo_1_global_homer");
@@ -199,27 +201,31 @@ namespace Hitchhike
     {
       var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
       var currentRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
-      // if (_area.isOriginal)
-      // {
-      //   _area.transform.position = currentRawHandPosition;
-      // }
-      // else
-      // {
-      tempGO_3.transform.position = origin;
-      tempGO_3.transform.LookAt(currentRawHandPosition);
-      tempGO_3.transform.rotation *= originalToCopiedQ;
-      var current_d = Vector3.Distance(currentRawHandPosition, origin);
+      if (_area.isOriginal)
+      {
+        _area.transform.position = currentRawHandPosition + rawHandToArea;
+        _area.transform.LookAt(new Vector3(head.transform.position.x, _area.transform.position.y, head.transform.position.z));
+        _area.transform.Rotate(new Vector3(0, 180, 0));
+      }
+      else
+      {
+        tempGO_3.transform.position = origin;
+        tempGO_3.transform.LookAt(currentRawHandPosition);
+        tempGO_3.transform.rotation *= originalToCopiedQ;
+        var current_d = Vector3.Distance(currentRawHandPosition, origin);
 
-      var final_pos = origin + (tempGO_3.transform.forward * current_d * d_ratio) + handToArea;
-      _area.transform.position = final_pos;
+        var final_pos = origin + (tempGO_3.transform.forward * current_d * d_ratio) + handToArea;
+        _area.transform.position = final_pos;
 
-      _area.transform.rotation = initialAreaRotation;
-      _area.transform.Rotate(Vector3.up, Quaternion.FromToRotation(initialRawHandForward, currentRawHandForward).eulerAngles.y);
-      // }
+        _area.transform.rotation = initialAreaRotation;
+        _area.transform.Rotate(Vector3.up, Quaternion.FromToRotation(initialRawHandForward, currentRawHandForward).eulerAngles.y);
+      }
     }
 
     void OnMoveEnd(HandArea _area)
     {
+      if (_area.isOriginal && HitchhikeManager.Instance.originalFollowsHeadMovement)
+        HitchhikeManager.Instance.RepositionOriginalFollow(_area.transform.position, _area.transform.rotation);
       Destroy(tempGO_1);
       Destroy(tempGO_2);
       Destroy(tempGO_3);

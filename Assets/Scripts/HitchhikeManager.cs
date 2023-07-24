@@ -38,6 +38,7 @@ namespace Hitchhike
     public bool scaleHandModel;
     public bool DisableDnd = false;
     public bool billboard = true;
+
     [SerializeField]
     GameObject _billboardingTarget; // if nothing is specified, billboard to originalHandArea
     [HideInInspector]
@@ -49,6 +50,15 @@ namespace Hitchhike
       }
       private set { _billboardingTarget = value; }
     }
+
+    [Header("Original Follows Head Movement")]
+    public bool originalFollowsHeadMovement;
+    bool originalFollows_hasInitialized = false;
+    Vector3 headToOriginal;
+    Vector3 initialHeadForward;
+    Quaternion initialOriginalRotation;
+    public Transform head;
+    public Material transparentMaterial;
 
     void Start()
     {
@@ -92,6 +102,31 @@ namespace Hitchhike
 
       switchTechnique.Init();
       if (globalTechnique != null) globalTechnique.Init();
+
+      if (originalFollowsHeadMovement)
+      {
+        StartCoroutine(HitchhikeExtensions.DelayMethod(1f, () => InitOriginalFollow()));
+      }
+    }
+
+    void InitOriginalFollow()
+    {
+      var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
+      headToOriginal = originalHandArea.transform.position - head.transform.position;
+      initialHeadForward = head.transform.forward;
+      initialOriginalRotation = originalHandArea.transform.rotation;
+      originalHandArea.wraps.ForEach((w) =>
+      {
+        w.disabledMaterial = transparentMaterial;
+      });
+      originalFollows_hasInitialized = true;
+    }
+    public void RepositionOriginalFollow(Vector3 newPosition, Quaternion newRotation)
+    {
+      var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
+      headToOriginal = newPosition - head.transform.position;
+      initialHeadForward = head.transform.forward;
+      initialOriginalRotation = newRotation;
     }
 
     void Update()
@@ -117,6 +152,8 @@ namespace Hitchhike
           return; // skip hitchhike when global
         }
       }
+
+      if (originalFollowsHeadMovement && originalFollows_hasInitialized) UpdateOriginalPosition();
 
       // hitchhike
       int i = switchTechnique.UpdateSwitch();
@@ -184,6 +221,20 @@ namespace Hitchhike
     void UpdateRawHandPoses()
     {
       rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
+    }
+
+    void UpdateOriginalPosition()
+    {
+      var originalHandArea = handAreas[0];
+      var horizontalAngle = Vector3.SignedAngle(
+        Vector3.ProjectOnPlane(initialHeadForward, Vector3.up),
+        Vector3.ProjectOnPlane(head.forward, Vector3.up),
+        Vector3.up
+      );
+      originalHandArea.transform.position = head.position + Quaternion.AngleAxis(horizontalAngle, Vector3.up) * headToOriginal;
+      originalHandArea.transform.rotation = initialOriginalRotation;
+      originalHandArea.transform.Rotate(new Vector3(0, horizontalAngle, 0));
+      originalHandArea.AfterTransformChange();
     }
 
     public HandArea AddArea(Vector3 position)
