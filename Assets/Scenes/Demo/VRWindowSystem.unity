@@ -1546,17 +1546,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: 60
   _localAxis: {x: 0, y: 1, z: 0}
---- !u!114 &241385379 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7281819233247606599, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
-  m_PrefabInstance: {fileID: 781422303825298807}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0860d1551aab941981a769c86c8869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &244182638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6926,6 +6915,7 @@ GameObject:
   - component: {fileID: 898713015}
   - component: {fileID: 898713014}
   - component: {fileID: 898713016}
+  - component: {fileID: 898713017}
   m_Layer: 0
   m_Name: HitchhikeManager
   m_TagString: Untagged
@@ -6978,7 +6968,7 @@ MonoBehaviour:
   handWrapPrefabs: []
   rawHandPoses: []
   handAreaPrefab: {fileID: 9179193541392433489, guid: 2294671708734a443bc75f063e23deed, type: 3}
-  switchTechnique: {fileID: 898713011}
+  switchTechnique: {fileID: 898713017}
   globalTechnique: {fileID: 0}
   isGlobal: 0
   scaleHandModel: 0
@@ -7054,6 +7044,18 @@ MonoBehaviour:
   HOMERHeight: 0.9
   gazePointGizmo: {fileID: 271692024}
   isActive: 0
+--- !u!114 &898713017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898713009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79454ea0835a5054bad51265c3ce1d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &908759535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4658904325700070051, guid: 4c10bc37c0e8b774387330f749138159, type: 3}
@@ -16264,7 +16266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6888ab4954954d48b274d5d47ec0e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wrap: {fileID: 2091680617718908063, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
 --- !u!4 &2053092676
 Transform:
   m_ObjectHideFlags: 0
@@ -17370,7 +17371,7 @@ PrefabInstance:
     - target: {fileID: 6341271995086228830, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 241385379}
+      objectReference: {fileID: 0}
     - target: {fileID: 6341271995086228830, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: Hitchhike.HandWrap, Assembly-CSharp
@@ -17426,7 +17427,7 @@ PrefabInstance:
     - target: {fileID: 7961465542851708349, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 241385379}
+      objectReference: {fileID: 0}
     - target: {fileID: 7961465542851708349, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: Hitchhike.HandWrap, Assembly-CSharp

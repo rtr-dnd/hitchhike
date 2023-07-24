@@ -574,7 +574,6 @@ GameObject:
   - component: {fileID: 1078967940158584324}
   - component: {fileID: 3845337107584892963}
   - component: {fileID: 1798232862401009656}
-  - component: {fileID: 6002411141297347398}
   m_Layer: 0
   m_Name: LeftHitchhikeHand
   m_TagString: Untagged
@@ -633,25 +632,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hand: {fileID: 3845337107584892963}
---- !u!114 &6002411141297347398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4183834348577388022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0860d1551aab941981a769c86c8869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
-  disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
-  scaleHandModel: 0
-  filterRatio: 1
-  handPrefabIndex: 0
-  invisibleMaterial: {fileID: 2100000, guid: 4208fec7a7d596b4e9c2f124ea12f588, type: 2}
-  meshRenderer: {fileID: 2250857792657541850}
 --- !u!1 &4473982020900023985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,11 +1334,6 @@ PrefabInstance:
 --- !u!4 &2250857792324569719 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6536860776232889757, guid: 70d02a90551f23042a882cdceeaf8e3a, type: 3}
-  m_PrefabInstance: {fileID: 5011168290599774186}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &2250857792657541850 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6536860776972643632, guid: 70d02a90551f23042a882cdceeaf8e3a, type: 3}
   m_PrefabInstance: {fileID: 5011168290599774186}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7752361358848066692
