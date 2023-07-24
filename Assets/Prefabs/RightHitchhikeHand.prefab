@@ -532,7 +532,7 @@ MonoBehaviour:
   _whenSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7487864012029617996}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Hitchhike.InteractionHandWrap, Assembly-CSharp
         m_MethodName: Detect
         m_Mode: 1
@@ -679,7 +679,6 @@ GameObject:
   - component: {fileID: 2091680617718908062}
   - component: {fileID: 2091680617718908061}
   - component: {fileID: 2091680617718908060}
-  - component: {fileID: 7487864012029617996}
   m_Layer: 0
   m_Name: RightHitchhikeHand
   m_TagString: Untagged
@@ -739,24 +738,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hand: {fileID: 2091680617718908061}
---- !u!114 &7487864012029617996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091680617718908063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0860d1551aab941981a769c86c8869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
-  disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
-  scaleHandModel: 0
-  filterRatio: 1
-  handPrefabIndex: 0
-  meshRenderer: {fileID: 742047448361733820}
 --- !u!1 &2091680617900060057
 GameObject:
   m_ObjectHideFlags: 0
@@ -3762,11 +3743,6 @@ PrefabInstance:
       objectReference: {fileID: 8564264585156991082, guid: ea16c3c8c1688234fa81a4f39339bf1b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34a22dd67c1e5344591237fdd61e78ec, type: 3}
---- !u!137 &742047448361733820 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1678554350674794614, guid: 34a22dd67c1e5344591237fdd61e78ec, type: 3}
-  m_PrefabInstance: {fileID: 2091680619254666954}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &742047449489619435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1678554349857304353, guid: 34a22dd67c1e5344591237fdd61e78ec, type: 3}

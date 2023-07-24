@@ -52,8 +52,8 @@ namespace Hitchhike
 
     void Start()
     {
-      leftHandPrefab = ovrHands.transform.Find("LeftHitchhikeHand").gameObject;
-      rightHandPrefab = ovrHands.transform.Find("RightHitchhikeHand").gameObject;
+      leftHandPrefab = ovrHands.transform.Find("LeftHandWrap").gameObject;
+      rightHandPrefab = ovrHands.transform.Find("RightHandWrap").gameObject;
       handWrapPrefabs = new List<GameObject>();
       switch (hitchhikeHandedness)
       {
