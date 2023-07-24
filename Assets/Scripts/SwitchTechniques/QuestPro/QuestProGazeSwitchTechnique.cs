@@ -48,10 +48,16 @@ namespace Hitchhike
       HandWrap currentGazeWrap = null;
       if (closestDistance < float.PositiveInfinity)
       {
+        Debug.Log("hit is there");
         currentGazeWrap = GetHandWrapFromHit(closestHit);
-        if (currentGazeWrap != null) return HitchhikeManager.Instance.GetHandAreaIndex(
-         HitchhikeManager.Instance.GetAreaFromWrap(currentGazeWrap));
+        if (currentGazeWrap != null)
+        {
+          i = HitchhikeManager.Instance.GetHandAreaIndex(HitchhikeManager.Instance.GetAreaFromWrap(currentGazeWrap));
+          Debug.Log("switch: " + i);
+          return i;
+        }
       }
+      Debug.Log("switch: " + i);
 
       return i;
     }
