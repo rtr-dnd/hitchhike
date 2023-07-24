@@ -10,6 +10,7 @@ namespace Hitchhike
       Move,
       Scale
     }
+    [HideInInspector]
     public Mode mode;
     public virtual void Init() { }
     public virtual void UpdateGlobal() { }
