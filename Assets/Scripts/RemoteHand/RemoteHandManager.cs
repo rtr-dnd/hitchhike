@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Oculus.Interaction;
 using UnityEngine;
 
-public class RemoteHandManager : MonoBehaviour
+public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
 {
   public Transform head;
   public GameObject hoverGizmo;
@@ -18,6 +18,8 @@ public class RemoteHandManager : MonoBehaviour
   Vector3 targetInitialPos;
   Quaternion targetInitialRot;
   bool isPinching;
+  [HideInInspector]
+  bool isPaused;
 
   // Start is called before the first frame update
   void Start()
@@ -68,6 +70,7 @@ public class RemoteHandManager : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (isPaused) return;
     if (isPinching)
     {
       UpdatePinch();
@@ -75,6 +78,21 @@ public class RemoteHandManager : MonoBehaviour
     else
     {
       UpdateHover();
+    }
+  }
+
+  public void SetIsPaused(bool val)
+  {
+    if (val)
+    {
+      isPaused = true;
+      hoverGizmo.SetActive(false);
+      hoverTarget = null;
+      pinchTarget = null;
+    }
+    else
+    {
+      isPaused = false;
     }
   }
 
