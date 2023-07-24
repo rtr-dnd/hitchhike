@@ -10,10 +10,13 @@ namespace Hitchhike
     public Transform head;
     [SerializeField]
     float HOMERHeight = 0.9f;
+    [SerializeField]
+    float addAreaOffset = 0.3f;
     public GameObject gazePointGizmo;
     List<OVREyeGaze> eyeGazes;
     int maxRaycastDistance = 100;
     Vector3? currentGazePoint = null;
+    Vector3? currentGazeNormal = null;
 
     HandArea area;
     Material defaultAreaMaterial;
@@ -54,18 +57,20 @@ namespace Hitchhike
         var gizmoScale = Mathf.Min(closestDistance * 0.05f, 1f);
         gazePointGizmo.transform.localScale = new Vector3(gizmoScale, gizmoScale, gizmoScale);
         currentGazePoint = closestHit.point;
+        currentGazeNormal = closestHit.normal;
       }
       else
       {
         gazePointGizmo.SetActive(false);
         currentGazePoint = null;
+        currentGazeNormal = null;
       }
     }
 
     public void AddArea()
     {
-      if (currentGazePoint == null) return;
-      HitchhikeManager.Instance.AddArea(currentGazePoint.Value);
+      if (currentGazePoint == null || currentGazeNormal == null) return;
+      HitchhikeManager.Instance.AddArea(currentGazePoint.Value + (currentGazeNormal.Value * addAreaOffset));
     }
     public void DeleteArea(HandWrap self)
     {
@@ -194,6 +199,12 @@ namespace Hitchhike
     {
       var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
       var currentRawHandForward = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].forward;
+      // if (_area.isOriginal)
+      // {
+      //   _area.transform.position = currentRawHandPosition;
+      // }
+      // else
+      // {
       tempGO_3.transform.position = origin;
       tempGO_3.transform.LookAt(currentRawHandPosition);
       tempGO_3.transform.rotation *= originalToCopiedQ;
@@ -204,6 +215,7 @@ namespace Hitchhike
 
       _area.transform.rotation = initialAreaRotation;
       _area.transform.Rotate(Vector3.up, Quaternion.FromToRotation(initialRawHandForward, currentRawHandForward).eulerAngles.y);
+      // }
     }
 
     void OnMoveEnd(HandArea _area)

@@ -446,7 +446,7 @@ MonoBehaviour:
   scaleHandModel: 0
   filterRatio: 1
   handPrefabIndex: 0
-  mainHand: {fileID: 0}
+  mainHand: {fileID: 226163328711200581}
   meshRenderer: {fileID: 3772689086797267823}
 --- !u!1 &6705515368772067407
 GameObject:
@@ -513,6 +513,10 @@ PrefabInstance:
       propertyPath: _syntheticHand
       value: 
       objectReference: {fileID: 3788255041734330691}
+    - target: {fileID: 742047448361733820, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b820ace0d1b86594e81c11adc7ee8eb3, type: 2}
     - target: {fileID: 1906356929006586260, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
       propertyPath: _syntheticHand
       value: 
@@ -575,7 +579,7 @@ PrefabInstance:
       objectReference: {fileID: 8561700022888256842}
     - target: {fileID: 2091680618265845164, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2799710286151328992, guid: 94ead8143a4c74047b9abdb5512d7768, type: 3}
       propertyPath: _syntheticHand
@@ -1161,7 +1165,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 476350294182947987, guid: c99e6684015c7b94183e4696fcbe950d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1078967940158584324, guid: c99e6684015c7b94183e4696fcbe950d, type: 3}
       propertyPath: m_RootOrder
@@ -1215,6 +1219,10 @@ PrefabInstance:
       propertyPath: _trackingToWorldTransformer
       value: 
       objectReference: {fileID: 8561700022888256842}
+    - target: {fileID: 2250857792657541850, guid: c99e6684015c7b94183e4696fcbe950d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b820ace0d1b86594e81c11adc7ee8eb3, type: 2}
     - target: {fileID: 2653595089194638681, guid: c99e6684015c7b94183e4696fcbe950d, type: 3}
       propertyPath: _handSkeletonProvider
       value: 
