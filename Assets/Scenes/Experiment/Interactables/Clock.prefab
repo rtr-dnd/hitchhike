@@ -550,7 +550,7 @@ MonoBehaviour:
   _physicsGrabbable: {fileID: 0}
   _scoringModifier:
     _positionRotationWeight: 0.8
-  _supportedGrabTypes: 3
+  _supportedGrabTypes: 1
   _pinchGrabRules:
     _thumbRequirement: 1
     _indexRequirement: 1
@@ -747,7 +747,7 @@ MonoBehaviour:
   _physicsGrabbable: {fileID: 0}
   _scoringModifier:
     _positionRotationWeight: 0.8
-  _supportedGrabTypes: 3
+  _supportedGrabTypes: 1
   _pinchGrabRules:
     _thumbRequirement: 1
     _indexRequirement: 1

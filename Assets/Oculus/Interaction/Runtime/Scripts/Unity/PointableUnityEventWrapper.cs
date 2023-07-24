@@ -99,27 +99,33 @@ namespace Oculus.Interaction
             switch (evt.Type)
             {
                 case PointerEventType.Hover:
+                    if (_whenHover == null) break;
                     _whenHover.Invoke();
                     _pointers.Add(evt.Identifier);
                     break;
                 case PointerEventType.Unhover:
+                    if (_whenUnhover == null) break;
                     _whenUnhover.Invoke();
                     _pointers.Remove(evt.Identifier);
                     break;
                 case PointerEventType.Select:
+                    if (_whenSelect == null) break;
                     _whenSelect.Invoke();
                     break;
                 case PointerEventType.Unselect:
-                    if (_pointers.Contains(evt.Identifier))
+                    if (_whenUnselect == null) break;
+                    if (_pointers.Contains(evt.Identifier) && _whenRelease != null)
                     {
                         _whenRelease.Invoke();
                     }
                     _whenUnselect.Invoke();
                     break;
                 case PointerEventType.Move:
+                    if (_whenMove == null) break;
                     _whenMove.Invoke();
                     break;
                 case PointerEventType.Cancel:
+                    if (_whenCancel == null) break;
                     _whenCancel.Invoke();
                     _pointers.Remove(evt.Identifier);
                     break;
@@ -138,6 +144,17 @@ namespace Oculus.Interaction
             _pointable = pointable as MonoBehaviour;
             Pointable = pointable;
         }
+
+        public void CreateWhenSelect()
+        {
+            _whenSelect = new UnityEvent();
+        }
+        public void CreateWhenUnselect()
+        {
+            _whenUnselect = new UnityEvent();
+        }
+
+
 
         #endregion
     }

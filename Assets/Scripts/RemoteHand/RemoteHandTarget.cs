@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Interaction;
 using UnityEngine;
 
 public class RemoteHandTarget : MonoBehaviour
 {
+  public bool isGrabbable;
+
+  [Header("Optional")]
+  public Grabbable grabbable;
   public bool isChildGrabbable;
   public GameObject grabbableChild;
   Vector3 childPos;
@@ -45,9 +50,21 @@ public class RemoteHandTarget : MonoBehaviour
     }
   }
   // Start is called before the first frame update
-  void Start()
+  void Awake()
   {
+    if (RemoteHandManager.Instance == null) return;
+    if (!isGrabbable) return;
+    var g = grabbable != null
+      ? grabbable
+      : gameObject.GetComponent<Grabbable>();
+    if (g == null) return;
+    var puew = gameObject.AddComponent(typeof(PointableUnityEventWrapper)) as PointableUnityEventWrapper;
+    puew.InjectPointable(g);
 
+    puew.CreateWhenSelect();
+    puew.WhenSelect.AddListener(OnGrab);
+    puew.CreateWhenUnselect();
+    puew.WhenUnselect.AddListener(OnRelease);
   }
 
   // Update is called once per frame
@@ -78,6 +95,15 @@ public class RemoteHandTarget : MonoBehaviour
   public void OnMove()
   {
 
+  }
+
+  public void OnGrab()
+  {
+    RemoteHandManager.Instance.SetIsPaused(true);
+  }
+  public void OnRelease()
+  {
+    RemoteHandManager.Instance.SetIsPaused(false);
   }
 
   public void OnChildGrab()
