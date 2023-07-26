@@ -66,7 +66,7 @@ public class GazeHandManager : MonoBehaviour
     if (hoverTarget != null && HitchhikeManager.Instance.GetHandAreaIndex(HitchhikeManager.Instance.GetActiveHandArea()) == 0)
     {
       pinchTarget = hoverTarget;
-      pinchTarget.OnHoverEnd();
+      pinchTarget.OnHoverEnd(hoverGizmo);
       pinchTarget.OnPinch();
       hoverTarget = null;
       targetInitialPos = pinchTarget.transform.position;
@@ -171,9 +171,9 @@ public class GazeHandManager : MonoBehaviour
 
     if (closestDistance < float.PositiveInfinity)
     {
-      if (hoverTarget != null) hoverTarget.isHovered = false;
+      if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
       var target = closestHit.transform.GetComponent<RemoteHandTarget>();
-      if (!target.isHovered) target.isHovered = true;
+      if (!target.isHovered) target.OnHover(hoverGizmo);
       hoverTarget = target;
       var renderer = target.GetComponent<Renderer>();
       if (renderer == null) renderer = target.GetComponentInChildren<Renderer>();
@@ -194,28 +194,8 @@ public class GazeHandManager : MonoBehaviour
     }
     else
     {
-      if (hoverTarget != null) hoverTarget.isHovered = false;
-      hoverGizmo.SetActive(false);
+      if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
     }
-  }
-
-  Bounds TotalBounds(GameObject go)
-  {
-    Quaternion currentRotation = go.transform.rotation;
-    go.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
-    Bounds bounds = new Bounds(go.transform.position, Vector3.zero);
-
-    foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
-    {
-      bounds.Encapsulate(renderer.bounds);
-    }
-
-    Vector3 localCenter = bounds.center - go.transform.position;
-    bounds.center = localCenter;
-
-    go.transform.rotation = currentRotation;
-    return bounds;
   }
 
   Vector3? filteredDirection = null;

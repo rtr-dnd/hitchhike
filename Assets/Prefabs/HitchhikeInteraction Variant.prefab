@@ -443,10 +443,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
+  mainHand: {fileID: 4073326089770580322}
   scaleHandModel: 0
   filterRatio: 1
   handPrefabIndex: 0
-  mainHand: {fileID: 226163328711200581}
   meshRenderer: {fileID: 3772689086797267823}
 --- !u!1 &6705515368772067407
 GameObject:
@@ -497,10 +497,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabledMaterial: {fileID: 2100000, guid: 57f7cc10b28c89f4d82d74290c190d56, type: 2}
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
+  mainHand: {fileID: 2297716338477814933}
   scaleHandModel: 0
   filterRatio: 1
   handPrefabIndex: 0
-  mainHand: {fileID: 2297716338477814934}
   meshRenderer: {fileID: 4920447834406400914}
 --- !u!1001 &208296596178227211
 PrefabInstance:

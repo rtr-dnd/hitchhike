@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using Oculus.Interaction.Input;
-using RootScript;
 using UnityEngine;
 
 namespace Hitchhike
 {
 
-  public class QuestProHOMERGlobalTechnique : GlobalTechnique
+  public class QuestProTranslationalGlobalTechnique : GlobalTechnique
   {
     public Transform head;
     [SerializeField]
@@ -14,12 +13,10 @@ namespace Hitchhike
     [SerializeField]
     float addAreaOffset = 0.3f;
     public GameObject gazePointGizmo;
-    public GameObject gazeTargetGizmo;
     List<OVREyeGaze> eyeGazes;
     int maxRaycastDistance = 100;
     Vector3? currentGazePoint = null;
     Vector3? currentGazeNormal = null;
-    TargetObject currentGazeTarget = null;
 
     HandArea area;
     Material defaultAreaMaterial;
@@ -28,8 +25,6 @@ namespace Hitchhike
     [HideInInspector]
     public bool isActive;
     int preferredHandIndex;
-    public float coolDownTime = 1.0f;
-    bool isCool = true;
 
     public override void Init()
     {
@@ -56,67 +51,26 @@ namespace Hitchhike
       }
       if (closestDistance < float.PositiveInfinity && !intersectsHandArea)
       {
-        var previousGazeTarget = currentGazeTarget;
-
+        gazePointGizmo.SetActive(true);
+        gazePointGizmo.transform.position = closestHit.point + closestHit.normal * 0.05f;
+        gazePointGizmo.transform.forward = -closestHit.normal;
+        var gizmoScale = Mathf.Min(closestDistance * 0.05f, 1f);
+        gazePointGizmo.transform.localScale = new Vector3(gizmoScale, gizmoScale, gizmoScale);
         currentGazePoint = closestHit.point;
         currentGazeNormal = closestHit.normal;
-        currentGazeTarget = closestHit.transform.GetComponent<TargetObject>();
-        if (currentGazeTarget == null) currentGazeTarget = closestHit.transform.GetComponentInParent<TargetObject>();
-
-        if (currentGazeTarget != null)
-        {
-          if (previousGazeTarget != null) previousGazeTarget.OnHoverEnd(gazeTargetGizmo);
-          gazePointGizmo.SetActive(false);
-
-          currentGazeTarget.OnHover(gazeTargetGizmo);
-        }
-        else
-        {
-          if (previousGazeTarget != null) previousGazeTarget.OnHoverEnd(gazeTargetGizmo);
-
-          gazePointGizmo.SetActive(true);
-          gazePointGizmo.transform.position = closestHit.point + closestHit.normal * 0.05f;
-          gazePointGizmo.transform.forward = -closestHit.normal;
-          var gizmoScale = Mathf.Min(closestDistance * 0.05f, 1f);
-          gazePointGizmo.transform.localScale = new Vector3(gizmoScale, gizmoScale, gizmoScale);
-        }
       }
       else
       {
         gazePointGizmo.SetActive(false);
         currentGazePoint = null;
         currentGazeNormal = null;
-        if (currentGazeTarget != null) currentGazeTarget.OnHoverEnd(gazeTargetGizmo);
-        currentGazeTarget = null;
       }
     }
 
     public void AddArea()
     {
-      if (!isCool) return;
-
       if (currentGazePoint == null || currentGazeNormal == null) return;
-      var position = currentGazeTarget != null
-        ? currentGazeTarget.GetCenter()
-        : currentGazePoint.Value + (currentGazeNormal.Value * addAreaOffset);
-      var area = HitchhikeManager.Instance.AddArea(position);
-
-      var size = area.transform.localScale;
-      if (currentGazeTarget != null)
-      {
-        var targetSize = currentGazeTarget.GetSize();
-        var sizeX = Mathf.Clamp(targetSize.x / area.transform.lossyScale.x, 0.2f, 1.0f);
-        var sizeY = Mathf.Clamp(targetSize.y / area.transform.lossyScale.y, 0.2f, 1.0f);
-        var sizeZ = Mathf.Clamp(targetSize.z / area.transform.lossyScale.z, 0.2f, 1.0f);
-        size.x = Mathf.Max(sizeX, sizeZ);
-        size.y = sizeY;
-        size.z = Mathf.Max(sizeX, sizeZ);
-      }
-      area.transform.localScale = size;
-      area.AfterTransformChange();
-
-      isCool = false;
-      StartCoroutine(HitchhikeExtensions.DelayMethod(coolDownTime, () => { isCool = true; }));
+      HitchhikeManager.Instance.AddArea(currentGazePoint.Value + (currentGazeNormal.Value * addAreaOffset));
     }
     public void DeleteArea(HandWrap self)
     {
@@ -224,7 +178,7 @@ namespace Hitchhike
     void OnMoveStart(HandArea _area)
     {
       // homer
-      initialHandPosition = _area.wraps[preferredHandIndex].mainHand.transform.position;
+      initialHandPosition = _area.wraps[preferredHandIndex].transform.position;
       handToArea = _area.transform.position - initialHandPosition;
       initialRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
       rawHandToArea = _area.transform.position - initialRawHandPosition;
@@ -293,8 +247,8 @@ namespace Hitchhike
       var currentRawHandPosition = HitchhikeManager.Instance.rawHandPoses[preferredHandIndex].position;
       var diff = HitchhikeManager.Instance.handAreas[0].transform.InverseTransformPoint(currentRawHandPosition)
         - HitchhikeManager.Instance.handAreas[0].transform.InverseTransformPoint(initialRawHandPosition);
-      var scaleX = Mathf.Max(initialAreaScale.x + (initialAreaScale.x * diff.x), 0.2f);
-      var scaleY = Mathf.Max(initialAreaScale.y + (initialAreaScale.y * diff.y), 0.2f);
+      var scaleX = initialAreaScale.x + (initialAreaScale.x * diff.x);
+      var scaleY = initialAreaScale.y + (initialAreaScale.y * diff.y);
       _area.transform.localScale = new Vector3(
         scaleX, scaleY, scaleX
       );

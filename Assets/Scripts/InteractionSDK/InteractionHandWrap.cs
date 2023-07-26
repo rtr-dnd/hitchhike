@@ -7,7 +7,6 @@ namespace Hitchhike
 {
   public class InteractionHandWrap : HandWrap
   {
-    public Hand mainHand;
     public SkinnedMeshRenderer meshRenderer;
     private FromOVRHandDataSource ods;
     private HandGrabInteractor grab;
@@ -50,7 +49,8 @@ namespace Hitchhike
       // initializing; waits for first confident hand data and then disables itself
       if (state == 1)
       {
-        var hand = mainHand;
+        var hand = mainHand.GetComponent<Hand>();
+        if (hand == null) return;
         if (hand.IsHighConfidence)
         {
           state = 2;
@@ -84,7 +84,7 @@ namespace Hitchhike
 
     public override void ChangeMaterial(bool enabled)
     {
-      meshRenderer.materials = new Material[] { enabled ? enabledMaterial : disabledMaterial };
+      meshRenderer.materials = enabled ? new Material[] { disabledMaterial, enabledMaterial } : new Material[] { disabledMaterial };
     }
 
     public override void SetUpdating(bool updating)

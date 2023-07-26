@@ -47,7 +47,7 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
     if (hoverTarget != null)
     {
       pinchTarget = hoverTarget;
-      pinchTarget.OnHoverEnd();
+      pinchTarget.OnHoverEnd(hoverGizmo);
       pinchTarget.OnPinch();
       hoverTarget = null;
       targetInitialPos = pinchTarget.transform.position;
@@ -133,23 +133,14 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
 
     if (closestDistance < float.PositiveInfinity)
     {
-      if (hoverTarget != null) hoverTarget.isHovered = false;
       var target = closestHit.transform.GetComponent<RemoteHandTarget>();
-      if (!target.isHovered) target.isHovered = true;
+      if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
+      if (!target.isHovered) target.OnHover(hoverGizmo);
       hoverTarget = target;
-      var renderer = target.GetComponentInChildren<Renderer>();
-      if (renderer != null)
-      {
-        hoverGizmo.SetActive(true);
-        hoverGizmo.transform.position = renderer.bounds.center;
-        hoverGizmo.transform.rotation = target.transform.rotation;
-        hoverGizmo.transform.localScale = renderer.bounds.size;
-      }
     }
     else
     {
-      if (hoverTarget != null) hoverTarget.isHovered = false;
-      hoverGizmo.SetActive(false);
+      if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
     }
   }
 
