@@ -67,6 +67,7 @@ namespace Hitchhike
     public Transform head;
     public Material transparentMaterial;
     public float partialFollowDelay = 0.1f;
+    public HandGrabInteractable tempHgi;
 
     void Start()
     {
@@ -90,8 +91,8 @@ namespace Hitchhike
           ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
           break;
         default: // bimanual
-          handWrapPrefabs.Add(leftHandPrefab);
           handWrapPrefabs.Add(rightHandPrefab);
+          handWrapPrefabs.Add(leftHandPrefab);
           ovrHands.transform.Find("RightHand").gameObject.SetActive(false);
           ovrHands.transform.Find("LeftHand").gameObject.SetActive(false);
           break;
@@ -140,6 +141,10 @@ namespace Hitchhike
     void Update()
     {
       UpdateRawHandPoses();
+      if (Input.GetKeyDown(KeyCode.Space))
+      {
+        (handAreas[0].wraps[0] as InteractionHandWrap).Select(tempHgi);
+      }
 
       if (globalTechnique != null)
       {
@@ -170,13 +175,14 @@ namespace Hitchhike
       {
         // todo: d&d
         var beforeArea = GetActiveHandArea();
-        var interactables = GetActiveHandArea().wraps.Select(wrap => (wrap as InteractionHandWrap).Unselect()).ToList().Distinct().ToList();
+        var interactables = beforeArea.wraps.Select(wrap => (wrap as InteractionHandWrap).GetCurrentInteractable()).ToList();
+        beforeArea.wraps.ForEach(wrap => { (wrap as InteractionHandWrap).Unselect(); });
         ActivateHandArea(handAreas[i]);
         var afterArea = GetActiveHandArea();
 
         if (i != 0 && originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
 
-        foreach (var rawInteractable in interactables)
+        foreach (var (rawInteractable, handIndex) in interactables.Select((value, index) => (value, index)))
         {
           // determine if dnd can be performed
           if (rawInteractable == null || DisableDnd) continue;
@@ -225,7 +231,10 @@ namespace Hitchhike
           if (scaleHandModel)
             interactable.gameObject.transform.localScale *= new List<float>
                 { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
-
+          // StartCoroutine(HitchhikeExtensions.DelayMethod(1f, () =>
+          // {
+          (afterArea.wraps[handIndex] as InteractionHandWrap).Select(interactable);
+          // }));
         }
       }
     }

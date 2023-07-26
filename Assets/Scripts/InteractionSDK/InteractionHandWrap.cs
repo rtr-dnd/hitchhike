@@ -2,6 +2,7 @@ using UnityEngine;
 using Oculus.Interaction.Input;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction;
+using RootScript;
 
 namespace Hitchhike
 {
@@ -104,19 +105,14 @@ namespace Hitchhike
       return ods.rawHandPose;
     }
 
-    public HandGrabInteractable Unselect()
+    public void Unselect()
     {
-      var interactable = grab.SelectedInteractable;
-      if (grab.HasSelectedInteractable) grab.Unselect();
-      return interactable;
+      grab.Unselect();
     }
 
     public void Select(HandGrabInteractable interactable)
     {
-      // grab._candidate = interactable;
-      // grab.Hover();
-      // grab.Select();
-      // grab.SelectInteractable(interactable);
+      grab.ForceSelectOnce(interactable);
     }
 
     public HandGrabInteractable GetCurrentInteractable()
