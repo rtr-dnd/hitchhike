@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Oculus.Interaction;
 using UnityEngine;
 
-public class RemoteHandTarget : MonoBehaviour
+public class RemoteHandTarget : TargetObject
 {
   public bool isGrabbable;
 
@@ -13,24 +13,7 @@ public class RemoteHandTarget : MonoBehaviour
   public GameObject grabbableChild;
   Vector3 childPos;
   Quaternion childRot;
-  bool _isHovered;
-  [HideInInspector]
-  public bool isHovered
-  {
-    get { return _isHovered; }
-    set
-    {
-      _isHovered = value;
-      if (value)
-      {
-        OnHover();
-      }
-      else
-      {
-        OnHoverEnd();
-      }
-    }
-  }
+
   bool _isPinched;
   [HideInInspector]
   public bool isPinched
@@ -69,16 +52,6 @@ public class RemoteHandTarget : MonoBehaviour
 
   // Update is called once per frame
   void Update()
-  {
-
-  }
-
-  public void OnHover()
-  {
-
-  }
-
-  public void OnHoverEnd()
   {
 
   }

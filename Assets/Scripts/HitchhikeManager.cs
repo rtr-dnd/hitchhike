@@ -15,6 +15,13 @@ namespace Hitchhike
     Bimanual
   }
 
+  public enum OriginalFollowsHeadMovement
+  {
+    Never,
+    Always,
+    Partial
+  }
+
   public class HitchhikeManager : SingletonMonoBehaviour<HitchhikeManager>
   {
     public GameObject ovrHands;
@@ -52,13 +59,14 @@ namespace Hitchhike
     }
 
     [Header("Original Follows Head Movement")]
-    public bool originalFollowsHeadMovement;
+    public OriginalFollowsHeadMovement originalFollowsHeadMovement;
     bool originalFollows_hasInitialized = false;
     Vector3 headToOriginal;
     Vector3 initialHeadForward;
     Quaternion initialOriginalRotation;
     public Transform head;
     public Material transparentMaterial;
+    public float partialFollowDelay = 0.1f;
 
     void Start()
     {
@@ -103,7 +111,7 @@ namespace Hitchhike
       switchTechnique.Init();
       if (globalTechnique != null) globalTechnique.Init();
 
-      if (originalFollowsHeadMovement)
+      if (originalFollowsHeadMovement != OriginalFollowsHeadMovement.Never)
       {
         StartCoroutine(HitchhikeExtensions.DelayMethod(1f, () => InitOriginalFollow()));
       }
@@ -148,12 +156,13 @@ namespace Hitchhike
           {
             isGlobal = false;
             globalTechnique.OnGlobalEnd(GetActiveHandArea());
+            if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
           }
           return; // skip hitchhike when global
         }
       }
 
-      if (originalFollowsHeadMovement && originalFollows_hasInitialized) UpdateOriginalPosition();
+      if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Always && originalFollows_hasInitialized) UpdateOriginalPosition();
 
       // hitchhike
       int i = switchTechnique.UpdateSwitch();
@@ -164,6 +173,8 @@ namespace Hitchhike
         var interactables = GetActiveHandArea().wraps.Select(wrap => (wrap as InteractionHandWrap).Unselect()).ToList().Distinct().ToList();
         ActivateHandArea(handAreas[i]);
         var afterArea = GetActiveHandArea();
+
+        if (i != 0 && originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
 
         foreach (var rawInteractable in interactables)
         {
@@ -214,6 +225,7 @@ namespace Hitchhike
           if (scaleHandModel)
             interactable.gameObject.transform.localScale *= new List<float>
                 { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
+
         }
       }
     }
@@ -221,6 +233,12 @@ namespace Hitchhike
     void UpdateRawHandPoses()
     {
       rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
+    }
+
+    public void OnTeleport()
+    {
+      if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Always) UpdateOriginalPosition();
+      if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
     }
 
     void UpdateOriginalPosition()
@@ -247,6 +265,7 @@ namespace Hitchhike
       rightHandPrefab.SetActive(false);
       leftHandPrefab.SetActive(false);
       newArea.SetEnabled(false);
+      if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
       return newArea;
     }
     public HandArea AddArea(Vector3 position, Transform parent)
@@ -261,6 +280,7 @@ namespace Hitchhike
       rightHandPrefab.SetActive(false);
       leftHandPrefab.SetActive(false);
       newArea.SetEnabled(false);
+      if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
       return newArea;
     }
 

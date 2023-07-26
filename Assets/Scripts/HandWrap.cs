@@ -11,6 +11,7 @@ namespace Hitchhike
   {
     public Material enabledMaterial;
     public Material disabledMaterial;
+    public Transform mainHand;
     public bool isEnabled { get; protected set; }
     public bool isVisible { get; protected set; }
     public bool scaleHandModel;

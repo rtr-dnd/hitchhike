@@ -7031,7 +7031,7 @@ MonoBehaviour:
   DisableDnd: 0
   billboard: 1
   _billboardingTarget: {fileID: 546144}
-  originalFollowsHeadMovement: 1
+  originalFollowsHeadMovement: 0
   head: {fileID: 1499146331}
   transparentMaterial: {fileID: 2100000, guid: b820ace0d1b86594e81c11adc7ee8eb3, type: 2}
 --- !u!4 &898713013
@@ -11566,7 +11566,7 @@ PrefabInstance:
       objectReference: {fileID: 1484068273}
     - target: {fileID: 2045534944326309497, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.07393607
+      value: 0.07393606
       objectReference: {fileID: 0}
     - target: {fileID: 2045534944326309497, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.y
@@ -11574,7 +11574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2045534944326309497, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.07393607
+      value: 0.07393606
       objectReference: {fileID: 0}
     - target: {fileID: 2318806668826769303, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.x
@@ -11626,7 +11626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7611395700868759896, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.036968034
+      value: 0.03696803
       objectReference: {fileID: 0}
     - target: {fileID: 7611395700868759896, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.y
@@ -11634,7 +11634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7611395700868759896, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.036968034
+      value: 0.03696803
       objectReference: {fileID: 0}
     - target: {fileID: 8455878553190009512, guid: 2294671708734a443bc75f063e23deed, type: 3}
       propertyPath: m_Mesh
