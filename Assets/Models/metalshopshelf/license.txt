@@ -1,0 +1,11 @@
+Model Information:
+* title:	MetalShopShelf
+* source:	https://sketchfab.com/3d-models/metalshopshelf-268d2e8292c34448b2d05b7e432749e2
+* author:	Jazavac (https://sketchfab.com/Jazavac)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "MetalShopShelf" (https://sketchfab.com/3d-models/metalshopshelf-268d2e8292c34448b2d05b7e432749e2) by Jazavac (https://sketchfab.com/Jazavac) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
