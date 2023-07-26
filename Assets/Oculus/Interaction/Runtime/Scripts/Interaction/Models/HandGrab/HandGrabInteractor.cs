@@ -530,6 +530,14 @@ namespace Oculus.Interaction.HandGrab
             SetComputeShouldUnselectOverride(() => !ReferenceEquals(interactable, SelectedInteractable), false);
         }
 
+        public void ForceSelectOnce(HandGrabInteractable interactable)
+        {
+            _selectedInteractableOverride = interactable;
+            SetComputeCandidateOverride(() => interactable);
+
+            SetComputeShouldSelectOverride(() => ReferenceEquals(interactable, Interactable));
+        }
+
         public override void SetComputeCandidateOverride(Func<HandGrabInteractable> computeCandidate, bool shouldClearOverrideOnSelect = true)
         {
             base.SetComputeCandidateOverride(() =>

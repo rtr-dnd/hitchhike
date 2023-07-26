@@ -844,8 +844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06fe30fd4efa954b8f53ccc8da8f46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactors:
-  - {fileID: 7760972210446445806}
+  _interactors: []
   _activeState: {fileID: 0}
   _candidateComparer: {fileID: 0}
   _maxIterationsPerFrame: 3

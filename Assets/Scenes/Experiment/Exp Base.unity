@@ -782,6 +782,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeleportHandInteractor
       objectReference: {fileID: 0}
+    - target: {fileID: 2962587743503104415, guid: 7554c31b8982af447ace36d015744ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2962587744736032967, guid: 7554c31b8982af447ace36d015744ef2, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -8450,15 +8454,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5395643928750211712, guid: ac33954cdbb141542b1210b124d3f67d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1264.8
+      value: 1596
       objectReference: {fileID: 0}
     - target: {fileID: 5395643928750211712, guid: ac33954cdbb141542b1210b124d3f67d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 202.7
+      value: 199
       objectReference: {fileID: 0}
     - target: {fileID: 5395643928750211712, guid: ac33954cdbb141542b1210b124d3f67d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -78.7
+      value: -153.8
       objectReference: {fileID: 0}
     - target: {fileID: 5395643928750211712, guid: ac33954cdbb141542b1210b124d3f67d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8511,6 +8515,17 @@ MonoBehaviour:
   grabbable: {fileID: 0}
   isChildGrabbable: 0
   grabbableChild: {fileID: 0}
+--- !u!114 &898859535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5578716311229108888, guid: ac33954cdbb141542b1210b124d3f67d, type: 3}
+  m_PrefabInstance: {fileID: 898859527}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898859529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a7676b01585ce43908639a27765dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &899439238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10623,6 +10638,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 605972817607795159, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 623832796476366519, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -10654,6 +10673,10 @@ PrefabInstance:
     - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647341325718800696, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1796521654662788288, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_IsActive
@@ -10716,6 +10739,14 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2297716338477814932, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297716338745272887, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309895032143212457, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -10831,6 +10862,10 @@ PrefabInstance:
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4952204568382698922, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -10906,6 +10941,10 @@ PrefabInstance:
     - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941112628282884312, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5960844187558777992, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _hmd
@@ -10994,6 +11033,10 @@ PrefabInstance:
     - target: {fileID: 6364211742706315309, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684759677242273625, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7751671621247429056, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_IsActive
@@ -12602,6 +12645,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1248999690 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2297716338745272885, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+  m_PrefabInstance: {fileID: 1099982471}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1248999692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248999690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e06fe30fd4efa954b8f53ccc8da8f46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactors: []
+  _activeState: {fileID: 0}
+  _candidateComparer: {fileID: 0}
+  _maxIterationsPerFrame: 3
 --- !u!4 &1250041430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4198043814721128, guid: ce1c47babe5679143b24221e8878c4dd, type: 3}
@@ -16033,6 +16097,7 @@ MonoBehaviour:
   head: {fileID: 1397372922}
   transparentMaterial: {fileID: 2100000, guid: b820ace0d1b86594e81c11adc7ee8eb3, type: 2}
   partialFollowDelay: 0.1
+  tempHgi: {fileID: 898859535}
 --- !u!4 &1551041707
 Transform:
   m_ObjectHideFlags: 0
@@ -22829,6 +22894,10 @@ PrefabInstance:
     - target: {fileID: 2962587743503104415, guid: 7554c31b8982af447ace36d015744ef2, type: 3}
       propertyPath: m_Name
       value: TeleportHandInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962587743503104415, guid: 7554c31b8982af447ace36d015744ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2962587744736032967, guid: 7554c31b8982af447ace36d015744ef2, type: 3}
       propertyPath: m_IsActive
