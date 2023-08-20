@@ -79,9 +79,10 @@ namespace Oculus.Interaction.Input
         public Vector3 defaultPosition = Vector3.zero;
         public bool scaleHandModel;
         public float filterRatio = 1f;
-        public Pose rawHandPose {get; private set;}
+        public Pose rawHandPose { get; private set; }
         private Vector3 filteredPosition;
         private Quaternion filteredRotation;
+        public Vector3 initialCameraRigPosition = Vector3.zero;
 
         protected virtual void Awake()
         {
@@ -177,9 +178,10 @@ namespace Oculus.Interaction.Input
         {
             if (!isUpdating)
             {
+                var cameraRigDisplace = CameraRigRef.CameraRig.transform.position - initialCameraRigPosition;
                 _handDataAsset.Root = new Pose()
                 {
-                    position = defaultPosition,
+                    position = defaultPosition - cameraRigDisplace,
                     rotation = _handDataAsset.Root.rotation
                 };
                 return;
@@ -267,10 +269,12 @@ namespace Oculus.Interaction.Input
             //     position = poseData.RootPose.Position.FromFlippedZVector3f(),
             //     rotation = poseData.RootPose.Orientation.FromFlippedZQuatf()
             // };
-            _handDataAsset.Root = applyOffset(
-                poseData.RootPose.Position.FromFlippedZVector3f(),
+            var cameraRigDisplace = CameraRigRef.CameraRig.transform.position - initialCameraRigPosition;
+            var tempRes = applyOffset(
+                poseData.RootPose.Position.FromFlippedZVector3f() + cameraRigDisplace,
                 poseData.RootPose.Orientation.FromFlippedZQuatf()
             );
+            _handDataAsset.Root = new Pose(tempRes.position - cameraRigDisplace, tempRes.rotation);
 
             if (_ovrHand.IsPointerPoseValid)
             {
@@ -297,7 +301,8 @@ namespace Oculus.Interaction.Input
             _handDataAsset.Joints[0] = WristFixupRotation;
         }
 
-        Pose applyOffset(Vector3 anchorPos, Quaternion anchorRot) {
+        Pose applyOffset(Vector3 anchorPos, Quaternion anchorRot)
+        {
             // update raw hand pose
             rawHandPose = new Pose(anchorPos, anchorRot);
 

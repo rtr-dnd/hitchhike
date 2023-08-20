@@ -67,7 +67,15 @@ namespace Hitchhike
     public Transform head;
     public Material transparentMaterial;
     public float partialFollowDelay = 0.1f;
-    public HandGrabInteractable tempHgi;
+
+    [HideInInspector]
+    public Vector3 initialCameraRigPosition;
+
+    override protected void Awake()
+    {
+      base.Awake();
+      initialCameraRigPosition = ovrHands.GetComponentInParent<OVRCameraRig>().transform.position;
+    }
 
     void Start()
     {
@@ -124,10 +132,10 @@ namespace Hitchhike
       headToOriginal = originalHandArea.transform.position - head.transform.position;
       initialHeadForward = head.transform.forward;
       initialOriginalRotation = originalHandArea.transform.rotation;
-      originalHandArea.wraps.ForEach((w) =>
-      {
-        w.disabledMaterial = transparentMaterial;
-      });
+      // originalHandArea.wraps.ForEach((w) =>
+      // {
+      //   w.disabledMaterial = transparentMaterial;
+      // });
       originalFollows_hasInitialized = true;
     }
     public void RepositionOriginalFollow(Vector3 newPosition, Quaternion newRotation)
@@ -137,14 +145,23 @@ namespace Hitchhike
       initialHeadForward = head.transform.forward;
       initialOriginalRotation = newRotation;
     }
+    void UpdateOriginalPosition()
+    {
+      var originalHandArea = handAreas[0];
+      var horizontalAngle = Vector3.SignedAngle(
+        Vector3.ProjectOnPlane(initialHeadForward, Vector3.up),
+        Vector3.ProjectOnPlane(head.forward, Vector3.up),
+        Vector3.up
+      );
+      originalHandArea.transform.position = head.position + Quaternion.AngleAxis(horizontalAngle, Vector3.up) * headToOriginal;
+      originalHandArea.transform.rotation = initialOriginalRotation;
+      originalHandArea.transform.Rotate(new Vector3(0, horizontalAngle, 0));
+      originalHandArea.AfterTransformChange();
+    }
 
     void Update()
     {
       UpdateRawHandPoses();
-      if (Input.GetKeyDown(KeyCode.Space))
-      {
-        (handAreas[0].wraps[0] as InteractionHandWrap).Select(tempHgi);
-      }
 
       if (globalTechnique != null)
       {
@@ -173,7 +190,7 @@ namespace Hitchhike
       int i = switchTechnique.UpdateSwitch();
       if (i >= 0 && i < handAreas.Count && GetHandAreaIndex(GetActiveHandArea()) != i)
       {
-        // todo: d&d
+        // d&d
         var beforeArea = GetActiveHandArea();
         var interactables = beforeArea.wraps.Select(wrap => (wrap as InteractionHandWrap).GetCurrentInteractable()).ToList();
         beforeArea.wraps.ForEach(wrap => { (wrap as InteractionHandWrap).Unselect(); });
@@ -182,6 +199,7 @@ namespace Hitchhike
 
         if (i != 0 && originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
 
+        List<HandGrabInteractable> alreadyDroppedInteractables = new List<HandGrabInteractable>();
         foreach (var (rawInteractable, handIndex) in interactables.Select((value, index) => (value, index)))
         {
           // determine if dnd can be performed
@@ -200,6 +218,7 @@ namespace Hitchhike
               continue;
             }
           }
+          if (alreadyDroppedInteractables.FindIndex(v => v == interactable) != -1) continue;
 
           // actual dnd
           var beforeToAfterRot = Quaternion.Inverse(afterArea.transform.rotation) * beforeArea.transform.rotation;
@@ -231,10 +250,8 @@ namespace Hitchhike
           if (scaleHandModel)
             interactable.gameObject.transform.localScale *= new List<float>
                 { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
-          // StartCoroutine(HitchhikeExtensions.DelayMethod(1f, () =>
-          // {
           (afterArea.wraps[handIndex] as InteractionHandWrap).Select(interactable);
-          // }));
+          alreadyDroppedInteractables.Add(interactable);
         }
       }
     }
@@ -248,20 +265,6 @@ namespace Hitchhike
     {
       if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Always) UpdateOriginalPosition();
       if (originalFollowsHeadMovement == OriginalFollowsHeadMovement.Partial) StartCoroutine(HitchhikeExtensions.DelayMethod(partialFollowDelay, () => UpdateOriginalPosition()));
-    }
-
-    void UpdateOriginalPosition()
-    {
-      var originalHandArea = handAreas[0];
-      var horizontalAngle = Vector3.SignedAngle(
-        Vector3.ProjectOnPlane(initialHeadForward, Vector3.up),
-        Vector3.ProjectOnPlane(head.forward, Vector3.up),
-        Vector3.up
-      );
-      originalHandArea.transform.position = head.position + Quaternion.AngleAxis(horizontalAngle, Vector3.up) * headToOriginal;
-      originalHandArea.transform.rotation = initialOriginalRotation;
-      originalHandArea.transform.Rotate(new Vector3(0, horizontalAngle, 0));
-      originalHandArea.AfterTransformChange();
     }
 
     public HandArea AddArea(Vector3 position)

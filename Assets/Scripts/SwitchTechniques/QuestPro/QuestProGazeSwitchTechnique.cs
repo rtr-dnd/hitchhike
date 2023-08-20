@@ -22,6 +22,13 @@ namespace Hitchhike
         HitchhikeManager.Instance.GetActiveHandArea()
       );
 
+
+      if (Input.GetKeyDown(KeyCode.Tab))
+      {
+        return i >= HitchhikeManager.Instance.handAreas.Count - 1 ? 0 : i + 1;
+      }
+
+
       if (eyeGazes == null) return i;
       if (!eyeGazes[0].EyeTrackingEnabled)
       {

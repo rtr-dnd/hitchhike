@@ -74,6 +74,7 @@ namespace Hitchhike
       filterRatio = ratio;
       ods.filterRatio = ratio;
       state = 1;
+      ods.initialCameraRigPosition = HitchhikeManager.Instance.initialCameraRigPosition;
     }
 
     public override void SetEnabled(bool enabled)

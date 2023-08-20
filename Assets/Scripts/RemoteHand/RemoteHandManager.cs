@@ -141,6 +141,7 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
     else
     {
       if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
+      hoverTarget = null;
     }
   }
 
