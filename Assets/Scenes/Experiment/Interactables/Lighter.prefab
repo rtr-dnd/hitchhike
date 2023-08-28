@@ -14537,7 +14537,7 @@ GameObject:
   - component: {fileID: 1531860588118934483}
   - component: {fileID: 1531860588118934482}
   m_Layer: 0
-  m_Name: UseInteractable
+  m_Name: LighterUseInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14651,7 +14651,7 @@ GameObject:
   - component: {fileID: 1531860588123894661}
   - component: {fileID: 1531860588123894666}
   m_Layer: 0
-  m_Name: HandGrabInteractable (1)
+  m_Name: LighterHandGrabInteractable (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14762,7 +14762,7 @@ GameObject:
   - component: {fileID: 3442500169885090025}
   - component: {fileID: 842765431344515079}
   m_Layer: 0
-  m_Name: UseInteractable (1)_mirror
+  m_Name: LighterUseInteractable (1)_mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14876,6 +14876,7 @@ GameObject:
   - component: {fileID: 8272649417456194901}
   - component: {fileID: 1531860588122119329}
   - component: {fileID: 1531860588122119334}
+  - component: {fileID: 8910452416672447886}
   m_Layer: 0
   m_Name: Lighter
   m_TagString: Untagged
@@ -15042,6 +15043,19 @@ MonoBehaviour:
   _oneGrabTransformer: {fileID: 0}
   _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: 1
+--- !u!65 &8910452416672447886
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6443996861523604430}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.17089099, y: 0.35136965, z: 0.15008014}
+  m_Center: {x: -0.0000000074431523, y: -1.5154586e-11, z: 0.0003363267}
 --- !u!1 &9105868612028296900
 GameObject:
   m_ObjectHideFlags: 0
@@ -15053,7 +15067,7 @@ GameObject:
   - component: {fileID: 957473352559939493}
   - component: {fileID: 9165483576760410796}
   m_Layer: 0
-  m_Name: HandGrabPose
+  m_Name: LighterHandGrabPose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15121,7 +15135,7 @@ GameObject:
   - component: {fileID: 6745943003303607984}
   - component: {fileID: 4676778130341698335}
   m_Layer: 0
-  m_Name: HandGrabInteractable (1)_mirror
+  m_Name: LighterHandGrabInteractable (1)_mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

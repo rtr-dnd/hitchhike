@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4860191596871244846}
   m_Layer: 0
-  m_Name: body
+  m_Name: BearBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8820126391591576656}
   m_Layer: 0
-  m_Name: legR_end_end
+  m_Name: BearlegR_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3104629875330924936}
   m_Layer: 0
-  m_Name: armL_end
+  m_Name: BeararmL_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 5578716311641371677}
   - component: {fileID: 2365991343415254491}
   m_Layer: 0
-  m_Name: armL
+  m_Name: BeararmL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 5578716313018611243}
   - component: {fileID: 2525584910101194250}
   m_Layer: 0
-  m_Name: armR
+  m_Name: BeararmR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,7 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1897999294939442896}
   m_Layer: 0
-  m_Name: head_end
+  m_Name: Bearhead_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -559,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5680006130296364006}
   m_Layer: 0
-  m_Name: head_end_end
+  m_Name: Bearhead_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -622,7 +622,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8910221577005573406}
   m_Layer: 0
-  m_Name: armL_end_end
+  m_Name: BeararmL_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,7 +653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278737595533558244}
   m_Layer: 0
-  m_Name: legR_end
+  m_Name: BearlegR_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,7 +865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196151993936335942}
   m_Layer: 0
-  m_Name: armR_end
+  m_Name: BeararmR_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,7 +903,7 @@ GameObject:
   - component: {fileID: 5578716312338238001}
   - component: {fileID: 3930152677842679688}
   m_Layer: 0
-  m_Name: head
+  m_Name: Bearhead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,7 +1201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1805663493806535115}
   m_Layer: 0
-  m_Name: legL_end
+  m_Name: BearlegL_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1233,7 +1233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3510066986481916836}
   m_Layer: 0
-  m_Name: armR_end_end
+  m_Name: BeararmR_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1270,7 +1270,7 @@ GameObject:
   - component: {fileID: 5578716311899745766}
   - component: {fileID: 8821110023830486846}
   m_Layer: 0
-  m_Name: legR
+  m_Name: BearlegR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1423,7 +1423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1484342987063846395}
   m_Layer: 0
-  m_Name: legL_end_end
+  m_Name: BearlegL_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,7 +1460,7 @@ GameObject:
   - component: {fileID: 5578716313125892520}
   - component: {fileID: 6020172361074725854}
   m_Layer: 0
-  m_Name: legL
+  m_Name: BearlegL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

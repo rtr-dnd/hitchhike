@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Oculus.Interaction;
 using UnityEngine;
 
-public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
+public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>, IRemoteHandManager
 {
   public Transform head;
   public GameObject hoverGizmo;
@@ -18,8 +18,13 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>
   Vector3 targetInitialPos;
   Quaternion targetInitialRot;
   bool isPinching;
-  [HideInInspector]
   bool isPaused;
+
+  protected override void Awake()
+  {
+    var targets = FindObjectsOfType<RemoteHandTarget>();
+    foreach (var target in targets) { target.remoteHandManager = this; }
+  }
 
   // Start is called before the first frame update
   void Start()

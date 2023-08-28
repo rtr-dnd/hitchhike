@@ -11,6 +11,7 @@ namespace Hitchhike
     public SkinnedMeshRenderer meshRenderer;
     private FromOVRHandDataSource ods;
     private HandGrabInteractor grab;
+    private HandGrabUseInteractor grabUse;
     private int state = 0;
     // 0: before Init()
     // 1: waiting for IsHighConfidence
@@ -43,6 +44,7 @@ namespace Hitchhike
       ods.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
 
       grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
+      grabUse = gameObject.GetComponentInChildren<HandGrabUseInteractor>();
     }
 
     void Update()
@@ -109,6 +111,7 @@ namespace Hitchhike
     public void Unselect()
     {
       grab.Unselect();
+      if (grabUse != null) grabUse.Unselect();
     }
 
     public void Select(HandGrabInteractable interactable)

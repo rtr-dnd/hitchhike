@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Hitchhike;
 using Oculus.Interaction;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class RemoteHandTarget : TargetObject
   public GameObject grabbableChild;
   Vector3 childPos;
   Quaternion childRot;
+  [HideInInspector]
+  public IRemoteHandManager remoteHandManager;
 
   bool _isPinched;
   [HideInInspector]
@@ -32,10 +35,9 @@ public class RemoteHandTarget : TargetObject
       }
     }
   }
-  // Start is called before the first frame update
-  void Awake()
+  void Start()
   {
-    if (RemoteHandManager.Instance == null) return;
+    if (remoteHandManager == null) return;
     if (!isGrabbable) return;
     var g = grabbable != null
       ? grabbable
@@ -72,11 +74,11 @@ public class RemoteHandTarget : TargetObject
 
   public void OnGrab()
   {
-    RemoteHandManager.Instance.SetIsPaused(true);
+    if (remoteHandManager != null) remoteHandManager.SetIsPaused(true);
   }
   public void OnRelease()
   {
-    RemoteHandManager.Instance.SetIsPaused(false);
+    if (remoteHandManager != null) remoteHandManager.SetIsPaused(false);
   }
 
   public void OnChildGrab()

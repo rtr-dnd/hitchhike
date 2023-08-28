@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5865915479612370874}
   - component: {fileID: 5865915479608303686}
   m_Layer: 0
-  m_Name: Face
+  m_Name: ClockFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 5865915479614417468}
   - component: {fileID: 5865915479604350946}
   m_Layer: 0
-  m_Name: Arrow
+  m_Name: ClockArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,13 +421,13 @@ GameObject:
   - component: {fileID: 5865915479614308980}
   - component: {fileID: 5865915479613624266}
   - component: {fileID: 5865915479612542958}
-  - component: {fileID: 5865915479608299990}
   - component: {fileID: 5865915479614726380}
   - component: {fileID: 5865915479614726379}
   - component: {fileID: 5865915479614726378}
   - component: {fileID: 5865915479614726381}
+  - component: {fileID: 4713451600711759582}
   m_Layer: 0
-  m_Name: HourHand
+  m_Name: ClockHourHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,20 +498,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5865915479608299990
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5865915479614755596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300010, guid: 5bb403488772bc149a7c49df5c4a760c, type: 3}
 --- !u!54 &5865915479614726380
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -607,6 +593,19 @@ MonoBehaviour:
     MaxAngle:
       Constrain: 0
       Value: 0
+--- !u!65 &4713451600711759582
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865915479614755596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.000010027785, y: 0.00009985202, z: 0.000005772891}
+  m_Center: {x: -0.000000037361225, y: 0.00001912304, z: 0.0000010985337}
 --- !u!1 &5865915479614761738
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,13 +617,13 @@ GameObject:
   - component: {fileID: 5865915479614302336}
   - component: {fileID: 5865915479613599640}
   - component: {fileID: 5865915479612552802}
-  - component: {fileID: 5865915479608303030}
   - component: {fileID: 5865915480115575159}
   - component: {fileID: 5865915480115575154}
   - component: {fileID: 5865915480115575157}
   - component: {fileID: 5865915480115575156}
+  - component: {fileID: 8659754929469713431}
   m_Layer: 0
-  m_Name: MinuteHand
+  m_Name: ClockMinuteHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -695,20 +694,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5865915479608303030
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5865915479614761738}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300002, guid: 5bb403488772bc149a7c49df5c4a760c, type: 3}
 --- !u!54 &5865915480115575159
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -804,6 +789,19 @@ MonoBehaviour:
     MaxAngle:
       Constrain: 0
       Value: 0
+--- !u!65 &8659754929469713431
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5865915479614761738}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.000006000426, y: 0.0001250232, z: 0.0000052629025}
+  m_Center: {x: 0.000000043033488, y: 0.000033218806, z: 0.0000024807587}
 --- !u!1 &5865915479614780886
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +815,7 @@ GameObject:
   - component: {fileID: 5865915479612536272}
   - component: {fileID: 5865915479608290010}
   m_Layer: 0
-  m_Name: Nail
+  m_Name: ClockNail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

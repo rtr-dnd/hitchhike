@@ -89,15 +89,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8377003570766866176}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0028, y: -0.0006, z: 0.0001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.49132589, y: -0.50344837, z: -0.44563863, w: 0.55366504}
+  m_LocalPosition: {x: 0.00020335965, y: -0.0034112372, z: -0.00031111526}
+  m_LocalScale: {x: 1.1976044, y: 1.1976045, z: 1.1976045}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8377003570778244229}
   - {fileID: 8377003569693804617}
-  m_Father: {fileID: 8377003571558624291}
-  m_RootOrder: 0
+  m_Father: {fileID: 8377003571422146052}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8377003570766866236
 BoxCollider:
@@ -110,8 +110,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.024904765, y: 0.040283434, z: 0.022511214}
-  m_Center: {x: -0.0020900518, y: 0.0061931387, z: -0.0008263048}
+  m_Size: {x: 0.024904765, y: 0.15121251, z: 0.022511214}
+  m_Center: {x: -0.0021505365, y: 0.06166641, z: -0.0014813163}
 --- !u!54 &8377003570766866237
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -401,8 +401,9 @@ Transform:
   - {fileID: 8343939895095314645}
   - {fileID: 8377003570775566452}
   - {fileID: 8377003571482420334}
+  - {fileID: 8377003570766866239}
   m_Father: {fileID: 8377003571558624291}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -96.893, y: -94.91199, z: 179.405}
 --- !u!136 &8377003571422146049
 CapsuleCollider:
@@ -414,10 +415,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.005
-  m_Height: 0.22052544
+  m_Radius: 0.025893426
+  m_Height: 0.23218237
   m_Direction: 2
-  m_Center: {x: 0.000000093425164, y: -0.00000024618274, z: 0.11842414}
+  m_Center: {x: 0.013842441, y: 0.00019440187, z: 0.124416836}
 --- !u!54 &8377003571422146051
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -700,7 +701,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8377003570766866239}
   - {fileID: 8377003571422146052}
   m_Father: {fileID: 0}
   m_RootOrder: 0

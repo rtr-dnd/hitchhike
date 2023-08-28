@@ -795,6 +795,7 @@ MonoBehaviour:
   defaultPosition: {x: 0, y: 0, z: 0}
   scaleHandModel: 0
   filterRatio: 1
+  initialCameraRigPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2091680617986374206
 GameObject:
   m_ObjectHideFlags: 0

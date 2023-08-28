@@ -3,6 +3,9 @@ using UnityEngine;
 using RootScript;
 using System.Linq;
 using Oculus.Interaction.HandGrab;
+using Oculus.Interaction;
+using System;
+using Unity.VisualScripting;
 
 namespace Hitchhike
 {
@@ -37,7 +40,7 @@ namespace Hitchhike
     public List<Pose> rawHandPoses;
     public GameObject handAreaPrefab; // used to spawn new hand areas at runtime
     [HideInInspector]
-    public List<HandArea> handAreas { get; private set; }
+    public List<HandArea> handAreas { get; protected set; }
     public SwitchTechnique switchTechnique;
     public GlobalTechnique globalTechnique;
     [HideInInspector]
@@ -58,9 +61,9 @@ namespace Hitchhike
       private set { _billboardingTarget = value; }
     }
 
-    [Header("Original Follows Head Movement")]
+    // [Header("Original Follows Head Movement")]
     public OriginalFollowsHeadMovement originalFollowsHeadMovement;
-    bool originalFollows_hasInitialized = false;
+    protected bool originalFollows_hasInitialized = false;
     Vector3 headToOriginal;
     Vector3 initialHeadForward;
     Quaternion initialOriginalRotation;
@@ -77,7 +80,7 @@ namespace Hitchhike
       initialCameraRigPosition = ovrHands.GetComponentInParent<OVRCameraRig>().transform.position;
     }
 
-    void Start()
+    virtual protected void Start()
     {
       leftHandPrefab = ovrHands.transform.Find("LeftHandWrap").gameObject;
       rightHandPrefab = ovrHands.transform.Find("RightHandWrap").gameObject;
@@ -126,7 +129,7 @@ namespace Hitchhike
       }
     }
 
-    void InitOriginalFollow()
+    protected void InitOriginalFollow()
     {
       var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
       headToOriginal = originalHandArea.transform.position - head.transform.position;
@@ -145,7 +148,7 @@ namespace Hitchhike
       initialHeadForward = head.transform.forward;
       initialOriginalRotation = newRotation;
     }
-    void UpdateOriginalPosition()
+    protected void UpdateOriginalPosition()
     {
       var originalHandArea = handAreas[0];
       var horizontalAngle = Vector3.SignedAngle(
@@ -159,7 +162,7 @@ namespace Hitchhike
       originalHandArea.AfterTransformChange();
     }
 
-    void Update()
+    virtual protected void Update()
     {
       UpdateRawHandPoses();
 
@@ -193,6 +196,7 @@ namespace Hitchhike
         // d&d
         var beforeArea = GetActiveHandArea();
         var interactables = beforeArea.wraps.Select(wrap => (wrap as InteractionHandWrap).GetCurrentInteractable()).ToList();
+        Debug.Log(interactables);
         beforeArea.wraps.ForEach(wrap => { (wrap as InteractionHandWrap).Unselect(); });
         ActivateHandArea(handAreas[i]);
         var afterArea = GetActiveHandArea();
@@ -220,6 +224,8 @@ namespace Hitchhike
           }
           if (alreadyDroppedInteractables.FindIndex(v => v == interactable) != -1) continue;
 
+          var grabbable = interactable.GetComponentInParent<Grabbable>();
+
           // actual dnd
           var beforeToAfterRot = Quaternion.Inverse(afterArea.transform.rotation) * beforeArea.transform.rotation;
           var beforeToAfterScale = new Vector3(
@@ -229,8 +235,8 @@ namespace Hitchhike
           );
 
           var oMt = Matrix4x4.TRS(
-            interactable.gameObject.transform.position,
-            interactable.gameObject.transform.rotation,
+            grabbable.transform.position,
+            grabbable.transform.rotation,
             new Vector3(1, 1, 1)
           );
 
@@ -245,10 +251,10 @@ namespace Hitchhike
             * Matrix4x4.Translate(-beforeArea.transform.position) // offset translation for next step
             * oMt; // hand anchor
 
-          interactable.gameObject.transform.position = resMat.GetColumn(3);
-          interactable.gameObject.transform.rotation = resMat.rotation;
+          grabbable.transform.position = resMat.GetColumn(3);
+          grabbable.transform.rotation = resMat.rotation;
           if (scaleHandModel)
-            interactable.gameObject.transform.localScale *= new List<float>
+            grabbable.transform.localScale *= new List<float>
                 { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
           (afterArea.wraps[handIndex] as InteractionHandWrap).Select(interactable);
           alreadyDroppedInteractables.Add(interactable);
@@ -256,7 +262,7 @@ namespace Hitchhike
       }
     }
 
-    void UpdateRawHandPoses()
+    protected void UpdateRawHandPoses()
     {
       rawHandPoses = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).GetRawHandPose()).ToList();
     }
@@ -306,7 +312,7 @@ namespace Hitchhike
       return true;
     }
 
-    void InitArea(HandArea area)
+    protected void InitArea(HandArea area)
     {
       area.Init(
         handWrapPrefabs,
@@ -320,7 +326,7 @@ namespace Hitchhike
       area.SetEnabled(true);
     }
 
-    private void ActivateHandArea(HandArea area)
+    protected void ActivateHandArea(HandArea area)
     {
       handAreas.ForEach((e) =>
       {
