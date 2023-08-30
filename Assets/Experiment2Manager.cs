@@ -40,7 +40,7 @@ public class Experiment2Manager : MonoBehaviour
         "テディベアを操作して、今挙げている手と反対の手を挙げさせてください。",
         "ペンを使ってスケッチボードに笑顔マークを描いてください。",
         "キャンドルにライターで火をつけてください。",
-        "箱に何かものを入れてください。",
+        "箱から鳥のオブジェを出して並べてください。",
     };
     string[] globalTaskTexts = {
         // global 6DoF

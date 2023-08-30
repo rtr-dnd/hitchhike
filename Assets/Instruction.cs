@@ -14,10 +14,15 @@ public class Instruction : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    Vector3 cameraForward = Vector3.ProjectOnPlane(eyeAnchor.transform.forward, Vector3.up);
+    transform.rotation = Quaternion.identity;
+    transform.forward = cameraForward;
+    transform.Rotate(-30, 0, 0);
+
     transform.position = new Vector3(
         eyeAnchor.transform.position.x,
-        transform.position.y,
+        1.5f,
         eyeAnchor.transform.position.z
-    );
+    ) + cameraForward * 1.5f;
   }
 }
