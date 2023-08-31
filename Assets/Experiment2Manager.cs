@@ -71,6 +71,7 @@ public class Experiment2Manager : MonoBehaviour
         public Pose pose;
         public Vector3 scale;
     }
+
     [Serializable]
     struct LogDataMoment
     {
