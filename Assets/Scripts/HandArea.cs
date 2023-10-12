@@ -11,6 +11,7 @@ namespace Hitchhike
   public class HandArea : MonoBehaviour
   {
     public bool isOriginal;
+    public bool mirrored = false;
     public Image image;
     public Sprite enabledSprite;
     public Sprite disabledSprite;
@@ -54,6 +55,11 @@ namespace Hitchhike
       foreach (var (handWrapPrefab, index) in handWrapPrefabs.Select((value, index) => (value, index)))
       {
         var handWrapInstance = GameObject.Instantiate(handWrapPrefab, parent);
+        if (mirrored) handWrapInstance.transform.localScale = new Vector3(
+          handWrapInstance.transform.localScale.x * -1,
+          handWrapInstance.transform.localScale.y * -1,
+          handWrapInstance.transform.localScale.z
+        );
         var handWrap = handWrapInstance.GetComponent<HandWrap>();
         wraps.Add(handWrap);
         if (!autoUpdateOriginal)
@@ -64,7 +70,7 @@ namespace Hitchhike
         }
         handWrap.Init(this, !autoUpdateOriginal ? delayedOriginalTransform : (
           isOriginal ? transform : _original.transform
-        ), transform, scaleHandModel, filterRatio);
+        ), transform, scaleHandModel, mirrored, filterRatio);
         handWrap.SetEnabled(true);
       }
     }

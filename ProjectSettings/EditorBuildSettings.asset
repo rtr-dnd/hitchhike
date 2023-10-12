@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Demo/ARStudio.unity
     guid: 71129f18ffe8a154798d9376bbbbc713
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Demo/VRCity.unity
     guid: 95a2370f4c5ed244fbb5b942c53734bb
   m_configObjects:

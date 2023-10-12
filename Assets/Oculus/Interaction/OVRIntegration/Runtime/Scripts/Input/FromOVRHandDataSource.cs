@@ -78,6 +78,7 @@ namespace Oculus.Interaction.Input
         public bool isUpdating = true;
         public Vector3 defaultPosition = Vector3.zero;
         public bool scaleHandModel;
+        public bool mirrored = false;
         public float filterRatio = 1f;
         public Pose rawHandPose { get; private set; }
         private Vector3 filteredPosition;
@@ -316,20 +317,28 @@ namespace Oculus.Interaction.Input
                 thisSpaceOrigin.lossyScale.z / originalSpaceOrigin.lossyScale.z
             );
 
+            // calculate mirrored anchor
+            var localAnchorPos = originalSpaceOrigin.InverseTransformPoint(anchorPos);
+            var mirroredAnchorPos = originalSpaceOrigin.TransformPoint(new Vector3(-localAnchorPos.x, localAnchorPos.y, localAnchorPos.z));
+            var relativeRot = anchorRot * Quaternion.Inverse(originalSpaceOrigin.rotation);
+            var mirroredAnchorRot = Quaternion.Euler(0, 180, 0)
+                * Quaternion.Euler(-relativeRot.eulerAngles.x, -relativeRot.eulerAngles.y, relativeRot.eulerAngles.z)
+                * originalSpaceOrigin.rotation;
+
             var oMt = Matrix4x4.TRS(
-                anchorPos,
-                anchorRot,
-            new Vector3(1, 1, 1)
+                mirrored ? mirroredAnchorPos : anchorPos,
+                mirrored ? mirroredAnchorRot : anchorRot,
+                new Vector3(1, 1, 1)
             );
 
             var resMat =
-            Matrix4x4.Translate(thisSpaceOrigin.position - originalSpaceOrigin.position) // orignal to copied translation
+            Matrix4x4.Translate(thisSpaceOrigin.position) // translation back to copied space
             * Matrix4x4.TRS(
-                originalSpaceOrigin.position,
+                Vector3.zero,
                 Quaternion.Inverse(originalToActiveRot),
                 originalToActiveScale
-            ) // translation back to original space and rotation & scale around original space
-            * Matrix4x4.Translate(-originalSpaceOrigin.position) // offset translation for next step
+            ) // rotation & scale around the origin
+            * Matrix4x4.Translate(-originalSpaceOrigin.position) // offset translation to origin for next step
             * oMt; // hand anchor
 
             filteredPosition = filteredPosition * (1 - filterRatio) + resMat.GetPosition() * filterRatio;

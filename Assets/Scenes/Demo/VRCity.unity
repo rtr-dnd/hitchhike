@@ -2987,7 +2987,7 @@ MonoBehaviour:
   head: {fileID: 0}
   transparentMaterial: {fileID: 0}
   partialFollowDelay: 0.1
-  tempHgi: {fileID: 0}
+  initialCameraRigPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &898713013
 Transform:
   m_ObjectHideFlags: 0

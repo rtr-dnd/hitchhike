@@ -66,13 +66,15 @@ namespace Hitchhike
       }
     }
 
-    public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, float ratio)
+    public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, float ratio)
     {
       area = handArea;
       originalSpace = original;
       thisSpace = copied;
       scaleHandModel = scale;
       ods.scaleHandModel = scale;
+      mirrored = mirror;
+      ods.mirrored = mirror;
       filterRatio = ratio;
       ods.filterRatio = ratio;
       state = 1;

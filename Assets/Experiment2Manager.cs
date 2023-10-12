@@ -20,9 +20,13 @@ public class Experiment2Manager : MonoBehaviour
     {
         Welcome,
         Task,
+        Paused,
         Finish
     }
     State state = State.Welcome;
+    bool hasStarted;
+    DateTime previousTime;
+    float interval = 0.1f;
     string welcomeText = "実験が始まるまでお待ち下さい。";
     string finishText = "実験終了です。お疲れ様でした。";
 
@@ -40,7 +44,7 @@ public class Experiment2Manager : MonoBehaviour
         "テディベアを操作して、今挙げている手と反対の手を挙げさせてください。",
         "ペンを使ってスケッチボードに笑顔マークを描いてください。",
         "キャンドルにライターで火をつけてください。",
-        "箱から鳥のオブジェを出して並べてください。",
+        "箱から鳥のオブジェを出して、箱の隣に並べてください。",
     };
     string[] globalTaskTexts = {
         // global 6DoF
@@ -58,7 +62,9 @@ public class Experiment2Manager : MonoBehaviour
         "キャンドルを移動してください。",
         "箱を移動してください。",
     };
-    string[] localTaskTargets = {
+    List<string> localTaskTargets = new List<string>() {
+        "机の上",
+        "白い棚の上",
         "机の上",
         "白い棚の上"
     };
@@ -110,6 +116,7 @@ public class Experiment2Manager : MonoBehaviour
         taskTexts = directHandTaskTexts.Concat(globalTaskTexts).Concat(localTaskTexts).ToList();
         tasks = taskTexts.Select((text, index) => new Task { id = index, text = text }).ToList();
         tasks = tasks.OrderBy(a => Guid.NewGuid()).ToList(); // randomize order
+        localTaskTargets = localTaskTargets.OrderBy(a => Guid.NewGuid()).ToList();
         UpdateText();
     }
     // Update is called once per frame
@@ -128,6 +135,21 @@ public class Experiment2Manager : MonoBehaviour
                 OnReturnPressed();
             }
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (state == State.Task) state = State.Paused;
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (state == State.Paused) state = State.Task;
+            Debug.Log("resumed");
+        }
+        if (state == State.Paused) Debug.Log("paused");
+
+        if ((DateTime.Now - previousTime).TotalSeconds < interval) return;
+        if (!hasStarted) return;
+
+        // logging
         log.moments.Add(new LogDataMoment
         {
             time = DateTime.Now,
@@ -150,10 +172,12 @@ public class Experiment2Manager : MonoBehaviour
         });
         didTeleport = false;
         if (log.moments.Count > maxLogCount) RefreshLog();
+        previousTime = DateTime.Now;
     }
 
     void OnDestroy()
     {
+        if (!hasStarted) return;
         RefreshLog();
     }
 
@@ -180,11 +204,17 @@ public class Experiment2Manager : MonoBehaviour
                 tmp.text = welcomeText;
                 break;
             case State.Task:
-                tmp.text = "タスク" + (taskIndex + 1) + ": " + tasks[taskIndex].text + (
-                    localTaskTexts.Contains(tasks[taskIndex].text)
-                        ? ("移動先：" + localTaskTargets.OrderBy(a => Guid.NewGuid()).First())
-                        : ""
-                );
+                if (localTaskTexts.Contains(tasks[taskIndex].text))
+                {
+                    var localTarget = localTaskTargets[0];
+                    localTaskTargets.RemoveAt(0);
+                    tmp.text = "タスク" + (taskIndex + 1) + ": " + tasks[taskIndex].text + ("移動先：" + localTarget);
+                }
+                else
+                {
+                    tmp.text = "タスク" + (taskIndex + 1) + ": " + tasks[taskIndex].text;
+                }
+
                 break;
             case State.Finish:
                 tmp.text = finishText;
@@ -194,6 +224,7 @@ public class Experiment2Manager : MonoBehaviour
 
     void OnReturnPressed()
     {
+        hasStarted = true;
         switch (state)
         {
             case State.Welcome:
