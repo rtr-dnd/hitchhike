@@ -92,12 +92,43 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310164722239051414}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.50000006
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.00000005960464, y: 0, z: -0.00000008940696}
+--- !u!1 &1446893786352456592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6401422262520257457}
+  m_Layer: 0
+  m_Name: DefaultHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6401422262520257457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446893786352456592}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9179193541392433493}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2160763106081579965
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,6 +984,7 @@ Transform:
   - {fileID: 2045534944326309497}
   - {fileID: 7611395700868759896}
   - {fileID: 7945693909791011999}
+  - {fileID: 6401422262520257457}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -964,7 +996,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9179193541392433489}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -983,10 +1015,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOriginal: 0
+  mirrored: 0
   image: {fileID: 1242507951878917160}
   enabledSprite: {fileID: 21300000, guid: ab231648809926a40a1d0af8b314912f, type: 3}
   disabledSprite: {fileID: 21300000, guid: b17008a30100e84409de68d44daae052, type: 3}
   globalSprite: {fileID: 21300000, guid: bf2616fb7e5092c408380b4a18868560, type: 3}
+  defaultHandPosition: {fileID: 6401422262520257457}
+  doNotResetHandPosition: 0
   wraps: []
   isEnabled: 0
   billboard: 0

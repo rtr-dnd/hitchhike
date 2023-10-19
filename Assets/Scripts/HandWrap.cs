@@ -16,6 +16,7 @@ namespace Hitchhike
     public bool isVisible { get; protected set; }
     public bool scaleHandModel;
     public bool mirrored;
+    public bool doNotResetHand;
     [HideInInspector]
     protected Transform _originalSpace;
     [HideInInspector]
@@ -38,7 +39,7 @@ namespace Hitchhike
     public HandArea area { get; protected set; }
     public int handPrefabIndex;
 
-    public virtual void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, float filterRatio) { }
+    public virtual void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, bool doNotResetHandPosition, float filterRatio) { }
     public virtual void SetEnabled(bool enabled)
     {
       isEnabled = enabled;

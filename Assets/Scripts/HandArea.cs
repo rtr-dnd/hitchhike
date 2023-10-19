@@ -16,6 +16,8 @@ namespace Hitchhike
     public Sprite enabledSprite;
     public Sprite disabledSprite;
     public Sprite globalSprite;
+    public Transform defaultHandPosition;
+    public bool doNotResetHand;
     [HideInInspector]
     public List<HandWrap> wraps;
     [HideInInspector]
@@ -70,7 +72,7 @@ namespace Hitchhike
         }
         handWrap.Init(this, !autoUpdateOriginal ? delayedOriginalTransform : (
           isOriginal ? transform : _original.transform
-        ), transform, scaleHandModel, mirrored, filterRatio);
+        ), transform, scaleHandModel, mirrored, doNotResetHand, filterRatio);
         handWrap.SetEnabled(true);
       }
     }

@@ -77,6 +77,7 @@ namespace Oculus.Interaction.Input
         public Transform thisSpace;
         public bool isUpdating = true;
         public Vector3 defaultPosition = Vector3.zero;
+        public bool doNotResetHand;
         public bool scaleHandModel;
         public bool mirrored = false;
         public float filterRatio = 1f;
@@ -180,10 +181,11 @@ namespace Oculus.Interaction.Input
             if (!isUpdating)
             {
                 var cameraRigDisplace = CameraRigRef.CameraRig.transform.position - initialCameraRigPosition;
+                bool shouldUsePrevious = doNotResetHand && filteredPosition != defaultPosition;
                 _handDataAsset.Root = new Pose()
                 {
-                    position = defaultPosition - cameraRigDisplace,
-                    rotation = _handDataAsset.Root.rotation
+                    position = (shouldUsePrevious ? filteredPosition : defaultPosition) - cameraRigDisplace,
+                    rotation = shouldUsePrevious ? filteredRotation : _handDataAsset.Root.rotation
                 };
                 return;
             }

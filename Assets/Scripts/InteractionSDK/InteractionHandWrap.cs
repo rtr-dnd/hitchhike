@@ -32,7 +32,7 @@ namespace Hitchhike
       {
         _thisSpace = value;
         ods.thisSpace = value;
-        ods.defaultPosition = value.position;
+        ods.defaultPosition = area.defaultHandPosition.position;
       }
     }
 
@@ -66,7 +66,7 @@ namespace Hitchhike
       }
     }
 
-    public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, float ratio)
+    public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, bool doNotResetHandPosition, float ratio)
     {
       area = handArea;
       originalSpace = original;
@@ -75,6 +75,7 @@ namespace Hitchhike
       ods.scaleHandModel = scale;
       mirrored = mirror;
       ods.mirrored = mirror;
+      ods.doNotResetHand = doNotResetHandPosition;
       filterRatio = ratio;
       ods.filterRatio = ratio;
       state = 1;
