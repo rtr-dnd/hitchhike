@@ -8066,7 +8066,7 @@ MonoBehaviour:
     _pinkyRequirement: 1
     _unselectMode: 0
   _movementProvider: {fileID: 0}
-  _handAligment: 1
+  _handAligment: 0
   _handGrabPoses: []
 --- !u!114 &1039117276
 MonoBehaviour:

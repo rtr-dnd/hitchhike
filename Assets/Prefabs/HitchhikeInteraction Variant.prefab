@@ -51,6 +51,8 @@ MonoBehaviour:
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
   mainHand: {fileID: 4073326089770580322}
   scaleHandModel: 0
+  mirrored: 0
+  doNotResetHand: 0
   filterRatio: 1
   handPrefabIndex: 0
   meshRenderer: {fileID: 3772689086797267823}
@@ -105,6 +107,8 @@ MonoBehaviour:
   disabledMaterial: {fileID: 2100000, guid: 59d0841c2c7100f46b58455458b1cdfc, type: 2}
   mainHand: {fileID: 2297716338477814933}
   scaleHandModel: 0
+  mirrored: 0
+  doNotResetHand: 0
   filterRatio: 1
   handPrefabIndex: 0
   meshRenderer: {fileID: 4920447834406400914}
