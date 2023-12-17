@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534613080773867836}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.0885, y: 0.006, z: 0}
+  m_LocalPosition: {x: -0.098, y: 0.006, z: 0}
   m_LocalScale: {x: 0.15834, y: 0.17632742, z: 0.15834}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1260,7 +1260,9 @@ MonoBehaviour:
   thisSpace: {fileID: 0}
   isUpdating: 1
   defaultPosition: {x: 0, y: 0, z: 0}
+  doNotResetHand: 0
   scaleHandModel: 0
+  mirrored: 0
   filterRatio: 1
   initialCameraRigPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7955332078958743451

@@ -1171,7 +1171,7 @@ MonoBehaviour:
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
   _oneGrabTransformer: {fileID: 217632158}
-  _twoGrabTransformer: {fileID: 217632164}
+  _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: -1
 --- !u!114 &217632160
 MonoBehaviour:
@@ -1362,7 +1362,7 @@ MonoBehaviour:
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
   _oneGrabTransformer: {fileID: 224740356}
-  _twoGrabTransformer: {fileID: 224740357}
+  _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: -1
 --- !u!114 &224740356
 MonoBehaviour:
@@ -4725,7 +4725,7 @@ MonoBehaviour:
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
   _oneGrabTransformer: {fileID: 1642719884}
-  _twoGrabTransformer: {fileID: 1642719888}
+  _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: -1
 --- !u!114 &1642719884
 MonoBehaviour:
@@ -5375,7 +5375,7 @@ MonoBehaviour:
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
   _oneGrabTransformer: {fileID: 1944784161}
-  _twoGrabTransformer: {fileID: 1944784163}
+  _twoGrabTransformer: {fileID: 0}
   _maxGrabPoints: -1
 --- !u!54 &1944784160
 Rigidbody:
@@ -5418,26 +5418,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.906241, y: 21.015123, z: 16.838953}
   m_Center: {x: 2.2797568, y: 10.007562, z: -7.919476}
---- !u!114 &1944784163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944784156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b053556d972eae24b947c1477538bff1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _constraints:
-    ConstraintsAreRelative: 0
-    MinScale:
-      Constrain: 0
-      Value: 0
-    MaxScale:
-      Constrain: 0
-      Value: 0
 --- !u!1 &1946678210
 GameObject:
   m_ObjectHideFlags: 0

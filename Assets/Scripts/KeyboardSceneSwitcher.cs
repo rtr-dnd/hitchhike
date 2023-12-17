@@ -7,7 +7,7 @@ public class KeyboardSceneSwitcher : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.W))
     {
-      SceneManager.LoadScene("VRWindowSystem");
+      SceneManager.LoadScene("VRWindowingSystem");
     }
     if (Input.GetKeyDown(KeyCode.C))
     {
