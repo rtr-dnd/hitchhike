@@ -46,10 +46,10 @@ public class RemoteHandTarget : TargetObject
     var puew = gameObject.AddComponent(typeof(PointableUnityEventWrapper)) as PointableUnityEventWrapper;
     puew.InjectPointable(g);
 
-    puew.CreateWhenSelect();
-    puew.WhenSelect.AddListener(OnGrab);
-    puew.CreateWhenUnselect();
-    puew.WhenUnselect.AddListener(OnRelease);
+    // puew.CreateWhenSelect(); // todo: meta xr
+    // puew.WhenSelect.AddListener(OnGrab); // todo: meta xr
+    // puew.CreateWhenUnselect(); // todo: meta xr
+    // puew.WhenUnselect.AddListener(OnRelease); // todo: meta xr
   }
 
   // Update is called once per frame

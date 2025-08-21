@@ -22,7 +22,7 @@ namespace Hitchhike
       set
       {
         _originalSpace = value;
-        ods.originalSpace = value;
+        // ods.originalSpace = value; // todo: meta xr
       }
     }
     public override Transform thisSpace
@@ -31,15 +31,15 @@ namespace Hitchhike
       set
       {
         _thisSpace = value;
-        ods.thisSpace = value;
-        ods.defaultPosition = area.defaultHandPosition.position;
+        // ods.thisSpace = value; // todo: meta xr
+        // ods.defaultPosition = area.defaultHandPosition.position; // todo: meta xr
       }
     }
 
     void Awake()
     {
       ods = gameObject.GetComponentInChildren<FromOVRHandDataSource>();
-      ods._cameraRigRef = gameObject.GetComponentInParent<OVRCameraRigRef>();
+      // ods._cameraRigRef = gameObject.GetComponentInParent<OVRCameraRigRef>(); // todo: meta xr
       ods.InjectHandSkeletonProvider(gameObject.GetComponentInParent<HandSkeletonOVR>());
       ods.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
 
@@ -72,14 +72,14 @@ namespace Hitchhike
       originalSpace = original;
       thisSpace = copied;
       scaleHandModel = scale;
-      ods.scaleHandModel = scale;
+      // ods.scaleHandModel = scale; // todo: meta xr
       mirrored = mirror;
-      ods.mirrored = mirror;
-      ods.doNotResetHand = doNotResetHandPosition;
+      // ods.mirrored = mirror; // todo: meta xr
+      // ods.doNotResetHand = doNotResetHandPosition; // todo: meta xr
       filterRatio = ratio;
-      ods.filterRatio = ratio;
+      // ods.filterRatio = ratio; // todo: meta xr
       state = 1;
-      ods.initialCameraRigPosition = HitchhikeManager.Instance.initialCameraRigPosition;
+      // ods.initialCameraRigPosition = HitchhikeManager.Instance.initialCameraRigPosition; // todo: meta xr
     }
 
     public override void SetEnabled(bool enabled)
@@ -97,7 +97,7 @@ namespace Hitchhike
     public override void SetUpdating(bool updating)
     {
       base.SetUpdating(updating);
-      ods.isUpdating = updating;
+      // ods.isUpdating = updating; // todo: meta xr
     }
 
     public override void SetVisible(bool visible)
@@ -108,7 +108,8 @@ namespace Hitchhike
 
     public Pose GetRawHandPose()
     {
-      return ods.rawHandPose;
+      // return ods.rawHandPose; // todo: meta xr
+      return new Pose();
     }
 
     public void Unselect()
@@ -119,7 +120,7 @@ namespace Hitchhike
 
     public void Select(HandGrabInteractable interactable)
     {
-      grab.ForceSelectOnce(interactable);
+      // grab.ForceSelectOnce(interactable); // todo: meta xr
     }
 
     public HandGrabInteractable GetCurrentInteractable()
