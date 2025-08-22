@@ -251,11 +251,12 @@ namespace Hitchhike
       OVRPlugin.Skeleton2 ovrSkeleton = ((_handedness == Oculus.Interaction.Input.Handedness.Left) ? OVRSkeletonData.LeftSkeleton : OVRSkeletonData.RightSkeleton);
       for (int j = 0; j < 26; j++)
       {
-        Pose to = new Pose(poseData.BoneTranslations[j].FromFlippedZVector3f(), poseData.BoneRotations[j].FromFlippedZQuatf());
-        Pose pose = PoseUtils.Delta(in _handDataAsset.Root, in to);
-        pose.position *= num;
-        _handDataAsset.JointPoses[j] = pose;
+        // modified to support OpenXR skeleton with proper scaling
+        Vector3 localPosition = poseData.BoneTranslations[j].FromFlippedZVector3f();
+        Quaternion localRotation = poseData.BoneRotations[j].FromFlippedZQuatf();
+        _handDataAsset.JointPoses[j] = new Pose(localPosition, localRotation);
         _handDataAsset.JointRadii[j] = GetBoneRadius(in ovrSkeleton, j);
+        // modify end
       }
 
       HandJointUtils.WristJointPosesToLocalRotations(_handDataAsset.JointPoses, ref _handDataAsset.Joints);
