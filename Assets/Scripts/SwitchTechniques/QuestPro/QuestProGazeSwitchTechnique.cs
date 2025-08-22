@@ -30,11 +30,11 @@ namespace Hitchhike
 
 
       if (eyeGazes == null) return i;
-      if (!eyeGazes[0].EyeTrackingEnabled)
-      {
-        Debug.Log("Eye tracking not working");
-        return i;
-      }
+      // if (!eyeGazes[0].EyeTrackingEnabled)
+      // {
+      //   Debug.Log("Eye tracking not working");
+      //   return i;
+      // }
 
       Ray gazeRay = GetGazeRay();
       int layerMask = 1 << LayerMask.NameToLayer("Hitchhike");

@@ -7669,7 +7669,7 @@ MonoBehaviour:
   handWrapPrefabs: []
   rawHandPoses: []
   handAreaPrefab: {fileID: 9179193541392433489, guid: 2294671708734a443bc75f063e23deed, type: 3}
-  switchTechnique: {fileID: 898713010}
+  switchTechnique: {fileID: 898713011}
   globalTechnique: {fileID: 898713016}
   isGlobal: 0
   scaleHandModel: 0
@@ -19273,7 +19273,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1245587948299599303, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15615194
+      value: 0.15615192
       objectReference: {fileID: 0}
     - target: {fileID: 3049833450459585307, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_Mesh
