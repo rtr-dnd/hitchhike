@@ -118,19 +118,19 @@ namespace Hitchhike
 
     public void Unselect()
     {
-      // grab.Unselect(); // todo: meta xr
-      // if (grabUse != null) grabUse.Unselect(); // todo: meta xr
+      grab.Unselect();
+      if (grabUse != null) grabUse.Unselect();
     }
 
     public void Select(HandGrabInteractable interactable)
     {
       // grab.ForceSelectOnce(interactable); // todo: meta xr
+      grab.ForceSelect(interactable, true); // todo: meta xr
     }
 
     public HandGrabInteractable GetCurrentInteractable()
     {
-      return null;
-      // return grab.SelectedInteractable; // todo: meta xr
+      return grab.SelectedInteractable;
     }
 
     public void Detect()

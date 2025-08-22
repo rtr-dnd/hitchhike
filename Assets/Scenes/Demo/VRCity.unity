@@ -791,10 +791,186 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 384654027}
     m_Modifications:
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425026077777889104, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832358814291025611, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2386273267298102118, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _hmd
+      value: 
+      objectReference: {fileID: 1815921611}
     - target: {fileID: 4115715276713377646, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _ovrCameraRig
       value: 
       objectReference: {fileID: 384654026}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937754402407906203, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5379634884402514002, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418551070609880839, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941112628282884312, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5960844187558777992, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _hmd
+      value: 
+      objectReference: {fileID: 1815921611}
+    - target: {fileID: 5972088414314604743, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5972088414314604743, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -838,6 +1014,70 @@ PrefabInstance:
     - target: {fileID: 6230116261791294471, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_Name
       value: HitchhikeInteraction Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684759677242273625, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIsActiveLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Hitchhike.ExtendedHitchhikeGlobalTechnique, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476439572521580207, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _whenUnselected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5575,6 +5815,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
   m_PrefabInstance: {fileID: 1762488104}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1815921611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5145841843666665757, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+  m_PrefabInstance: {fileID: 202737272}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2606bf2f0c914a7aba4390f29ba2eb6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1904585535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: c3ee38d7b9445e34fb95d932d9f9ce84, type: 3}
