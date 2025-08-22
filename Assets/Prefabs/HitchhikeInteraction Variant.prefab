@@ -493,6 +493,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftHitchhikeHandV2
       objectReference: {fileID: 0}
+    - target: {fileID: 7777588982709675269, guid: 1e96b1baba91ce04b99f217b3347d6d6, type: 3}
+      propertyPath: _syntheticHand
+      value: 
+      objectReference: {fileID: 3788255041734330691}
     - target: {fileID: 8386445237156442220, guid: 1e96b1baba91ce04b99f217b3347d6d6, type: 3}
       propertyPath: _hmd
       value: 
@@ -713,6 +717,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6742368994800128372, guid: 24966fde08926274abf775c596ac8372, type: 3}
+      propertyPath: _syntheticHand
+      value: 
+      objectReference: {fileID: 3788255041734330691}
     - target: {fileID: 7685785861047679886, guid: 24966fde08926274abf775c596ac8372, type: 3}
       propertyPath: m_Name
       value: RightHitchhikeHandV2
@@ -815,6 +823,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94313e563929cb3499e3989be338a213, type: 3}
+--- !u!114 &3788255041734330691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 642930805460571361, guid: 94313e563929cb3499e3989be338a213, type: 3}
+  m_PrefabInstance: {fileID: 4359119173591915938}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c67033f580359c4581dff1ccffcca91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &6168201462452803349 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7631183844095363767, guid: 94313e563929cb3499e3989be338a213, type: 3}
