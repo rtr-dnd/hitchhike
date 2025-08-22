@@ -96,7 +96,7 @@ namespace Hitchhike
 
     public override void ChangeMaterial(bool enabled)
     {
-      meshRenderer.materials = enabled ? new Material[] { disabledMaterial, enabledMaterial } : new Material[] { disabledMaterial };
+      meshRenderer.materials = enabled ? new Material[] { enabledMaterial } : new Material[] { disabledMaterial };
     }
 
     public override void SetUpdating(bool updating)

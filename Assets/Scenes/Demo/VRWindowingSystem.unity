@@ -5742,6 +5742,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
   m_PrefabInstance: {fileID: 1762488104}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &678909168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114428879332287356, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
+  m_PrefabInstance: {fileID: 1762488104}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7623a8f0b49cf4dbaa40aea4d4be64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &682025296
 GameObject:
   m_ObjectHideFlags: 0
@@ -7652,7 +7663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ovrHands: {fileID: 537537167}
-  hitchhikeHandedness: 3
+  hitchhikeHandedness: 1
   leftHandPrefab: {fileID: 0}
   rightHandPrefab: {fileID: 0}
   handWrapPrefabs: []
@@ -9967,6 +9978,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114439786}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1115017888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3313290228073989621, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+  m_PrefabInstance: {fileID: 781422303825298807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c67033f580359c4581dff1ccffcca91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1138302586 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3731720252744273563, guid: 5a7e9dec960fcd141a2e23597267fa83, type: 3}
@@ -17101,6 +17123,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
   m_PrefabInstance: {fileID: 720252998}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1927787603 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114428879332287356, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
+  m_PrefabInstance: {fileID: 720252998}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb7623a8f0b49cf4dbaa40aea4d4be64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1936818436
 Mesh:
   m_ObjectHideFlags: 0
@@ -19161,6 +19194,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 384654027}
     m_Modifications:
+    - target: {fileID: 3731547781530208514, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _syntheticHand
+      value: 
+      objectReference: {fileID: 1115017888}
+    - target: {fileID: 4115715276713377646, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _leftHand
+      value: 
+      objectReference: {fileID: 678909168}
+    - target: {fileID: 4115715276713377646, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _rightHand
+      value: 
+      objectReference: {fileID: 1927787603}
     - target: {fileID: 4115715276713377646, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _ovrCameraRig
       value: 
@@ -19209,6 +19254,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitchhikeInteraction
       objectReference: {fileID: 0}
+    - target: {fileID: 6447647352413481283, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: _syntheticHand
+      value: 
+      objectReference: {fileID: 1115017888}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -106,13 +106,13 @@ Material:
     - _Mode: 0
     - _OcclusionEnabled: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0.943
+    - _Opacity: 0.632
     - _OutlineFresnelOpacity: 0
     - _OutlineFresnelPower: 2.462451
     - _OutlineGlowIntensity: 1
     - _OutlineGradient: 0
     - _OutlineIntensity: 1
-    - _OutlineOpacity: 1
+    - _OutlineOpacity: 0.155
     - _OutlinePinchRange: 0.15
     - _OutlineSphereHardness: 0.15
     - _OutlineWidth: 0.00116
