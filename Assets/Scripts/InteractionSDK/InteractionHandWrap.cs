@@ -9,7 +9,7 @@ namespace Hitchhike
   public class InteractionHandWrap : HandWrap
   {
     public SkinnedMeshRenderer meshRenderer;
-    private FromOVRHandDataSource ods;
+    private HitchhikeFromOVRHandDataSource hds;
     private HandGrabInteractor grab;
     private HandGrabUseInteractor grabUse;
     private int state = 0;
@@ -22,7 +22,7 @@ namespace Hitchhike
       set
       {
         _originalSpace = value;
-        // ods.originalSpace = value; // todo: meta xr
+        hds.originalSpace = value;
       }
     }
     public override Transform thisSpace
@@ -31,17 +31,22 @@ namespace Hitchhike
       set
       {
         _thisSpace = value;
-        // ods.thisSpace = value; // todo: meta xr
-        // ods.defaultPosition = area.defaultHandPosition.position; // todo: meta xr
+        hds.thisSpace = value;
+        hds.defaultPosition = area.defaultHandPosition.position;
       }
     }
 
     void Awake()
     {
-      ods = gameObject.GetComponentInChildren<FromOVRHandDataSource>();
-      // ods._cameraRigRef = gameObject.GetComponentInParent<OVRCameraRigRef>(); // todo: meta xr
-      ods.InjectHandSkeletonProvider(gameObject.GetComponentInParent<HandSkeletonOVR>());
-      ods.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
+      var dataSourceGo = transform.Find("RightHitchhikeHandV2/OVRHandDataSource");
+      if (dataSourceGo == null) dataSourceGo = transform.Find("LeftHitchhikeHandV2/OVRHandDataSource");
+      Debug.Log("dataSourceGo: " + dataSourceGo);
+
+      hds = dataSourceGo.GetComponent<HitchhikeFromOVRHandDataSource>();
+      hds._cameraRigRef = gameObject.GetComponentInParent<OVRCameraRigRef>();
+      hds.InjectHandSkeletonProvider(gameObject.GetComponentInParent<HandSkeletonOVR>());
+      hds.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
+      Debug.Log("dataSourceGo hds: " + hds);
 
       grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
       grabUse = gameObject.GetComponentInChildren<HandGrabUseInteractor>();
@@ -72,14 +77,14 @@ namespace Hitchhike
       originalSpace = original;
       thisSpace = copied;
       scaleHandModel = scale;
-      // ods.scaleHandModel = scale; // todo: meta xr
+      hds.scaleHandModel = scale;
       mirrored = mirror;
-      // ods.mirrored = mirror; // todo: meta xr
-      // ods.doNotResetHand = doNotResetHandPosition; // todo: meta xr
+      // hds.mirrored = mirror; // todo: meta xr
+      // hds.doNotResetHand = doNotResetHandPosition; // todo: meta xr
       filterRatio = ratio;
-      // ods.filterRatio = ratio; // todo: meta xr
+      hds.filterRatio = ratio;
       state = 1;
-      // ods.initialCameraRigPosition = HitchhikeManager.Instance.initialCameraRigPosition; // todo: meta xr
+      // hds.initialCameraRigPosition = HitchhikeManager.Instance.initialCameraRigPosition; // todo: meta xr
     }
 
     public override void SetEnabled(bool enabled)
@@ -97,7 +102,7 @@ namespace Hitchhike
     public override void SetUpdating(bool updating)
     {
       base.SetUpdating(updating);
-      // ods.isUpdating = updating; // todo: meta xr
+      hds.isUpdating = updating;
     }
 
     public override void SetVisible(bool visible)
@@ -108,14 +113,13 @@ namespace Hitchhike
 
     public Pose GetRawHandPose()
     {
-      // return ods.rawHandPose; // todo: meta xr
-      return new Pose();
+      return hds.rawHandPose;
     }
 
     public void Unselect()
     {
-      grab.Unselect();
-      if (grabUse != null) grabUse.Unselect();
+      // grab.Unselect(); // todo: meta xr
+      // if (grabUse != null) grabUse.Unselect(); // todo: meta xr
     }
 
     public void Select(HandGrabInteractable interactable)
@@ -125,7 +129,8 @@ namespace Hitchhike
 
     public HandGrabInteractable GetCurrentInteractable()
     {
-      return grab.SelectedInteractable;
+      return null;
+      // return grab.SelectedInteractable; // todo: meta xr
     }
 
     public void Detect()

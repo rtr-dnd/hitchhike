@@ -110,9 +110,9 @@ namespace Hitchhike
       }
 
       handAreas = new List<HandArea>();
-      var originalHandArea = new List<HandArea>(FindObjectsOfType<HandArea>()).Find(e => e.isOriginal);
+      var originalHandArea = new List<HandArea>(FindObjectsByType<HandArea>(FindObjectsSortMode.InstanceID)).Find(e => e.isOriginal);
       handAreas.Add(originalHandArea);
-      var copiedHandAreas = new List<HandArea>(FindObjectsOfType<HandArea>()).FindAll(e => (!e.isOriginal && !e.isInvisible));
+      var copiedHandAreas = new List<HandArea>(FindObjectsByType<HandArea>(FindObjectsSortMode.InstanceID)).FindAll(e => !e.isOriginal && !e.isInvisible);
       handAreas.AddRange(copiedHandAreas);
       handAreas.ForEach((e) => InitArea(e));
 

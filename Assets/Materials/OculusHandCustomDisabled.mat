@@ -8,7 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OculusHandCustomDisabled
-  m_Shader: {fileID: 4800000, guid: d435c3318980bc741ad0c901441f8961, type: 3}
+  m_Shader: {fileID: 4800000, guid: b895d3431e75dc345a72e171f82bfbea, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _COLORGRADIENT_ON
@@ -20,6 +22,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -92,6 +95,7 @@ Material:
     - _FresnelOpacity: 0
     - _FresnelOpacityPower: 3.66
     - _FresnelPower: 1.15
+    - _GenerateGlow: 0
     - _GlobalOpacity: 0.714
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -100,8 +104,9 @@ Material:
     - _Metallic: 0
     - _MiddleGlowValue: 0
     - _Mode: 0
+    - _OcclusionEnabled: 0
     - _OcclusionStrength: 1
-    - _Opacity: 0.743
+    - _Opacity: 0.943
     - _OutlineFresnelOpacity: 0
     - _OutlineFresnelPower: 2.462451
     - _OutlineGlowIntensity: 1
@@ -123,7 +128,7 @@ Material:
     - _ThumbGlowValue: 0
     - _UVSec: 0
     - _UseTexture: 0
-    - _WristFade: 0.371
+    - _WristFade: 0.376
     - _WristLocalOffset: 0.06
     - _WristRange: 0.08
     - _WristScale: 1
@@ -131,21 +136,23 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 0.44811308, b: 0.44811308, a: 1}
-    - _ColorBottom: {r: 0.9288893, g: 0.9754104, b: 0.990566, a: 0}
+    - _ColorBottom: {r: 0.5947846, g: 0.73625296, b: 0.7735849, a: 1}
     - _ColorGlow: {r: 0.1215686, g: 0.1254902, b: 0.1294117, a: 1}
     - _ColorPrimary: {r: 1, g: 0.4481132, b: 0.4481132, a: 1}
     - _ColorSecondary: {r: 1, g: 0.8443396, b: 0.8443396, a: 1}
-    - _ColorTop: {r: 0.5686275, g: 0.7823307, b: 0.93333334, a: 0}
+    - _ColorTop: {r: 0.73268956, g: 0.8396226, b: 0.8396226, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FingerGlowColor: {r: 1, g: 1, b: 1, a: 0}
+    - _FingerGlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 0.1960784, g: 0.2039215, b: 0.2117647, a: 1}
-    - _OutlineColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0}
+    - _OutlineColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
     - _OutlineColorBottom: {r: 0, g: 0.19427729, b: 1, a: 1}
     - _OutlineColorTop: {r: 1, g: 0, b: 0, a: 1}
     - _OutlineGlowColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
-    - _OutlineJointColor: {r: 1, g: 0, b: 0.050980393, a: 0}
+    - _OutlineJointColor: {r: 1, g: 0, b: 0.049484253, a: 1}
     - _PinchColor: {r: 1, g: 0, b: 0, a: 1}
     - _PinchPosition: {r: 0, g: 0, b: 0, a: 0}
     - _WristLocalOffset: {r: -0.01, g: 0.01, b: 0, a: 0}
     - _WristPosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
