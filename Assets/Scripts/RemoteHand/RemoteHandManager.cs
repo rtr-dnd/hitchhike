@@ -104,7 +104,8 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>, IRem
   void UpdatePinch()
   {
     if (pinchTarget == null) return;
-    var gain = Vector3.Distance(handInitialPos, targetInitialPos) * 2 + 1;
+    // var gain = Vector3.Distance(handInitialPos, targetInitialPos) * 2 + 1;
+    var gain = 1.5f;
     pinchTarget.transform.position = targetInitialPos + (handAnchor.position - handInitialPos) * gain;
     var handToTargetRot = Quaternion.Inverse(handInitialRot) * targetInitialRot;
     pinchTarget.transform.rotation = handAnchor.rotation * handToTargetRot;

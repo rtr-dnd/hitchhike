@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Hitchhike;
 using Oculus.Interaction;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RemoteHandTarget : TargetObject
 {
@@ -16,6 +18,10 @@ public class RemoteHandTarget : TargetObject
   Quaternion childRot;
   [HideInInspector]
   public IRemoteHandManager remoteHandManager;
+
+  [Header("Grab Events")]
+  public UnityEvent onPinch;
+  public UnityEvent onPinchEnd;
 
   bool _isPinched;
   [HideInInspector]
@@ -60,12 +66,12 @@ public class RemoteHandTarget : TargetObject
 
   public void OnPinch()
   {
-
+    onPinch?.Invoke();
   }
 
   public void OnPinchEnd()
   {
-
+    onPinchEnd?.Invoke();
   }
   public void OnMove()
   {
