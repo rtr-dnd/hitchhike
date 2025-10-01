@@ -14085,6 +14085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 1499146331}
   gazeGizmo: {fileID: 698443459}
+  useGaze: 0
 --- !u!114 &898713012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32488,7 +32489,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1245587948299599303, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15615192
+      value: 0.15615194
       objectReference: {fileID: 0}
     - target: {fileID: 3049833450459585307, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_Mesh

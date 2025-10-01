@@ -8,6 +8,7 @@ namespace Hitchhike
   {
     public Transform head;
     public Transform gazeGizmo;
+    public bool useGaze = true;
     List<OVREyeGaze> eyeGazes;
     int maxRaycastDistance = 100;
 
@@ -36,7 +37,9 @@ namespace Hitchhike
       //   return i;
       // }
 
+
       Ray gazeRay = GetGazeRay();
+      if (!useGaze) gazeRay = GetFrontRay();
       int layerMask = 1 << LayerMask.NameToLayer("Hitchhike");
 
       RaycastHit closestHit = new RaycastHit();
@@ -94,6 +97,11 @@ namespace Hitchhike
 
       if (gazeGizmo != null) gazeGizmo.transform.position = filteredPosition.Value + filteredDirection.Value * 0.5f;
       return new Ray(filteredPosition.Value, filteredDirection.Value);
+    }
+
+    private Ray GetFrontRay()
+    {
+      return new Ray(head.position, head.forward);
     }
   }
 
