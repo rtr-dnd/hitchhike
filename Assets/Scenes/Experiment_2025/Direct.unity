@@ -534,7 +534,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.862, z: 0.3}
-  m_LocalScale: {x: 0.40933135, y: 0.19212058, z: 0.40933135}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -553,11 +553,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 9013928632223663930, guid: ef1b44f094bc7ad4fb9b6f7e10b9dd8a, type: 3}
   movableObject: {fileID: 3873997342815002891}
+  handTransform: {fileID: 81075028}
   positionThreshold: 0.1
   rotationThresholdDegrees: 15
   normalMaterial: {fileID: 2100000, guid: 59f8f8c75ec1a044db0e6c970cc36b41, type: 2}
   withinThresholdMaterial: {fileID: 2100000, guid: e1dfcce16b06bd849a842c82b4006431, type: 2}
-  numberOfPoses: 30
+  translationDistance: 0.2
   randomSeed: 42
 --- !u!65 &401652571
 BoxCollider:
@@ -578,8 +579,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.109703, z: 1}
-  m_Center: {x: 0, y: 0.5548519, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &422489896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,15 +1828,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1245587948299599303, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.07329026
+      value: 0.07329025
       objectReference: {fileID: 0}
     - target: {fileID: 1245587948299599303, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.15615194
+      value: 0.15615192
       objectReference: {fileID: 0}
     - target: {fileID: 1245587948299599303, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.07329026
+      value: 0.07329025
       objectReference: {fileID: 0}
     - target: {fileID: 3049833450459585307, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: m_Mesh
