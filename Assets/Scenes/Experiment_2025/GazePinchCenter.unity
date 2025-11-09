@@ -1041,6 +1041,14 @@ MonoBehaviour:
   onGrabbing:
     m_PersistentCalls:
       m_Calls: []
+  _overridesGrabbingRule: 1
+  _overrideGrabbingRule:
+    _thumbRequirement: 1
+    _indexRequirement: 1
+    _middleRequirement: 0
+    _ringRequirement: 0
+    _pinkyRequirement: 0
+    _unselectMode: 0
 --- !u!1 &1112939565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 280490253538889558, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}

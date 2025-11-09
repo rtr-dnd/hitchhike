@@ -2687,6 +2687,14 @@ PrefabInstance:
       propertyPath: _pinchGrabRules._unselectMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3512356071364758034, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
+      propertyPath: _pinchGrabRules._indexRequirement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512356071364758034, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
+      propertyPath: _pinchGrabRules._middleRequirement
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7595919699978985326, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

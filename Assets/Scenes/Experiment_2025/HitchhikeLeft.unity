@@ -2621,6 +2621,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 2347
       objectReference: {fileID: 0}
+    - target: {fileID: 5449575329220725074, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8004901986158029192, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
       propertyPath: isInvisible
       value: 1
@@ -2689,6 +2693,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OriginalHandArea
       objectReference: {fileID: 0}
+    - target: {fileID: 8379775011427723484, guid: 4bbfab0f20d52ed4ea4b20c45fbe50d1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2717,6 +2725,14 @@ PrefabInstance:
     - target: {fileID: 3512356071364758034, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
       propertyPath: _pinchGrabRules._unselectMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512356071364758034, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
+      propertyPath: _pinchGrabRules._indexRequirement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512356071364758034, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
+      propertyPath: _pinchGrabRules._middleRequirement
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7595919699978985326, guid: e5f609206be44d749b3f0127cee4b49d, type: 3}
       propertyPath: m_LocalPosition.x

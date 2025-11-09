@@ -51,6 +51,10 @@ namespace Oculus.Interaction
         private bool _wasPinchGrabbing = false;
         private bool _wasPalmGrabbing = false;
         private GrabbingRule _grabbingRule;
+        [SerializeField]
+        private bool _overridesGrabbingRule = false;
+        [SerializeField]
+        private GrabbingRule _overrideGrabbingRule;
 
         public bool IsGrabbing => _isGrabbing;
         public GrabTypeFlags CurrentGrabType => _currentGrabType;
@@ -60,7 +64,8 @@ namespace Oculus.Interaction
         {
             // Initialize grabbing rule with default settings
             // Use static properties from GrabbingRule
-            _grabbingRule = _usePinchRule ? GrabbingRule.DefaultPinchRule : GrabbingRule.DefaultPalmRule;
+            _grabbingRule = _overridesGrabbingRule ? _overrideGrabbingRule
+            : _usePinchRule ? GrabbingRule.DefaultPinchRule : GrabbingRule.DefaultPalmRule;
         }
 
         private void Start()
