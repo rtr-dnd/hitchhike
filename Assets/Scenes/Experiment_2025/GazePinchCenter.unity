@@ -1860,7 +1860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 9013928632223663930, guid: ef1b44f094bc7ad4fb9b6f7e10b9dd8a, type: 3}
   movableObject: {fileID: 1112939565}
-  handTransform: {fileID: 0}
+  handTransform: {fileID: 81075028}
   positionThreshold: 0.1
   rotationThresholdDegrees: 15
   normalMaterial: {fileID: 2100000, guid: 59f8f8c75ec1a044db0e6c970cc36b41, type: 2}
