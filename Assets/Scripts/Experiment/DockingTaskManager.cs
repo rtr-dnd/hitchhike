@@ -15,19 +15,17 @@ public class DockingTaskManager : MonoBehaviour
     [Header("Hand Tracking")]
     public Transform handTransform; // Transform to track (e.g., hand or controller)
 
-    [Header("Docking Thresholds")]
-    public float positionThreshold = 0.1f;
-    public float rotationThresholdDegrees = 15f;
 
     [Header("Visual Feedback")]
     public Material normalMaterial;
     public Material withinThresholdMaterial;
 
-    [Header("Experimental Conditions")]
-    [SerializeField]
-    private float translationDistance = 0.2f;
     [SerializeField]
     private int randomSeed = 42;
+
+    private float positionThreshold = 0.02f;
+    private float rotationThresholdDegrees = 15f;
+    private float translationDistance = 0.2f;
 
     public enum RotationAxisPair
     {
@@ -77,6 +75,7 @@ public class DockingTaskManager : MonoBehaviour
     private BoxCollider spawnArea;
     private GameObject spawnedObject;
     private MeshRenderer targetMeshRenderer;
+    private WireframeCubeVR targetWireframe;
     private bool isWithinThreshold = false;
     private bool wasWithinThreshold = false;
     private bool isObjectGrabbed = false;
@@ -337,10 +336,10 @@ public class DockingTaskManager : MonoBehaviour
                 // All conditions completed
                 float totalTaskTime = taskTimes.Count > 0 ? taskTimes.Sum() : 0f;
                 int totalClutchingCount = clutchingCounts.Count > 0 ? clutchingCounts.Sum() : 0;
-                
+
                 Debug.Log($"=== EXPERIMENT COMPLETED ===");
                 Debug.Log($"All {allConditions.Count} conditions have been tested!");
-                
+
                 // Output summary as CSV
                 System.Text.StringBuilder summaryCSV = new System.Text.StringBuilder();
                 summaryCSV.AppendLine("Metric,Value,Unit");
@@ -354,7 +353,7 @@ public class DockingTaskManager : MonoBehaviour
                 summaryCSV.AppendLine($"Grabbed Rotation,{grabbedRotationAngle:F1},degrees");
                 summaryCSV.AppendLine($"Grabbed Ignored Position,{grabbedIgnoredPositionCount},count");
                 summaryCSV.AppendLine($"Grabbed Ignored Rotation,{grabbedIgnoredRotationCount},count");
-                
+
                 Debug.Log("=== EXPERIMENT SUMMARY CSV ===");
                 Debug.Log(summaryCSV.ToString());
                 Debug.Log("=== END SUMMARY CSV ===");
@@ -379,10 +378,12 @@ public class DockingTaskManager : MonoBehaviour
         if (withinThreshold && withinThresholdMaterial != null)
         {
             targetMeshRenderer.material = withinThresholdMaterial;
+            if (targetWireframe != null) targetWireframe.UpdateMaterial(withinThresholdMaterial);
         }
         else if (!withinThreshold && normalMaterial != null)
         {
             targetMeshRenderer.material = normalMaterial;
+            if (targetWireframe != null) targetWireframe.UpdateMaterial(normalMaterial);
         }
     }
 
@@ -430,10 +431,15 @@ public class DockingTaskManager : MonoBehaviour
 
         spawnedObject = Instantiate(prefabToSpawn, spawnPosition, spawnRotation);
 
-        targetMeshRenderer = spawnedObject.GetComponentInChildren<MeshRenderer>();
+        targetMeshRenderer = spawnedObject.GetChildWithName("Stanford_Bunny").GetComponent<MeshRenderer>();
         if (targetMeshRenderer != null && normalMaterial != null)
         {
             targetMeshRenderer.material = normalMaterial;
+        }
+        targetWireframe = spawnedObject.GetComponentInChildren<WireframeCubeVR>();
+        if (targetWireframe != null && normalMaterial != null)
+        {
+            targetWireframe.UpdateMaterial(normalMaterial);
         }
 
         if (movableObject != null)

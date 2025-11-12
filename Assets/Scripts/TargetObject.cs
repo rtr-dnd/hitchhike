@@ -35,7 +35,7 @@ public class TargetObject : MonoBehaviour
     Quaternion currentRotation = this.transform.rotation;
     this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     Bounds bounds = new Bounds(this.transform.position, Vector3.zero);
-    var renderers = GetComponentsInChildren<Renderer>();
+    var renderers = GetComponentsInChildren<MeshRenderer>();
     if (renderers.Length == 0) return null;
     foreach (Renderer renderer in renderers)
     {
