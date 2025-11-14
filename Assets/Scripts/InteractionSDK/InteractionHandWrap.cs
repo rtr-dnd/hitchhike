@@ -3,6 +3,7 @@ using Oculus.Interaction.Input;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction;
 using RootScript;
+using Oculus.Interaction.Grab;
 
 namespace Hitchhike
 {
@@ -10,7 +11,7 @@ namespace Hitchhike
   {
     public SkinnedMeshRenderer meshRenderer;
     private HitchhikeFromOVRHandDataSource hds;
-    private HandGrabInteractor grab;
+    private HitchhikeHandGrabInteractor grab;
     private HandGrabUseInteractor grabUse;
     private int state = 0;
     // 0: before Init()
@@ -48,7 +49,7 @@ namespace Hitchhike
       hds.InjectTrackingToWorldTransformer(gameObject.GetComponentInParent<TrackingToWorldTransformerOVR>());
       Debug.Log("dataSourceGo hds: " + hds);
 
-      grab = gameObject.GetComponentInChildren<HandGrabInteractor>();
+      grab = gameObject.GetComponentInChildren<HitchhikeHandGrabInteractor>();
       grabUse = gameObject.GetComponentInChildren<HandGrabUseInteractor>();
     }
 
@@ -68,6 +69,11 @@ namespace Hitchhike
         {
           SetUpdating(true);
         }
+      }
+
+      if (grab.SelectedInteractable != null)
+      {
+        grab.PrintLog();
       }
     }
 
@@ -116,18 +122,98 @@ namespace Hitchhike
       return hds.rawHandPose;
     }
 
-    public void Unselect()
+    /// <summary>
+    /// Stores the grab state for transferring between hands
+    /// </summary>
+    public class SavedGrabState
     {
+      public HandGrabTarget target;
+      public Pose relativePose;
+      public Vector3 objectScale;
+    }
+
+    /// <summary>
+    /// Unselect the currently grabbed object and save its state
+    /// </summary>
+    /// <returns>Saved grab state, or null if nothing is selected</returns>
+    public SavedGrabState Unselect()
+    {
+      if (grab.SelectedInteractable == null)
+      {
+        grab.Unselect();
+        if (grabUse != null) grabUse.Unselect();
+        return null;
+      }
+
+      var state = new SavedGrabState();
+      state.target = grab.HandGrabTarget;
+
+      // Get current grab point in world space
+      Pose worldGrabPose = grab.HandGrabTarget.GetWorldPoseDisplaced(Pose.identity);
+      Transform relativeTo = grab.SelectedInteractable.RelativeTo;
+
+      // Save the object's current scale for later compensation
+      state.objectScale = relativeTo.lossyScale;
+
+      // Convert to relative pose (ignoring scale to handle objects with non-uniform scale)
+      Vector3 worldOffset = worldGrabPose.position - relativeTo.position;
+      Vector3 localOffset = Quaternion.Inverse(relativeTo.rotation) * worldOffset;
+      Quaternion localRotation = Quaternion.Inverse(relativeTo.rotation) * worldGrabPose.rotation;
+
+      state.relativePose = new Pose(localOffset, localRotation);
+
       grab.Unselect();
       if (grabUse != null) grabUse.Unselect();
+
+      return state;
     }
 
-    public void Select(HandGrabInteractable interactable)
+    /// <summary>
+    /// Select an interactable with a previously saved grab state
+    /// </summary>
+    /// <param name="interactable">The interactable to select</param>
+    /// <param name="savedState">The saved grab state from a previous Unselect call</param>
+    public void Select(HandGrabInteractable interactable, SavedGrabState savedState)
     {
-      // grab.ForceSelectOnce(interactable); // todo: meta xr
-      grab.ForceSelect(interactable, true); // todo: meta xr
+      var newResult = new HandGrabResult();
+
+      // Copy HandPose if it exists
+      if (savedState.target.HandPose != null)
+      {
+        newResult.HasHandPose = true;
+        newResult.HandPose.CopyFrom(savedState.target.HandPose);
+      }
+
+      // Compensate for scale changes between Unselect and Select
+      Vector3 currentScale = interactable.RelativeTo.lossyScale;
+      Vector3 scaleRatio = new Vector3(
+        currentScale.x / savedState.objectScale.x,
+        currentScale.y / savedState.objectScale.y,
+        currentScale.z / savedState.objectScale.z
+      );
+
+      // Adjust the relative pose to maintain the same world-space grab point
+      // When object scales down, the relative offset should scale up proportionally
+      Vector3 compensatedPosition = new Vector3(
+        savedState.relativePose.position.x * scaleRatio.x,
+        savedState.relativePose.position.y * scaleRatio.y,
+        savedState.relativePose.position.z * scaleRatio.z
+      );
+
+      newResult.RelativePose = new Pose(compensatedPosition, savedState.relativePose.rotation);
+
+      // Force select with the custom target
+      grab.ForceSelectWithCustomTarget(
+        interactable,
+        newResult,
+        savedState.target.Anchor,
+        savedState.target.HandAlignment
+      );
     }
 
+    /// <summary>
+    /// Get the currently selected interactable
+    /// </summary>
     public HandGrabInteractable GetCurrentInteractable()
     {
       return grab.SelectedInteractable;

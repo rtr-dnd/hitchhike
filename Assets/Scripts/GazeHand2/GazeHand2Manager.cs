@@ -95,7 +95,7 @@ namespace Hitchhike
         // d&d
         var beforeArea = GetActiveHandArea();
         var interactables = beforeArea.wraps.Select(wrap => (wrap as InteractionHandWrap).GetCurrentInteractable()).ToList();
-        beforeArea.wraps.ForEach(wrap => { (wrap as InteractionHandWrap).Unselect(); });
+        var handGrabTargets = beforeArea.wraps.Select(wrap => (wrap as InteractionHandWrap).Unselect()).ToList();
         ActivateHandArea(handAreas[i]);
         var afterArea = GetActiveHandArea();
 
@@ -105,8 +105,9 @@ namespace Hitchhike
         foreach (var (rawInteractable, handIndex) in interactables.Select((value, index) => (value, index)))
         {
           // determine if dnd can be performed
-          if (rawInteractable == null || DisableDnd) continue;
+          if (rawInteractable == null || handGrabTargets == null || handGrabTargets[handIndex] == null || DisableDnd) continue;
           var interactable = rawInteractable;
+          var target = handGrabTargets[handIndex];
           var pdd = interactable.GetComponent<PreventDragAndDrop>();
           if (pdd != null)
           {
@@ -152,7 +153,7 @@ namespace Hitchhike
           if (scaleHandModel)
             interactable.gameObject.transform.localScale *= new List<float>
                 { beforeToAfterScale.x, beforeToAfterScale.y, beforeToAfterScale.z }.Average();
-          (afterArea.wraps[handIndex] as InteractionHandWrap).Select(interactable);
+          (afterArea.wraps[handIndex] as InteractionHandWrap).Select(interactable, target);
           alreadyDroppedInteractables.Add(interactable);
         }
       }

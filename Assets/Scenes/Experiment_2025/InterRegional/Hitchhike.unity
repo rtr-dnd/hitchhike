@@ -3746,6 +3746,14 @@ PrefabInstance:
       propertyPath: _whenUnselect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6894085862165512248, guid: 3a39e88f85a9146428167ee7571dfbe2, type: 3}
+      propertyPath: _supportedGrabTypes
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894085862165512248, guid: 3a39e88f85a9146428167ee7571dfbe2, type: 3}
+      propertyPath: _pinchGrabRules._middleRequirement
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
