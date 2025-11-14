@@ -70,11 +70,6 @@ namespace Hitchhike
           SetUpdating(true);
         }
       }
-
-      if (grab.SelectedInteractable != null)
-      {
-        grab.PrintLog();
-      }
     }
 
     public override void Init(HandArea handArea, Transform original, Transform copied, bool scale, bool mirror, bool doNotResetHandPosition, float ratio)

@@ -13,7 +13,7 @@ namespace Hitchhike
 
     /// <summary>
     /// Force select an interactable with a custom HandGrabTarget configuration.
-    /// This allows you to preserve the grab pose when transferring an object between hands.
+    /// This allows to preserve the grab pose when transferring an object between hands.
     /// </summary>
     public void ForceSelectWithCustomTarget(
       HandGrabInteractable interactable,
@@ -49,31 +49,6 @@ namespace Hitchhike
         Movement = this.GenerateMovement(interactable);
         _pendingCustomResult = null;
       }
-    }
-
-    /// <summary>
-    /// Get the current grab type (Pinch or Palm) being used
-    /// </summary>
-    public GrabTypeFlags GetCurrentGrabType()
-    {
-      return HandGrabTarget.Anchor;
-    }
-
-    /// <summary>
-    /// Print debug information about the current grab state
-    /// </summary>
-    public void PrintLog()
-    {
-      if (SelectedInteractable == null) return;
-
-      Transform relativeTo = SelectedInteractable.RelativeTo;
-      Pose worldPose = HandGrabTarget.GetWorldPoseDisplaced(Pose.identity);
-      Pose wristPose = WristPoint.GetPose();
-      Pose movementPose = Movement != null ? Movement.Pose : Pose.identity;
-
-      Debug.Log($"[Grab] {SelectedInteractable.name} | Anchor:{HandGrabTarget.Anchor} Align:{HandGrabTarget.HandAlignment} | " +
-                $"RelTo:{relativeTo.position:F2} | TargetWorld:{worldPose.position:F2} | Wrist:{wristPose.position:F2} | " +
-                $"Offset:{WristToGrabPoseOffset.position:F2} | Movement:{movementPose.position:F2} | HasHandPose:{HandGrabTarget.HandPose != null}");
     }
   }
 }
