@@ -31,6 +31,15 @@ public class WireframeCubeVR : MonoBehaviour
         InitializeWireframe();
     }
 
+    void OnEnable()
+    {
+        // Update wireframe immediately when object is enabled to prevent displaying at old position
+        if (isInitialized && showWireframe)
+        {
+            UpdateWireframe();
+        }
+    }
+
     void InitializeWireframe()
     {
         if (isInitialized)

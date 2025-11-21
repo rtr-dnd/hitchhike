@@ -1,20 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class InterRegionalTaskManager : BaseTaskManager
+public class WithinRegionalTaskManager : BaseTaskManager
 {
     [System.Serializable]
     public class ExperimentalCondition
     {
-        public int startRegionIndex;
-        public int targetRegionIndex;
+        public int regionIndex;
         public TranslationAxis translationAxis;
         public RotationAxisPair rotationAxis;
 
-        public ExperimentalCondition(int startIdx, int targetIdx, TranslationAxis tAxis, RotationAxisPair rAxis)
+        public ExperimentalCondition(int regIdx, TranslationAxis tAxis, RotationAxisPair rAxis)
         {
-            startRegionIndex = startIdx;
-            targetRegionIndex = targetIdx;
+            regionIndex = regIdx;
             translationAxis = tAxis;
             rotationAxis = rAxis;
         }
@@ -23,9 +21,6 @@ public class InterRegionalTaskManager : BaseTaskManager
     private List<ExperimentalCondition> allConditions = new List<ExperimentalCondition>();
     private List<ExperimentalCondition> completedConditions = new List<ExperimentalCondition>();
     private ExperimentalCondition currentCondition = null;
-
-    private TranslationAxis selectedTranslationAxis;
-    private RotationAxisPair selectedRotationAxis;
 
     protected override int GetExpectedRegionCount()
     {
@@ -59,46 +54,46 @@ public class InterRegionalTaskManager : BaseTaskManager
         }
 
         Debug.Log($"Selected rotation axes: {selectedRotationAxes[0]}, {selectedRotationAxes[1]}, {selectedRotationAxes[2]}");
-
-        // Select one random translation and rotation for inter-regional task
-        SelectRandomTranslationAndRotation();
-    }
-
-    private void SelectRandomTranslationAndRotation()
-    {
-        // Select one random translationAxis from 4 options
-        TranslationAxis[] allTranslations = { TranslationAxis.PlusX, TranslationAxis.MinusX,
-                                              TranslationAxis.PlusZ, TranslationAxis.MinusZ };
-        selectedTranslationAxis = allTranslations[Random.Range(0, allTranslations.Length)];
-
-        // Select one random rotationAxis from 3 selected axes
-        selectedRotationAxis = selectedRotationAxes[Random.Range(0, selectedRotationAxes.Count)];
-
-        Debug.Log($"Selected translation axis: {selectedTranslationAxis}, rotation axis: {selectedRotationAxis}");
     }
 
     protected override void GenerateAllExperimentalConditions()
     {
         allConditions.Clear();
 
-        // Generate all combinations (6 start regions × 5 target regions = 30 conditions)
-        for (int startIdx = 0; startIdx < regionAreas.Count; startIdx++)
+        TranslationAxis[] allTranslations = { TranslationAxis.PlusX, TranslationAxis.MinusX,
+                                              TranslationAxis.PlusZ, TranslationAxis.MinusZ };
+
+        // For each region, generate all possible combinations and randomly select 3
+        for (int regionIdx = 0; regionIdx < regionAreas.Count; regionIdx++)
         {
-            for (int targetIdx = 0; targetIdx < regionAreas.Count; targetIdx++)
+            // Generate all 12 possible combinations for this region (4 translations × 3 rotation axes)
+            List<ExperimentalCondition> regionConditions = new List<ExperimentalCondition>();
+
+            foreach (var tAxis in allTranslations)
             {
-                if (startIdx != targetIdx)
+                foreach (var rAxis in selectedRotationAxes)
                 {
-                    allConditions.Add(new ExperimentalCondition(
-                        startIdx,
-                        targetIdx,
-                        selectedTranslationAxis,
-                        selectedRotationAxis
-                    ));
+                    regionConditions.Add(new ExperimentalCondition(regionIdx, tAxis, rAxis));
                 }
+            }
+
+            // Shuffle the region conditions
+            for (int i = regionConditions.Count - 1; i > 0; i--)
+            {
+                int randomIndex = Random.Range(0, i + 1);
+                var temp = regionConditions[i];
+                regionConditions[i] = regionConditions[randomIndex];
+                regionConditions[randomIndex] = temp;
+            }
+
+            // Add first 3 conditions to all conditions
+            for (int i = 0; i < 3; i++)
+            {
+                allConditions.Add(regionConditions[i]);
             }
         }
 
-        Debug.Log($"Generated {allConditions.Count} experimental conditions (6 regions × 5 target regions)");
+        Debug.Log($"Generated {allConditions.Count} experimental conditions (6 regions × 3 repetitions with varied offsets)");
     }
 
     protected override int GetTotalConditionCount()
@@ -114,8 +109,8 @@ public class InterRegionalTaskManager : BaseTaskManager
             return Vector3.zero;
         }
 
-        Vector3 startRegionCenter = GetRegionCenter(currentCondition.startRegionIndex);
-        return startRegionCenter;
+        Vector3 regionCenter = GetRegionCenter(currentCondition.regionIndex);
+        return regionCenter;
     }
 
     protected override Vector3 GetTargetObjectPosition()
@@ -126,8 +121,8 @@ public class InterRegionalTaskManager : BaseTaskManager
             return Vector3.zero;
         }
 
-        Vector3 targetRegionCenter = GetRegionCenter(currentCondition.targetRegionIndex);
-        return CalculateTargetPosition(targetRegionCenter, currentCondition.translationAxis);
+        Vector3 regionCenter = GetRegionCenter(currentCondition.regionIndex);
+        return CalculateTargetPosition(regionCenter, currentCondition.translationAxis);
     }
 
     protected override Quaternion GetTargetObjectRotation()
@@ -143,7 +138,7 @@ public class InterRegionalTaskManager : BaseTaskManager
 
     protected override string GetConditionCSVColumns()
     {
-        return "Start Region,Target Region,Translation Axis,Rotation Axis";
+        return "Region Index,Translation Axis,Rotation Axis";
     }
 
     protected override string GetConditionCSVValues(int taskIndex)
@@ -151,9 +146,9 @@ public class InterRegionalTaskManager : BaseTaskManager
         if (taskIndex < completedConditions.Count)
         {
             var condition = completedConditions[taskIndex];
-            return $"{condition.startRegionIndex},{condition.targetRegionIndex},{condition.translationAxis},{condition.rotationAxis}";
+            return $"{condition.regionIndex},{condition.translationAxis},{condition.rotationAxis}";
         }
-        return "N/A,N/A,N/A,N/A";
+        return "N/A,N/A,N/A";
     }
 
     protected override void StoreCompletedCondition()
@@ -190,7 +185,7 @@ public class InterRegionalTaskManager : BaseTaskManager
         currentCondition = allConditions[conditionIndex];
         currentConditionIndex++;
 
-        Debug.Log($"Prepared trial {currentConditionIndex}/{conditionIndices.Count}: Start Region={currentCondition.startRegionIndex}, Target Region={currentCondition.targetRegionIndex}, Translation={currentCondition.translationAxis}, Rotation={currentCondition.rotationAxis}");
+        Debug.Log($"Prepared trial {currentConditionIndex}/{conditionIndices.Count}: Region={currentCondition.regionIndex}, Translation={currentCondition.translationAxis}, Rotation={currentCondition.rotationAxis}");
 
         // Set state to waiting for start
         currentTrialState = TrialState.WaitingToStart;
