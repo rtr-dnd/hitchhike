@@ -31,7 +31,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected float positionThreshold = 0.02f;
     protected float rotationThresholdDegrees = 15f;
-    protected float translationDistance = 0.2f;
+    protected float translationDistance = 0.314f;
 
     protected enum TrialState
     {
