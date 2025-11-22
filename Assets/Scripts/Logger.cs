@@ -30,6 +30,7 @@ public class Logger : SingletonMonoBehaviour<Logger>
         _frameLogWriter = new StreamWriter(frameLogPath, false, Encoding.UTF8);
         string[] frameLogHeaders = {
             "Timestamp", "TrialID", "Condition", "Phase",
+            "StartRegionName", "TargetRegionName", "TranslationAxis", "RotationAxis", "RotationAngle",
             "HeadPosX", "HeadPosY", "HeadPosZ", "HeadRotX", "HeadRotY", "HeadRotZ", "HeadRotW",
             "HandPosX", "HandPosY", "HandPosZ", "HandRotX", "HandRotY", "HandRotZ", "HandRotW",
             "VirtualHandPosX", "VirtualHandPosY", "VirtualHandPosZ", "VirtualHandRotX", "VirtualHandRotY", "VirtualHandRotZ", "VirtualHandRotW",
@@ -38,7 +39,7 @@ public class Logger : SingletonMonoBehaviour<Logger>
             "RightGazeOriginX", "RightGazeOriginY", "RightGazeOriginZ", "RightGazeDirX", "RightGazeDirY", "RightGazeDirZ",
             "MovableObjectPosX", "MovableObjectPosY", "MovableObjectPosZ", "MovableObjectRotX", "MovableObjectRotY", "MovableObjectRotZ", "MovableObjectRotW",
             "TargetObjectPosX", "TargetObjectPosY", "TargetObjectPosZ", "TargetObjectRotX", "TargetObjectRotY", "TargetObjectRotZ", "TargetObjectRotW",
-            "IsGrabbing", "IsIndexPinching", "IsInThreshold"
+            "IsGrabbing", "IsIndexPinching", "IsInThreshold", "IsRetryPressed"
         };
         _frameLogWriter.WriteLine(string.Join(",", frameLogHeaders));
         _frameLogWriter.Flush();
@@ -46,11 +47,11 @@ public class Logger : SingletonMonoBehaviour<Logger>
         // --- Initialize Trial Summary Log ---
         string summaryLogPath = Path.Combine(_logDirectory, "summary_log.csv");
         _summaryLogWriter = new StreamWriter(summaryLogPath, false, Encoding.UTF8);
-        // Base headers - will be complemented by task-specific headers
         string[] summaryLogHeaders = {
             "TrialID", "ParticipantID", "Condition",
+            "StartRegionName", "TargetRegionName", "TranslationAxis", "RotationAxis", "RotationAngle",
             "TaskCompletionTime", "InitialReachingTime", "ManipulationTime",
-            "ClutchCount", "FailedGrabs",
+            "ClutchCount", "FailedGrabs", "RetryCount",
             "TotalHandPathLength", "TotalHandRotation",
             "PreshapingAmount",
             "ManipulationHandPathLength", "ManipulationHandRotation",

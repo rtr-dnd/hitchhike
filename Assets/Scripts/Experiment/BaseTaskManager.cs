@@ -94,6 +94,7 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected int currentConditionIndex = 0;
     protected bool allConditionsCompleted = false;
     protected bool isCalibrated = false;
+    protected bool isHitchhikeManagerAvailable = false;
 
     // Object references
     protected GameObject spawnedObject;
@@ -147,263 +148,154 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected float manipulationHandRotation = 0f;
     protected int failedGrabs = 0; // To be implemented
 
+    // Retry tracking
+    protected int currentRetryCount = 0;
+    protected bool isRetryPressedThisFrame = false;
+
     public void SetIsPinched(bool value)
     {
         isPinched = value;
     }
 
     protected virtual int GetExpectedRegionCount()
-
     {
-
         return 7;
-
     }
 
-
-
     // Abstract methods - must be implemented by child classes
-
     protected abstract void SelectRandomRotationAxes();
-
     protected abstract void GenerateAllExperimentalConditions();
-
     protected abstract int GetTotalConditionCount();
-
     protected abstract Vector3 GetMovableObjectStartPosition();
-
     protected abstract Vector3 GetTargetObjectPosition();
-
     protected abstract Quaternion GetTargetObjectRotation();
-
     protected abstract string GetConditionCSVColumns();
-
     protected abstract string GetConditionCSVValues(int taskIndex);
-
     protected abstract void StoreCompletedCondition();
 
+    // Trial parameters for logging
+    protected abstract string GetCurrentStartRegionName();
+    protected abstract string GetCurrentTargetRegionName();
+    protected abstract string GetCurrentTranslationAxis();
+    protected abstract string GetCurrentRotationAxis();
+    protected abstract float GetCurrentRotationAngle();
 
+    // Helper to get region name by index
+    protected string GetRegionName(int regionIndex)
+    {
+        if (regionIndex < 0 || regionIndex >= _allRegions.Count || _allRegions[regionIndex] == null)
+        {
+            return "N/A";
+        }
+        return _allRegions[regionIndex].name;
+    }
 
     protected virtual void Start()
-
     {
-
         // Populate and validate regions
-
         _allRegions.AddRange(new List<GameObject> {
-
                 originalRegion, centerMiddleRegion, centerFarRegion,
-
                 rightMiddleRegion, rightFarRegion, leftMiddleRegion, leftFarRegion
-
             });
-
         if (_allRegions.Any(r => r == null))
-
         {
-
             Debug.LogError("One or more region GameObjects are not assigned in the Inspector!");
-
             return;
-
         }
-
-
 
         // Create HandArea to Region map
-
         foreach (var region in _allRegions)
-
         {
-
             var handArea = region.GetComponentInChildren<Hitchhike.HandArea>();
-
             if (handArea != null)
-
             {
-
                 _handAreaToRegionMap[handArea] = region;
-
             }
-
             else
-
             {
-
                 Debug.LogWarning($"No HandArea component found in the children of region '{region.name}'");
-
             }
-
         }
-
-
 
         // Get IHand component
-
         hand = handTransform.GetComponent<Oculus.Interaction.Input.IHand>();
 
-
-
         // Populate eyeGazes list from assigned gazeSourceGameObject or self-components
-
-
-
         if (gazeSourceGameObject != null)
-
-
-
         {
-
-
-
             eyeGazes = new List<OVREyeGaze>(gazeSourceGameObject.GetComponents<OVREyeGaze>());
-
-
-
             if (eyeGazes.Count == 0)
-
-
-
             {
-
-
-
                 Debug.LogWarning($"No OVREyeGaze components found on assigned Gaze Source GameObject '{gazeSourceGameObject.name}'. Gaze data will default to head forward.");
-
-
-
             }
-
-
-
         }
-
-
-
         else
-
-
-
         {
-
-
-
             eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
-
-
-
             if (eyeGazes.Count == 0)
-
-
-
             {
-
-
-
                 Debug.LogWarning("No Gaze Source GameObject assigned, and no OVREyeGaze components found on this GameObject. Gaze data will default to head forward.");
-
-
-
             }
-
-
-
         }
-
-
 
         // Validate all regions have BoxColliders
-
         foreach (var region in _allRegions)
-
         {
-
             if (region == null || region.GetComponent<BoxCollider>() == null)
-
             {
-
                 Debug.LogError("All region areas must have BoxColliders!");
-
                 return;
-
             }
-
         }
 
-
+        // Check HitchhikeManager availability (use FindObjectOfType to avoid Singleton error spam)
+        var hitchhikeManager = FindObjectOfType<Hitchhike.HitchhikeManager>();
+        if (hitchhikeManager != null)
+        {
+            isHitchhikeManagerAvailable = true;
+        }
+        else
+        {
+            isHitchhikeManagerAvailable = false;
+            Debug.LogWarning("HitchhikeManager not found in scene. Virtual hand data will not be logged.");
+        }
 
         if (prefabToSpawn != null && movableObject != null)
-
         {
-
             SelectRandomRotationAxes();
-
             GenerateAllExperimentalConditions();
-
             ShuffleConditionIndices();
 
-
-
             // Initialize hand tracking
-
             if (handTransform != null)
-
             {
-
                 lastHandPosition = handTransform.position;
-
                 lastHandRotation = handTransform.rotation;
-
                 isTrackingStarted = true;
-
                 Debug.Log("Hand tracking initialized");
-
             }
-
             else
-
             {
-
                 Debug.LogWarning("Hand transform not assigned for tracking!");
-
             }
-
-
 
             // Start Logger
-
             if (Logger.Instance != null)
-
             {
-
                 Logger.Instance.StartNewLog(participantId);
-
             }
 
-
-
             // Prepare the first trial (but don't show button until calibrated)
-
             PrepareNextTrial();
 
-
-
             // Hide buttons until calibration is done
-
             HideAllTrialButtons();
-
             Debug.Log("Please press H key to calibrate origin height before starting trials");
-
         }
-
         else
-
         {
-
             Debug.LogWarning("Prefab to spawn or movable object is not assigned!");
-
         }
-
     }
 
     private (Ray left, Ray right) GetGazeRays()
@@ -426,7 +318,7 @@ public abstract class BaseTaskManager : MonoBehaviour
                 rightRay = new Ray(rightEye.transform.position, rightEye.transform.forward);
             }
         }
-        
+
         return (leftRay, rightRay);
     }
 
@@ -470,7 +362,7 @@ public abstract class BaseTaskManager : MonoBehaviour
             // Get Hitchhiking data if available
             string activeRegionName = "N/A";
             Pose virtualHandPose = Pose.identity;
-            if (Hitchhike.HitchhikeManager.Instance != null)
+            if (isHitchhikeManagerAvailable && Hitchhike.HitchhikeManager.Instance != null)
             {
                 var activeArea = Hitchhike.HitchhikeManager.Instance.GetActiveHandArea();
                 if (activeArea != null)
@@ -479,10 +371,6 @@ public abstract class BaseTaskManager : MonoBehaviour
                     {
                         activeRegionName = _handAreaToRegionMap[activeArea].name;
                     }
-                    else
-                    {
-                        Debug.LogWarning("Logger: ActiveHandArea found, but not present in the _handAreaToRegionMap.");
-                    }
 
                     if (activeArea.wraps != null && activeArea.wraps.Count > 0)
                     {
@@ -490,21 +378,9 @@ public abstract class BaseTaskManager : MonoBehaviour
                         virtualHandPose.position = virtualHand.transform.position;
                         virtualHandPose.rotation = virtualHand.transform.rotation;
                     }
-                    else
-                    {
-                        Debug.LogWarning("Logger: ActiveHandArea found, but its 'wraps' list is null or empty.");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Logger: HitchhikeManager instance found, but GetActiveHandArea() returned null.");
                 }
             }
-            else
-            {
-                Debug.LogError("Logger: HitchhikeManager.Instance is null");
-            }
-            
+
             // Get object poses safely
             Pose movablePose = Pose.identity;
             if (movableObject != null)
@@ -524,6 +400,11 @@ public abstract class BaseTaskManager : MonoBehaviour
                 currentConditionIndex,
                 conditionName,
                 currentPhase.ToString(),
+                GetCurrentStartRegionName(),
+                GetCurrentTargetRegionName(),
+                GetCurrentTranslationAxis(),
+                GetCurrentRotationAxis(),
+                GetCurrentRotationAngle(),
                 headAnchor.transform.position.x, headAnchor.transform.position.y, headAnchor.transform.position.z,
                 headAnchor.transform.rotation.x, headAnchor.transform.rotation.y, headAnchor.transform.rotation.z, headAnchor.transform.rotation.w,
                 handTransform.position.x, handTransform.position.y, handTransform.position.z,
@@ -541,8 +422,12 @@ public abstract class BaseTaskManager : MonoBehaviour
                 spawnedPose.rotation.x, spawnedPose.rotation.y, spawnedPose.rotation.z, spawnedPose.rotation.w,
                 isObjectGrabbed,
                 isIndexPinching,
-                isWithinThreshold
+                isWithinThreshold,
+                isRetryPressedThisFrame
             );
+
+            // Reset retry flag after logging
+            isRetryPressedThisFrame = false;
         }
     }
 
@@ -793,6 +678,9 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         currentConditionIndex++;
 
+        // Reset retry count for new trial
+        currentRetryCount = 0;
+
         Debug.Log($"Prepared trial {currentConditionIndex}/{conditionIndices.Count}");
 
         // Set state to waiting for start
@@ -897,6 +785,10 @@ public abstract class BaseTaskManager : MonoBehaviour
     {
         Debug.Log("Retrying current trial");
 
+        // Track retry
+        isRetryPressedThisFrame = true;
+        currentRetryCount++;
+
         // Stop completion coroutine if it's running
         if (_completionCoroutine != null)
         {
@@ -956,11 +848,17 @@ public abstract class BaseTaskManager : MonoBehaviour
                 currentConditionIndex,
                 participantId,
                 conditionName,
+                GetCurrentStartRegionName(),
+                GetCurrentTargetRegionName(),
+                GetCurrentTranslationAxis(),
+                GetCurrentRotationAxis(),
+                GetCurrentRotationAngle(),
                 taskTime,
                 initialReachingTime,
                 manipulationTime,
                 currentClutchingCount,
                 failedGrabs,
+                currentRetryCount,
                 totalDistanceTraveled,
                 totalRotationAngle,
                 preshapingRotation,

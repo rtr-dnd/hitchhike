@@ -374,7 +374,7 @@ MonoBehaviour:
   trialRetryButton: {fileID: 1407066208}
   trialCountText: {fileID: 1778016497831417744}
   participantId: 1
-  conditionName: DefaultCondition
+  conditionName: HH_Within
   randomSeed: 42
 --- !u!114 &401652574
 MonoBehaviour:
@@ -2087,7 +2087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.08571429
+      value: 0.08571428
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.y
@@ -2095,7 +2095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.08571428
+      value: 0.08571429
       objectReference: {fileID: 0}
     - target: {fileID: 4630087829284082634, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_AnchorMax.y
