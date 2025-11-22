@@ -5,6 +5,9 @@ using System.Linq;
 
 public abstract class BaseTaskManager : MonoBehaviour
 {
+    public GameObject origin;
+    public GameObject headAnchor;
+
     [Header("Spawn Settings")]
     public GameObject prefabToSpawn;
     public GameObject movableObject;
@@ -65,6 +68,7 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected TrialState currentTrialState = TrialState.WaitingToStart;
     protected int currentConditionIndex = 0;
     protected bool allConditionsCompleted = false;
+    protected bool isCalibrated = false;
 
     // Object references
     protected GameObject spawnedObject;
@@ -151,8 +155,12 @@ public abstract class BaseTaskManager : MonoBehaviour
                 Debug.LogWarning("Hand transform not assigned for tracking!");
             }
 
-            // Prepare the first trial
+            // Prepare the first trial (but don't show button until calibrated)
             PrepareNextTrial();
+
+            // Hide buttons until calibration is done
+            HideAllTrialButtons();
+            Debug.Log("Please press H key to calibrate origin height before starting trials");
         }
         else
         {
@@ -175,6 +183,11 @@ public abstract class BaseTaskManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             ExportTaskTimesToCSV();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            CalibrateOriginHeight();
         }
 
         CheckDockingAlignment();
@@ -253,6 +266,32 @@ public abstract class BaseTaskManager : MonoBehaviour
         Debug.Log("Experiment reset with new randomized order.");
     }
 
+    protected void CalibrateOriginHeight()
+    {
+        if (headAnchor != null && origin != null)
+        {
+            Vector3 newPosition = origin.transform.position;
+            newPosition.y = headAnchor.transform.position.y - 0.5f;
+            origin.transform.position = newPosition;
+            Debug.Log($"Origin height calibrated to {newPosition.y:F3}m (head anchor - 0.4m)");
+
+            // Mark as calibrated and show trial start button if in waiting state
+            isCalibrated = true;
+            if (currentTrialState == TrialState.WaitingToStart && !allConditionsCompleted)
+            {
+                ShowTrialStartButton();
+                Debug.Log("Calibration complete! You can now start the first trial.");
+            }
+        }
+        else
+        {
+            if (headAnchor == null)
+                Debug.LogWarning("Head anchor not assigned!");
+            if (origin == null)
+                Debug.LogWarning("Origin not assigned!");
+        }
+    }
+
     protected void CheckDockingAlignment()
     {
         if (spawnedObject == null || movableObject == null || allConditionsCompleted)
@@ -291,6 +330,12 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     public void OnTrialStartButtonPressed()
     {
+        if (!isCalibrated)
+        {
+            Debug.LogWarning("Please calibrate origin height first by pressing H key!");
+            return;
+        }
+
         if (currentTrialState != TrialState.WaitingToStart)
             return;
 
@@ -359,7 +404,12 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         // Set state to waiting for start
         currentTrialState = TrialState.WaitingToStart;
-        ShowTrialStartButton();
+
+        // Only show button if already calibrated
+        if (isCalibrated)
+        {
+            ShowTrialStartButton();
+        }
 
         // Hide objects until trial starts
         if (movableObject != null)
