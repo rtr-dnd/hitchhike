@@ -17,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Hitchhike
-  - 
+  - Overlay UI
   - 
   - 
   - Volume
@@ -41,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - OVROverlayCanvas Rendering
   m_SortingLayers:
   - name: Default
     uniqueID: 0

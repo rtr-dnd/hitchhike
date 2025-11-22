@@ -182,6 +182,7 @@ public class InterRegionalTaskManager : BaseTaskManager
                 spawnedObject = null;
             }
 
+            UpdateTrialCountDisplay();
             return;
         }
 
@@ -201,6 +202,8 @@ public class InterRegionalTaskManager : BaseTaskManager
         {
             movableObject.SetActive(false);
         }
+
+        UpdateTrialCountDisplay();
     }
 
     protected override void ResetExperiment()

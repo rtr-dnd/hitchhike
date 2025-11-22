@@ -177,6 +177,7 @@ public class WithinRegionalTaskManager : BaseTaskManager
                 spawnedObject = null;
             }
 
+            UpdateTrialCountDisplay();
             return;
         }
 
@@ -196,6 +197,8 @@ public class WithinRegionalTaskManager : BaseTaskManager
         {
             movableObject.SetActive(false);
         }
+
+        UpdateTrialCountDisplay();
     }
 
     protected override void ResetExperiment()

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 public abstract class BaseTaskManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public abstract class BaseTaskManager : MonoBehaviour
     [Header("Trial Control")]
     public GameObject trialStartButton;
     public GameObject trialRetryButton;
+
+    [Header("UI")]
+    public TextMeshProUGUI trialCountText;
 
     [SerializeField]
     protected int randomSeed = 42;
@@ -282,6 +286,9 @@ public abstract class BaseTaskManager : MonoBehaviour
                 ShowTrialStartButton();
                 Debug.Log("Calibration complete! You can now start the first trial.");
             }
+
+            // Update the UI display
+            UpdateTrialCountDisplay();
         }
         else
         {
@@ -406,6 +413,8 @@ public abstract class BaseTaskManager : MonoBehaviour
                 spawnedObject = null;
             }
 
+            // Update display for experiment completion
+            UpdateTrialCountDisplay();
             return;
         }
 
@@ -426,6 +435,28 @@ public abstract class BaseTaskManager : MonoBehaviour
         if (movableObject != null)
         {
             movableObject.SetActive(false);
+        }
+
+        // Update trial count display
+        UpdateTrialCountDisplay();
+    }
+
+    protected virtual void UpdateTrialCountDisplay()
+    {
+        if (trialCountText == null) return;
+
+        if (!isCalibrated)
+        {
+            trialCountText.text = "Please wait";
+        }
+        else if (allConditionsCompleted)
+        {
+            trialCountText.text = "Finished";
+        }
+        else
+        {
+            int totalTrials = GetTotalConditionCount();
+            trialCountText.text = $"Trial: {currentConditionIndex} / {totalTrials}";
         }
     }
 
@@ -551,6 +582,7 @@ public abstract class BaseTaskManager : MonoBehaviour
             // All conditions completed
             OutputExperimentSummaryCSV();
             allConditionsCompleted = true;
+            UpdateTrialCountDisplay();
         }
         else
         {
