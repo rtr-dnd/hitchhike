@@ -22,11 +22,6 @@ public class WithinRegionalTaskManager : BaseTaskManager
     private List<ExperimentalCondition> completedConditions = new List<ExperimentalCondition>();
     private ExperimentalCondition currentCondition = null;
 
-    protected override int GetExpectedRegionCount()
-    {
-        return 6;
-    }
-
     protected override void SelectRandomRotationAxes()
     {
         Random.InitState(randomSeed);
@@ -64,7 +59,7 @@ public class WithinRegionalTaskManager : BaseTaskManager
                                               TranslationAxis.PlusZ, TranslationAxis.MinusZ };
 
         // For each region, generate all possible combinations and randomly select 3
-        for (int regionIdx = 0; regionIdx < regionAreas.Count; regionIdx++)
+        for (int regionIdx = 1; regionIdx < 7; regionIdx++)
         {
             // Generate all 12 possible combinations for this region (4 translations × 3 rotation axes)
             List<ExperimentalCondition> regionConditions = new List<ExperimentalCondition>();

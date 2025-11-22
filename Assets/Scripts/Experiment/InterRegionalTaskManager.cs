@@ -27,11 +27,6 @@ public class InterRegionalTaskManager : BaseTaskManager
     private TranslationAxis selectedTranslationAxis;
     private RotationAxisPair selectedRotationAxis;
 
-    protected override int GetExpectedRegionCount()
-    {
-        return 6;
-    }
-
     protected override void SelectRandomRotationAxes()
     {
         Random.InitState(randomSeed);
@@ -81,10 +76,10 @@ public class InterRegionalTaskManager : BaseTaskManager
     {
         allConditions.Clear();
 
-        // Generate all combinations (6 start regions × 5 target regions = 30 conditions)
-        for (int startIdx = 0; startIdx < regionAreas.Count; startIdx++)
+        // Generate all combinations (7 start regions × 6 target regions = 42 conditions)
+        for (int startIdx = 0; startIdx < GetExpectedRegionCount(); startIdx++)
         {
-            for (int targetIdx = 0; targetIdx < regionAreas.Count; targetIdx++)
+            for (int targetIdx = 0; targetIdx < GetExpectedRegionCount(); targetIdx++)
             {
                 if (startIdx != targetIdx)
                 {
@@ -98,7 +93,7 @@ public class InterRegionalTaskManager : BaseTaskManager
             }
         }
 
-        Debug.Log($"Generated {allConditions.Count} experimental conditions (6 regions × 5 target regions)");
+        Debug.Log($"Generated {allConditions.Count} experimental conditions (7 start regions × 6 target regions)");
     }
 
     protected override int GetTotalConditionCount()

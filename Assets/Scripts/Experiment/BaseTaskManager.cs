@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Hitchhike;
 
 public abstract class BaseTaskManager : MonoBehaviour
 {
@@ -14,10 +15,16 @@ public abstract class BaseTaskManager : MonoBehaviour
     public GameObject movableObject;
 
     [Header("Regional Settings")]
-    public List<GameObject> regionAreas = new List<GameObject>();
+    public GameObject originalRegion;
+    public GameObject centerMiddleRegion, centerFarRegion;
+    public GameObject rightMiddleRegion, rightFarRegion;
+    public GameObject leftMiddleRegion, leftFarRegion;
+    private List<GameObject> _allRegions = new List<GameObject>();
+    private Dictionary<Hitchhike.HandArea, GameObject> _handAreaToRegionMap = new Dictionary<Hitchhike.HandArea, GameObject>();
 
     [Header("Hand Tracking")]
     public Transform handTransform;
+    public GameObject gazeSourceGameObject;
 
     [Header("Visual Feedback")]
     public Material normalMaterial;
@@ -30,6 +37,10 @@ public abstract class BaseTaskManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI trialCountText;
 
+    [Header("Logging")]
+    public int participantId = 1;
+    public string conditionName = "DefaultCondition";
+
     [SerializeField]
     protected int randomSeed = 42;
 
@@ -41,6 +52,16 @@ public abstract class BaseTaskManager : MonoBehaviour
     {
         WaitingToStart,
         Running,
+        Completed
+    }
+
+    protected enum Phase
+    {
+        PreTrial,
+        Reaching,
+        Manipulating,
+        Holding,
+        ReAcquiring,
         Completed
     }
 
@@ -108,68 +129,305 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected int grabbedIgnoredPositionCount = 0;
     protected int grabbedIgnoredRotationCount = 0;
 
+    // Gaze tracking
+    List<OVREyeGaze> eyeGazes;
+    Vector3? filteredDirection = null;
+    Vector3? filteredPosition = null;
+    float ratio = 0.3f;
+
+    // Logging & Phase tracking
+    protected Oculus.Interaction.Input.IHand hand;
+    protected bool isPinched = false; // New field for external pinch state
+    protected Phase currentPhase = Phase.PreTrial;
+    protected bool isInitialReachCompleted = false;
+    protected float initialReachingTime = 0f;
+    protected float manipulationTime = 0f;
+    protected float preshapingRotation = 0f;
+    protected float manipulationHandPathLength = 0f;
+    protected float manipulationHandRotation = 0f;
+    protected int failedGrabs = 0; // To be implemented
+
+    public void SetIsPinched(bool value)
+    {
+        isPinched = value;
+    }
+
+    protected virtual int GetExpectedRegionCount()
+
+    {
+
+        return 7;
+
+    }
+
+
+
     // Abstract methods - must be implemented by child classes
-    protected abstract int GetExpectedRegionCount();
+
     protected abstract void SelectRandomRotationAxes();
+
     protected abstract void GenerateAllExperimentalConditions();
+
     protected abstract int GetTotalConditionCount();
+
     protected abstract Vector3 GetMovableObjectStartPosition();
+
     protected abstract Vector3 GetTargetObjectPosition();
+
     protected abstract Quaternion GetTargetObjectRotation();
+
     protected abstract string GetConditionCSVColumns();
+
     protected abstract string GetConditionCSVValues(int taskIndex);
+
     protected abstract void StoreCompletedCondition();
 
+
+
     protected virtual void Start()
+
     {
-        // Validate region areas
-        int expectedCount = GetExpectedRegionCount();
-        if (regionAreas.Count != expectedCount)
+
+        // Populate and validate regions
+
+        _allRegions.AddRange(new List<GameObject> {
+
+                originalRegion, centerMiddleRegion, centerFarRegion,
+
+                rightMiddleRegion, rightFarRegion, leftMiddleRegion, leftFarRegion
+
+            });
+
+        if (_allRegions.Any(r => r == null))
+
         {
-            Debug.LogError($"Expected {expectedCount} region areas, but got {regionAreas.Count}!");
+
+            Debug.LogError("One or more region GameObjects are not assigned in the Inspector!");
+
             return;
+
         }
+
+
+
+        // Create HandArea to Region map
+
+        foreach (var region in _allRegions)
+
+        {
+
+            var handArea = region.GetComponentInChildren<Hitchhike.HandArea>();
+
+            if (handArea != null)
+
+            {
+
+                _handAreaToRegionMap[handArea] = region;
+
+            }
+
+            else
+
+            {
+
+                Debug.LogWarning($"No HandArea component found in the children of region '{region.name}'");
+
+            }
+
+        }
+
+
+
+        // Get IHand component
+
+        hand = handTransform.GetComponent<Oculus.Interaction.Input.IHand>();
+
+
+
+        // Populate eyeGazes list from assigned gazeSourceGameObject or self-components
+
+
+
+        if (gazeSourceGameObject != null)
+
+
+
+        {
+
+
+
+            eyeGazes = new List<OVREyeGaze>(gazeSourceGameObject.GetComponents<OVREyeGaze>());
+
+
+
+            if (eyeGazes.Count == 0)
+
+
+
+            {
+
+
+
+                Debug.LogWarning($"No OVREyeGaze components found on assigned Gaze Source GameObject '{gazeSourceGameObject.name}'. Gaze data will default to head forward.");
+
+
+
+            }
+
+
+
+        }
+
+
+
+        else
+
+
+
+        {
+
+
+
+            eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
+
+
+
+            if (eyeGazes.Count == 0)
+
+
+
+            {
+
+
+
+                Debug.LogWarning("No Gaze Source GameObject assigned, and no OVREyeGaze components found on this GameObject. Gaze data will default to head forward.");
+
+
+
+            }
+
+
+
+        }
+
+
 
         // Validate all regions have BoxColliders
-        foreach (var region in regionAreas)
+
+        foreach (var region in _allRegions)
+
         {
+
             if (region == null || region.GetComponent<BoxCollider>() == null)
+
             {
+
                 Debug.LogError("All region areas must have BoxColliders!");
+
                 return;
+
             }
+
         }
+
+
 
         if (prefabToSpawn != null && movableObject != null)
+
         {
+
             SelectRandomRotationAxes();
+
             GenerateAllExperimentalConditions();
+
             ShuffleConditionIndices();
 
+
+
             // Initialize hand tracking
+
             if (handTransform != null)
+
             {
+
                 lastHandPosition = handTransform.position;
+
                 lastHandRotation = handTransform.rotation;
+
                 isTrackingStarted = true;
+
                 Debug.Log("Hand tracking initialized");
+
             }
+
             else
+
             {
+
                 Debug.LogWarning("Hand transform not assigned for tracking!");
+
             }
+
+
+
+            // Start Logger
+
+            if (Logger.Instance != null)
+
+            {
+
+                Logger.Instance.StartNewLog(participantId);
+
+            }
+
+
 
             // Prepare the first trial (but don't show button until calibrated)
+
             PrepareNextTrial();
 
+
+
             // Hide buttons until calibration is done
+
             HideAllTrialButtons();
+
             Debug.Log("Please press H key to calibrate origin height before starting trials");
+
         }
+
         else
+
         {
+
             Debug.LogWarning("Prefab to spawn or movable object is not assigned!");
+
         }
+
+    }
+
+    private (Ray left, Ray right) GetGazeRays()
+    {
+        Ray defaultRay = new Ray(headAnchor.transform.position, headAnchor.transform.forward);
+        Ray leftRay = defaultRay;
+        Ray rightRay = defaultRay;
+
+        if (eyeGazes != null && eyeGazes.Count > 0)
+        {
+            var leftEye = eyeGazes.FirstOrDefault(e => e.Eye == OVREyeGaze.EyeId.Left);
+            var rightEye = eyeGazes.FirstOrDefault(e => e.Eye == OVREyeGaze.EyeId.Right);
+
+            if (leftEye != null && leftEye.EyeTrackingEnabled)
+            {
+                leftRay = new Ray(leftEye.transform.position, leftEye.transform.forward);
+            }
+            if (rightEye != null && rightEye.EyeTrackingEnabled)
+            {
+                rightRay = new Ray(rightEye.transform.position, rightEye.transform.forward);
+            }
+        }
+        
+        return (leftRay, rightRay);
     }
 
     protected virtual void Update()
@@ -200,6 +458,92 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         TrackHandMovement();
+
+        if (!allConditionsCompleted && Logger.Instance != null)
+        {
+            // Get gaze rays
+            var (leftGaze, rightGaze) = GetGazeRays();
+
+            // Get pinch state (now set externally)
+            bool isIndexPinching = isPinched;
+
+            // Get Hitchhiking data if available
+            string activeRegionName = "N/A";
+            Pose virtualHandPose = Pose.identity;
+            if (Hitchhike.HitchhikeManager.Instance != null)
+            {
+                var activeArea = Hitchhike.HitchhikeManager.Instance.GetActiveHandArea();
+                if (activeArea != null)
+                {
+                    if (_handAreaToRegionMap.ContainsKey(activeArea))
+                    {
+                        activeRegionName = _handAreaToRegionMap[activeArea].name;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Logger: ActiveHandArea found, but not present in the _handAreaToRegionMap.");
+                    }
+
+                    if (activeArea.wraps != null && activeArea.wraps.Count > 0)
+                    {
+                        var virtualHand = (activeArea.wraps[0] as InteractionHandWrap).mainHand.FindChildRecursive("XRHand_Wrist");
+                        virtualHandPose.position = virtualHand.transform.position;
+                        virtualHandPose.rotation = virtualHand.transform.rotation;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Logger: ActiveHandArea found, but its 'wraps' list is null or empty.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Logger: HitchhikeManager instance found, but GetActiveHandArea() returned null.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Logger: HitchhikeManager.Instance is null");
+            }
+            
+            // Get object poses safely
+            Pose movablePose = Pose.identity;
+            if (movableObject != null)
+            {
+                movablePose = new Pose(movableObject.transform.position, movableObject.transform.rotation);
+            }
+
+            Pose spawnedPose = Pose.identity;
+            if (spawnedObject != null)
+            {
+                spawnedPose = new Pose(spawnedObject.transform.position, spawnedObject.transform.rotation);
+            }
+
+            // Log frame data
+            Logger.Instance.LogFrameData(
+                Time.time,
+                currentConditionIndex,
+                conditionName,
+                currentPhase.ToString(),
+                headAnchor.transform.position.x, headAnchor.transform.position.y, headAnchor.transform.position.z,
+                headAnchor.transform.rotation.x, headAnchor.transform.rotation.y, headAnchor.transform.rotation.z, headAnchor.transform.rotation.w,
+                handTransform.position.x, handTransform.position.y, handTransform.position.z,
+                handTransform.rotation.x, handTransform.rotation.y, handTransform.rotation.z, handTransform.rotation.w,
+                virtualHandPose.position.x, virtualHandPose.position.y, virtualHandPose.position.z,
+                virtualHandPose.rotation.x, virtualHandPose.rotation.y, virtualHandPose.rotation.z, virtualHandPose.rotation.w,
+                activeRegionName,
+                leftGaze.origin.x, leftGaze.origin.y, leftGaze.origin.z,
+                leftGaze.direction.x, leftGaze.direction.y, leftGaze.direction.z,
+                rightGaze.origin.x, rightGaze.origin.y, rightGaze.origin.z,
+                rightGaze.direction.x, rightGaze.direction.y, rightGaze.direction.z,
+                movablePose.position.x, movablePose.position.y, movablePose.position.z,
+                movablePose.rotation.x, movablePose.rotation.y, movablePose.rotation.z, movablePose.rotation.w,
+                spawnedPose.position.x, spawnedPose.position.y, spawnedPose.position.z,
+                spawnedPose.rotation.x, spawnedPose.rotation.y, spawnedPose.rotation.z, spawnedPose.rotation.w,
+                isObjectGrabbed,
+                isIndexPinching,
+                isWithinThreshold
+            );
+        }
     }
 
     protected void ShuffleConditionIndices()
@@ -309,16 +653,29 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         isWithinThreshold = (positionDistance <= positionThreshold && rotationAngle <= rotationThresholdDegrees);
 
-        // If the conditions to start the timer are met and it's not already running
-        if (isObjectGrabbed && isWithinThreshold && _completionCoroutine == null)
+        if (isObjectGrabbed && isWithinThreshold)
         {
-            _completionCoroutine = StartCoroutine(CompleteTrialAfterDelay());
+            if (currentPhase != Phase.Holding)
+            {
+                currentPhase = Phase.Holding;
+            }
+            if (_completionCoroutine == null)
+            {
+                _completionCoroutine = StartCoroutine(CompleteTrialAfterDelay());
+            }
         }
-        // If the conditions to keep the timer running are broken and it is running
-        else if ((!isObjectGrabbed || !isWithinThreshold) && _completionCoroutine != null)
+        else
         {
-            StopCoroutine(_completionCoroutine);
-            _completionCoroutine = null;
+            if (_completionCoroutine != null)
+            {
+                StopCoroutine(_completionCoroutine);
+                _completionCoroutine = null;
+            }
+            // If we were holding and now we are not, revert phase
+            if (currentPhase == Phase.Holding)
+            {
+                currentPhase = isObjectGrabbed ? Phase.Manipulating : Phase.ReAcquiring;
+            }
         }
     }
 
@@ -339,11 +696,27 @@ public abstract class BaseTaskManager : MonoBehaviour
     {
         isObjectGrabbed = true;
         currentClutchingCount++;
+
+        if (!isInitialReachCompleted)
+        {
+            isInitialReachCompleted = true;
+            initialReachingTime = Time.time - taskStartTime;
+            // Preshaping rotation is already tracked by TrackHandMovement
+            currentPhase = Phase.Manipulating;
+        }
+        else
+        {
+            currentPhase = Phase.Manipulating;
+        }
     }
 
     public void OnRelease()
     {
         isObjectGrabbed = false;
+        if (currentTrialState == TrialState.Running)
+        {
+            currentPhase = Phase.ReAcquiring;
+        }
     }
 
     public void OnTrialStartButtonPressed()
@@ -466,6 +839,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         // Change state to running
         currentTrialState = TrialState.Running;
+        currentPhase = Phase.Reaching;
         ShowTrialRetryButton();
 
         // Get positions and rotations from child class
@@ -504,10 +878,19 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         spawnedObject.SetActive(true); // Show after all setup is complete
 
-        // Reset trial tracking
+        // Reset trial logging variables
         isWithinThreshold = false;
         taskStartTime = Time.time;
         currentClutchingCount = 0;
+        isInitialReachCompleted = false;
+        initialReachingTime = 0f;
+        manipulationTime = 0f;
+        preshapingRotation = 0f;
+        manipulationHandPathLength = 0f;
+        manipulationHandRotation = 0f;
+        failedGrabs = 0;
+        totalDistanceTraveled = 0f;
+        totalRotationAngle = 0f;
     }
 
     protected void RetryCurrentTrial()
@@ -519,6 +902,12 @@ public abstract class BaseTaskManager : MonoBehaviour
         {
             StopCoroutine(_completionCoroutine);
             _completionCoroutine = null;
+        }
+
+        // Manually reset grab state before disabling the object
+        if (isObjectGrabbed)
+        {
+            isObjectGrabbed = false;
         }
 
         // Hide and destroy objects
@@ -544,14 +933,44 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected void CompleteTrial()
     {
+        if (currentTrialState != TrialState.Running) return; // Prevent double completion
+
         // Stop completion coroutine if it's running (safeguard)
         if (_completionCoroutine != null)
         {
             StopCoroutine(_completionCoroutine);
             _completionCoroutine = null;
         }
+        currentPhase = Phase.Completed;
 
+        // --- Calculate final metrics ---
         float taskTime = Time.time - taskStartTime;
+        manipulationTime = isInitialReachCompleted ? (taskTime - initialReachingTime) : 0;
+        float finalPositionError = Vector3.Distance(movableObject.transform.position, spawnedObject.transform.position);
+        float finalRotationError = Quaternion.Angle(movableObject.transform.rotation, spawnedObject.transform.rotation);
+
+        // --- Log Summary Data ---
+        if (Logger.Instance != null)
+        {
+            Logger.Instance.LogTrialSummary(
+                currentConditionIndex,
+                participantId,
+                conditionName,
+                taskTime,
+                initialReachingTime,
+                manipulationTime,
+                currentClutchingCount,
+                failedGrabs,
+                totalDistanceTraveled,
+                totalRotationAngle,
+                preshapingRotation,
+                manipulationHandPathLength,
+                manipulationHandRotation,
+                finalPositionError,
+                finalRotationError
+            );
+        }
+
         taskCount++;
         taskTimes.Add(taskTime);
         clutchingCounts.Add(currentClutchingCount);
@@ -560,6 +979,12 @@ public abstract class BaseTaskManager : MonoBehaviour
         StoreCompletedCondition();
 
         Debug.Log($"Task {taskCount} completed in {taskTime:F2} seconds with {currentClutchingCount} clutches");
+
+        // Manually reset grab state before disabling the object
+        if (isObjectGrabbed)
+        {
+            isObjectGrabbed = false;
+        }
 
         // Hide movable object and destroy target
         if (movableObject != null)
@@ -574,6 +999,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         // Set state to completed
         currentTrialState = TrialState.Completed;
+        isWithinThreshold = false; // Reset after trial completion
         HideAllTrialButtons();
 
         // Check if all conditions are completed
@@ -612,14 +1038,14 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected Vector3 GetRegionCenter(int regionIndex)
     {
-        if (regionIndex < 0 || regionIndex >= regionAreas.Count)
+        if (regionIndex < 0 || regionIndex >= _allRegions.Count)
         {
             Debug.LogError($"Invalid region index: {regionIndex}");
             return Vector3.zero;
         }
 
-        BoxCollider collider = regionAreas[regionIndex].GetComponent<BoxCollider>();
-        return regionAreas[regionIndex].transform.TransformPoint(collider.center);
+        BoxCollider collider = _allRegions[regionIndex].GetComponent<BoxCollider>();
+        return _allRegions[regionIndex].transform.TransformPoint(collider.center);
     }
 
     protected Vector3 CalculateTargetPosition(Vector3 basePosition, TranslationAxis axis)
@@ -763,16 +1189,18 @@ public abstract class BaseTaskManager : MonoBehaviour
         if (distanceDelta <= 0.1f)
         {
             totalDistanceTraveled += distanceDelta;
-
             if (isObjectGrabbed)
             {
                 grabbedDistanceTraveled += distanceDelta;
+                if (currentPhase == Phase.Manipulating || currentPhase == Phase.Holding)
+                {
+                    manipulationHandPathLength += distanceDelta;
+                }
             }
         }
         else
         {
             ignoredPositionCount++;
-
             if (isObjectGrabbed)
             {
                 grabbedIgnoredPositionCount++;
@@ -786,16 +1214,22 @@ public abstract class BaseTaskManager : MonoBehaviour
         if (rotationDelta <= 20f)
         {
             totalRotationAngle += rotationDelta;
-
             if (isObjectGrabbed)
             {
                 grabbedRotationAngle += rotationDelta;
+                if (currentPhase == Phase.Manipulating || currentPhase == Phase.Holding)
+                {
+                    manipulationHandRotation += rotationDelta;
+                }
+            }
+            if (currentPhase == Phase.Reaching)
+            {
+                preshapingRotation += rotationDelta;
             }
         }
         else
         {
             ignoredRotationCount++;
-
             if (isObjectGrabbed)
             {
                 grabbedIgnoredRotationCount++;
@@ -807,23 +1241,31 @@ public abstract class BaseTaskManager : MonoBehaviour
         lastHandRotation = handTransform.rotation;
     }
 
+    protected virtual void OnDestroy()
+    {
+        if (Logger.Instance != null)
+        {
+            Logger.Instance.CloseLog();
+        }
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
         // Draw region areas
-        if (regionAreas != null)
+        if (_allRegions != null)
         {
-            for (int i = 0; i < regionAreas.Count; i++)
+            for (int i = 0; i < _allRegions.Count; i++)
             {
-                if (regionAreas[i] == null) continue;
+                if (_allRegions[i] == null) continue;
 
-                BoxCollider collider = regionAreas[i].GetComponent<BoxCollider>();
+                BoxCollider collider = _allRegions[i].GetComponent<BoxCollider>();
                 if (collider == null) continue;
 
                 Gizmos.color = new Color(0, 1, 0, 0.3f);
                 Gizmos.matrix = Matrix4x4.TRS(
-                    regionAreas[i].transform.position,
-                    regionAreas[i].transform.rotation,
-                    regionAreas[i].transform.lossyScale
+                    _allRegions[i].transform.position,
+                    _allRegions[i].transform.rotation,
+                    _allRegions[i].transform.lossyScale
                 );
                 Gizmos.DrawCube(collider.center, collider.size);
 
