@@ -77,7 +77,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     // Tracking variables
     protected bool isWithinThreshold = false;
-    protected bool wasWithinThreshold = false;
+    protected Coroutine _completionCoroutine = null;
     protected bool isObjectGrabbed = false;
     protected float taskStartTime;
     protected List<float> taskTimes = new List<float>();
@@ -294,27 +294,38 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected void CheckDockingAlignment()
     {
-        if (spawnedObject == null || movableObject == null || allConditionsCompleted)
+        if (spawnedObject == null || movableObject == null || allConditionsCompleted || currentTrialState != TrialState.Running)
             return;
 
         float positionDistance = Vector3.Distance(movableObject.transform.position, spawnedObject.transform.position);
         float rotationAngle = Quaternion.Angle(movableObject.transform.rotation, spawnedObject.transform.rotation);
 
-        wasWithinThreshold = isWithinThreshold;
         isWithinThreshold = (positionDistance <= positionThreshold && rotationAngle <= rotationThresholdDegrees);
 
-        if (isWithinThreshold != wasWithinThreshold)
+        // If the conditions to start the timer are met and it's not already running
+        if (isObjectGrabbed && isWithinThreshold && _completionCoroutine == null)
         {
-            UpdateTargetMaterial(isWithinThreshold);
+            _completionCoroutine = StartCoroutine(CompleteTrialAfterDelay());
         }
+        // If the conditions to keep the timer running are broken and it is running
+        else if ((!isObjectGrabbed || !isWithinThreshold) && _completionCoroutine != null)
+        {
+            StopCoroutine(_completionCoroutine);
+            _completionCoroutine = null;
+        }
+    }
 
-        if (isWithinThreshold && !isObjectGrabbed)
+    protected IEnumerator CompleteTrialAfterDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        // After waiting, re-check the conditions.
+        // This is a safeguard in case the state changed during the frame the coroutine was paused.
+        if (isObjectGrabbed && isWithinThreshold && currentTrialState == TrialState.Running)
         {
-            if (wasWithinThreshold)
-            {
-                StartCoroutine(DelayedSpawn());
-            }
+            CompleteTrial();
         }
+        _completionCoroutine = null; // Mark as finished
     }
 
     public void OnGrab()
@@ -464,7 +475,6 @@ public abstract class BaseTaskManager : MonoBehaviour
 
         // Reset trial tracking
         isWithinThreshold = false;
-        wasWithinThreshold = false;
         taskStartTime = Time.time;
         currentClutchingCount = 0;
     }
@@ -472,6 +482,13 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected void RetryCurrentTrial()
     {
         Debug.Log("Retrying current trial");
+
+        // Stop completion coroutine if it's running
+        if (_completionCoroutine != null)
+        {
+            StopCoroutine(_completionCoroutine);
+            _completionCoroutine = null;
+        }
 
         // Hide and destroy objects
         if (movableObject != null)
@@ -496,6 +513,13 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected void CompleteTrial()
     {
+        // Stop completion coroutine if it's running (safeguard)
+        if (_completionCoroutine != null)
+        {
+            StopCoroutine(_completionCoroutine);
+            _completionCoroutine = null;
+        }
+
         float taskTime = Time.time - taskStartTime;
         taskCount++;
         taskTimes.Add(taskTime);
@@ -535,15 +559,7 @@ public abstract class BaseTaskManager : MonoBehaviour
         }
     }
 
-    protected IEnumerator DelayedSpawn()
-    {
-        yield return new WaitForSeconds(0.01f);
 
-        if (isWithinThreshold && !isObjectGrabbed && !allConditionsCompleted && currentTrialState == TrialState.Running)
-        {
-            CompleteTrial();
-        }
-    }
 
     protected void UpdateTargetMaterial(bool withinThreshold)
     {
