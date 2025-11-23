@@ -35,18 +35,20 @@ public abstract class BaseTaskManager : MonoBehaviour
     public GameObject trialRetryButton;
 
     [Header("UI")]
-    public TextMeshProUGUI trialCountText;
+    public GameObject trialCountUI;
+    private TextMeshProUGUI _trialCountText;
 
     [Header("Logging")]
     public int participantId = 1;
     public string conditionName = "DefaultCondition";
+    public bool isPractice = false;
 
     [SerializeField]
-    protected int randomSeed = 42;
+    protected int randomSeed = -1; // -1 means auto-generate at Start()
 
     protected float positionThreshold = 0.02f;
     protected float rotationThresholdDegrees = 15f;
-    protected float translationDistance = 0.314f;
+    protected float translationDistance = 0.2355f;
 
     protected enum TrialState
     {
@@ -192,6 +194,22 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected virtual void Start()
     {
+        // Auto-generate random seed if not specified
+        if (randomSeed < 0)
+        {
+            randomSeed = System.Environment.TickCount;
+        }
+        Debug.Log($"Using random seed: {randomSeed}");
+
+        if (trialCountUI != null)
+        {
+            _trialCountText = trialCountUI.GetComponentInChildren<TextMeshProUGUI>();
+            if (_trialCountText == null)
+            {
+                Debug.LogWarning("No TextMeshProUGUI component found in children of trialCountUI!");
+            }
+        }
+
         // Populate and validate regions
         _allRegions.AddRange(new List<GameObject> {
                 originalRegion, centerMiddleRegion, centerFarRegion,
@@ -235,6 +253,16 @@ public abstract class BaseTaskManager : MonoBehaviour
             if (eyeGazes.Count == 0)
             {
                 Debug.LogWarning("No Gaze Source GameObject assigned, and no OVREyeGaze components found on this GameObject. Gaze data will default to head forward.");
+            }
+        }
+
+        // Debug logging for Gaze components
+        Debug.Log($"[BaseTaskManager] Found {eyeGazes.Count} OVREyeGaze components.");
+        foreach (var gaze in eyeGazes)
+        {
+            if (gaze != null)
+            {
+                Debug.Log($"[BaseTaskManager] Component ID: {gaze.GetInstanceID()}, Eye: {gaze.Eye}, Enabled: {gaze.EyeTrackingEnabled}");
             }
         }
 
@@ -282,7 +310,7 @@ public abstract class BaseTaskManager : MonoBehaviour
             // Start Logger
             if (Logger.Instance != null)
             {
-                Logger.Instance.StartNewLog(participantId);
+                Logger.Instance.StartNewLog(participantId, isPractice);
             }
 
             // Prepare the first trial (but don't show button until calibrated)
@@ -290,7 +318,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
             // Hide buttons until calibration is done
             HideAllTrialButtons();
-            Debug.Log("Please press H key to calibrate origin height before starting trials");
+            Debug.Log("Please press Space key to calibrate origin height before starting trials");
         }
         else
         {
@@ -300,7 +328,7 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     private (Ray left, Ray right) GetGazeRays()
     {
-        Ray defaultRay = new Ray(headAnchor.transform.position, headAnchor.transform.forward);
+        Ray defaultRay = new Ray(Vector3.zero, Vector3.zero);
         Ray leftRay = defaultRay;
         Ray rightRay = defaultRay;
 
@@ -313,9 +341,18 @@ public abstract class BaseTaskManager : MonoBehaviour
             {
                 leftRay = new Ray(leftEye.transform.position, leftEye.transform.forward);
             }
+            else 
+            {
+                Debug.LogWarning("Left eye gaze not enabled");
+            }
+
             if (rightEye != null && rightEye.EyeTrackingEnabled)
             {
                 rightRay = new Ray(rightEye.transform.position, rightEye.transform.forward);
+            }
+            else 
+            {
+                Debug.LogWarning("Right eye gaze not enabled");
             }
         }
 
@@ -325,21 +362,6 @@ public abstract class BaseTaskManager : MonoBehaviour
     protected virtual void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            OnTrialStartButtonPressed();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetExperiment();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ExportTaskTimesToCSV();
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
         {
             CalibrateOriginHeight();
         }
@@ -455,6 +477,10 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected virtual void ResetExperiment()
     {
+        // Generate new random seed for reset
+        randomSeed = System.Environment.TickCount;
+        Debug.Log($"Experiment reset with new random seed: {randomSeed}");
+
         // Reset all tracking variables
         taskTimes.Clear();
         clutchingCounts.Clear();
@@ -671,6 +697,12 @@ public abstract class BaseTaskManager : MonoBehaviour
                 spawnedObject = null;
             }
 
+            // Close the log to ensure data is saved immediately
+            if (Logger.Instance != null)
+            {
+                Logger.Instance.CloseLog();
+            }
+
             // Update display for experiment completion
             UpdateTrialCountDisplay();
             return;
@@ -704,20 +736,29 @@ public abstract class BaseTaskManager : MonoBehaviour
 
     protected virtual void UpdateTrialCountDisplay()
     {
-        if (trialCountText == null) return;
+        if (trialCountUI == null || _trialCountText == null) return;
 
-        if (!isCalibrated)
+        if (currentTrialState == TrialState.Running)
         {
-            trialCountText.text = "Please wait";
-        }
-        else if (allConditionsCompleted)
-        {
-            trialCountText.text = "Finished";
+            trialCountUI.SetActive(false);
         }
         else
         {
-            int totalTrials = GetTotalConditionCount();
-            trialCountText.text = $"Trial: {currentConditionIndex} / {totalTrials}";
+            trialCountUI.SetActive(true);
+            if (!isCalibrated)
+            {
+                _trialCountText.text = "Please wait";
+            }
+            else if (allConditionsCompleted)
+            {
+                _trialCountText.text = "Finished";
+            }
+            else
+            {
+                int totalTrials = GetTotalConditionCount();
+                string prefix = isPractice ? "practice" : "Trial";
+                _trialCountText.text = $"{prefix}: {currentConditionIndex} / {totalTrials}";
+            }
         }
     }
 
@@ -728,6 +769,7 @@ public abstract class BaseTaskManager : MonoBehaviour
         // Change state to running
         currentTrialState = TrialState.Running;
         currentPhase = Phase.Reaching;
+        UpdateTrialCountDisplay();
         ShowTrialRetryButton();
 
         // Get positions and rotations from child class
@@ -819,6 +861,7 @@ public abstract class BaseTaskManager : MonoBehaviour
         // Go back to waiting state
         currentTrialState = TrialState.WaitingToStart;
         ShowTrialStartButton();
+        UpdateTrialCountDisplay();
 
         Debug.Log("Trial reset. Press start button to try again.");
     }
@@ -848,6 +891,7 @@ public abstract class BaseTaskManager : MonoBehaviour
                 currentConditionIndex,
                 participantId,
                 conditionName,
+                randomSeed,
                 GetCurrentStartRegionName(),
                 GetCurrentTargetRegionName(),
                 GetCurrentTranslationAxis(),

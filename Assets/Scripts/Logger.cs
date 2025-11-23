@@ -12,7 +12,7 @@ public class Logger : SingletonMonoBehaviour<Logger>
 
     private bool _isLogging = false;
 
-    public void StartNewLog(int participantId)
+    public void StartNewLog(int participantId, bool isPractice = false)
     {
         if (_isLogging)
         {
@@ -22,7 +22,8 @@ public class Logger : SingletonMonoBehaviour<Logger>
 
         // Create directory
         string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-        _logDirectory = Path.Combine(Application.dataPath, "Logs", $"Participant_{participantId}_{timestamp}");
+        string practiceSuffix = isPractice ? "_practice" : "";
+        _logDirectory = Path.Combine(Application.dataPath, "Logs", $"Participant_{participantId}_{timestamp}{practiceSuffix}");
         Directory.CreateDirectory(_logDirectory);
 
         // --- Initialize Frame-by-Frame Log ---
@@ -48,7 +49,7 @@ public class Logger : SingletonMonoBehaviour<Logger>
         string summaryLogPath = Path.Combine(_logDirectory, "summary_log.csv");
         _summaryLogWriter = new StreamWriter(summaryLogPath, false, Encoding.UTF8);
         string[] summaryLogHeaders = {
-            "TrialID", "ParticipantID", "Condition",
+            "TrialID", "ParticipantID", "Condition", "RandomSeed",
             "StartRegionName", "TargetRegionName", "TranslationAxis", "RotationAxis", "RotationAngle",
             "TaskCompletionTime", "InitialReachingTime", "ManipulationTime",
             "ClutchCount", "FailedGrabs", "RetryCount",

@@ -120,26 +120,35 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>, IRem
 
     Ray gazeRay = GetGazeRay();
 
-    RaycastHit closestHit = new RaycastHit();
+    RemoteHandTarget closestTarget = null;
     float closestDistance = float.PositiveInfinity;
-    foreach (var hit in Physics.RaycastAll(gazeRay, maxRaycastDistance))
+    float coneAngle = 20f;
+    float halfConeAngle = coneAngle / 2f;
+
+    foreach (var target in RemoteHandTarget.allTargets)
     {
-      var target = hit.transform.GetComponent<RemoteHandTarget>();
-      if (target != null)
+      if (target == null) continue;
+
+      Vector3 toTarget = target.transform.position - head.position;
+      float distance = toTarget.magnitude;
+
+      if (distance > maxRaycastDistance) continue;
+
+      float angle = Vector3.Angle(gazeRay.direction, toTarget);
+
+      if (angle <= halfConeAngle)
       {
-        // finding a nearest hit
-        var colliderDistance = Vector3.Distance(hit.collider.gameObject.transform.position, head.transform.position);
-        if (colliderDistance < closestDistance)
+        if (distance < closestDistance)
         {
-          closestHit = hit;
-          closestDistance = colliderDistance;
+          closestTarget = target;
+          closestDistance = distance;
         }
       }
     }
 
-    if (closestDistance < float.PositiveInfinity)
+    if (closestTarget != null)
     {
-      var target = closestHit.transform.GetComponent<RemoteHandTarget>();
+      var target = closestTarget;
       if (hoverTarget != null) hoverTarget.OnHoverEnd(hoverGizmo);
       if (!target.isHovered) target.OnHover(hoverGizmo);
       hoverTarget = target;

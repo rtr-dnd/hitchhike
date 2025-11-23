@@ -8,6 +8,17 @@ using UnityEngine.Events;
 
 public class RemoteHandTarget : TargetObject
 {
+  public static List<RemoteHandTarget> allTargets = new List<RemoteHandTarget>();
+
+  private void OnEnable()
+  {
+    allTargets.Add(this);
+  }
+
+  private void OnDisable()
+  {
+    allTargets.Remove(this);
+  }
   public bool isGrabbable;
 
   [Header("Optional")]

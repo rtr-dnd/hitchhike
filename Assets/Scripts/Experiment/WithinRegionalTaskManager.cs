@@ -135,6 +135,16 @@ public class WithinRegionalTaskManager : BaseTaskManager
 
             Debug.Log($"Generated {allConditions.Count} experimental conditions for {interactionType} (6 regions × 4 translations × 2 trials = 48)");
         }
+
+        if (isPractice)
+        {
+            ShuffleList(allConditions);
+            if (allConditions.Count > 20)
+            {
+                allConditions = allConditions.GetRange(0, 20);
+            }
+            Debug.Log($"Practice mode enabled: Reduced conditions to {allConditions.Count}");
+        }
     }
 
     private void ShuffleList<T>(List<T> list)

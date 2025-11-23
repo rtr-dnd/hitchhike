@@ -14,12 +14,39 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Demo/ARStudio.unity
     guid: 71129f18ffe8a154798d9376bbbbc713
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Demo/VRCity.unity
     guid: 95a2370f4c5ed244fbb5b942c53734bb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Demo/VRWindowingSystem.unity
     guid: a8f075f43d7683b428b7c5b353cb4510
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Direct.unity
+    guid: 06fc53b5ee9e60c4fa1c47b51db39eda
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/GazePinch.unity
+    guid: a9c68a745967fd64e98027b542fcf36e
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Hitchhike.unity
+    guid: 1cac088f61ddf1c439618962f57b0c5c
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Hitchhike_Inter.unity
+    guid: 7d2fd8b4c89a35d4380a5c25dc6bbefe
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Practice_Bunny.unity
+    guid: bfe44273a008fe142a9511ba66dd18fe
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Practice_Direct.unity
+    guid: fbfddc0c982a0004cbe6af6cc2dbbc0e
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Practice_GazePinch.unity
+    guid: 4a608824f11d1c745be2d008bdb1724e
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Practice_Hitchhike.unity
+    guid: 42d7ef69873e629468f8cbf1ef9f1daa
+  - enabled: 1
+    path: Assets/Scenes/Experiment_2025/Scene/Practice_Hitchhike_Inter.unity
+    guid: 1869b7da2a6d3c64782aa649b40c43e0
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c3c04131ae035af4c9ee32d13c9ed39f, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 73454c6205c06d34a95e055ca66e200a, type: 2}

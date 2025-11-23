@@ -372,10 +372,11 @@ MonoBehaviour:
   withinThresholdMaterial: {fileID: 2100000, guid: e1dfcce16b06bd849a842c82b4006431, type: 2}
   trialStartButton: {fileID: 2001125719}
   trialRetryButton: {fileID: 1407066208}
-  trialCountText: {fileID: 1778016497831417744}
+  trialCountUI: {fileID: 1778016497831417744}
   participantId: 1
   conditionName: HH_Within
-  randomSeed: 42
+  randomSeed: -1
+  interactionType: 2
 --- !u!114 &401652574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,7 +865,7 @@ MonoBehaviour:
   globalTechnique: {fileID: 898713016}
   isGlobal: 0
   scaleHandModel: 0
-  DisableDnd: 0
+  DisableDnd: 1
   billboard: 1
   _billboardingTarget: {fileID: 546144}
   originalFollowsHeadMovement: 0
@@ -1803,6 +1804,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.12675
       objectReference: {fileID: 0}
+    - target: {fileID: 2435549701028045198, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3731547781530208514, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: _syntheticHand
       value: 
@@ -2087,7 +2092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.08571428
+      value: 0.08571429
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.y
@@ -2095,7 +2100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583696244923770449, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.08571429
+      value: 0.08571428
       objectReference: {fileID: 0}
     - target: {fileID: 4630087829284082634, guid: 43494c5b636822543b3907979e649d70, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2206,17 +2211,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43494c5b636822543b3907979e649d70, type: 3}
---- !u!114 &1778016497831417744 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2467274328258297424, guid: 43494c5b636822543b3907979e649d70, type: 3}
+--- !u!1 &1778016497831417744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2467274326752430261, guid: 43494c5b636822543b3907979e649d70, type: 3}
   m_PrefabInstance: {fileID: 1778016497831417743}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1778016497831417745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5147001665071620806, guid: 43494c5b636822543b3907979e649d70, type: 3}

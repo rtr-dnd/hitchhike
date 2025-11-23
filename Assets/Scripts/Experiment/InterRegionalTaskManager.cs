@@ -109,6 +109,24 @@ public class InterRegionalTaskManager : BaseTaskManager
         }
 
         Debug.Log($"Generated {allConditions.Count} experimental conditions (7 start regions × 7 target regions = 49)");
+
+        if (isPractice)
+        {
+            // Shuffle again to ensure random selection from the full set
+            for (int i = allConditions.Count - 1; i > 0; i--)
+            {
+                int randomIndex = Random.Range(0, i + 1);
+                var temp = allConditions[i];
+                allConditions[i] = allConditions[randomIndex];
+                allConditions[randomIndex] = temp;
+            }
+
+            if (allConditions.Count > 20)
+            {
+                allConditions = allConditions.GetRange(0, 20);
+            }
+            Debug.Log($"Practice mode enabled: Reduced conditions to {allConditions.Count}");
+        }
     }
 
     protected override int GetTotalConditionCount()
