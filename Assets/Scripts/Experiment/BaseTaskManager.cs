@@ -241,7 +241,7 @@ public abstract class BaseTaskManager : MonoBehaviour
         // Populate eyeGazes list from assigned gazeSourceGameObject or self-components
         if (gazeSourceGameObject != null)
         {
-            eyeGazes = new List<OVREyeGaze>(gazeSourceGameObject.GetComponents<OVREyeGaze>());
+            eyeGazes = new List<OVREyeGaze>(gazeSourceGameObject.GetComponentsInChildren<OVREyeGaze>());
             if (eyeGazes.Count == 0)
             {
                 Debug.LogWarning($"No OVREyeGaze components found on assigned Gaze Source GameObject '{gazeSourceGameObject.name}'. Gaze data will default to head forward.");
@@ -341,7 +341,7 @@ public abstract class BaseTaskManager : MonoBehaviour
             {
                 leftRay = new Ray(leftEye.transform.position, leftEye.transform.forward);
             }
-            else 
+            else
             {
                 Debug.LogWarning("Left eye gaze not enabled");
             }
@@ -350,7 +350,7 @@ public abstract class BaseTaskManager : MonoBehaviour
             {
                 rightRay = new Ray(rightEye.transform.position, rightEye.transform.forward);
             }
-            else 
+            else
             {
                 Debug.LogWarning("Right eye gaze not enabled");
             }

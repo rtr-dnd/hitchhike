@@ -53,8 +53,9 @@ namespace Hitchhike
       grabUse = gameObject.GetComponentInChildren<HandGrabUseInteractor>();
     }
 
-    void Update()
+    protected override void Update()
     {
+      base.Update();
       // initializing; waits for first confident hand data and then disables itself
       if (state == 1)
       {
@@ -139,6 +140,7 @@ namespace Hitchhike
         if (grabUse != null) grabUse.Unselect();
         return null;
       }
+
 
       var state = new SavedGrabState();
       state.target = grab.HandGrabTarget;

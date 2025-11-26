@@ -29,7 +29,7 @@ public class RemoteHandManager : SingletonMonoBehaviour<RemoteHandManager>, IRem
   // Start is called before the first frame update
   void Start()
   {
-    eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
+    eyeGazes = new List<OVREyeGaze>(GetComponentsInChildren<OVREyeGaze>());
   }
 
   public void setIsPinching(bool value)

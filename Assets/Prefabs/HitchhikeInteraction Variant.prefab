@@ -55,6 +55,9 @@ MonoBehaviour:
   doNotResetHand: 0
   filterRatio: 1
   handPrefabIndex: 0
+  gazeColliderTarget: {fileID: 0}
+  minVisualAngle: 2
+  referenceSize: 0.1
   meshRenderer: {fileID: 9138183723445417963}
 --- !u!1 &6705515368772067407
 GameObject:
@@ -111,6 +114,9 @@ MonoBehaviour:
   doNotResetHand: 0
   filterRatio: 1
   handPrefabIndex: 0
+  gazeColliderTarget: {fileID: 1588408112019479493}
+  minVisualAngle: 3
+  referenceSize: 0.4
   meshRenderer: {fileID: 6168201462452803349}
 --- !u!1001 &781422302040348243
 PrefabInstance:
@@ -738,6 +744,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24966fde08926274abf775c596ac8372, type: 3}
+--- !u!4 &1588408112019479493 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3341632152315004247, guid: 24966fde08926274abf775c596ac8372, type: 3}
+  m_PrefabInstance: {fileID: 4059137994685652626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7093159423445514181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6501793329807141207, guid: 24966fde08926274abf775c596ac8372, type: 3}

@@ -28,7 +28,7 @@ public class GazeHandManager : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-    eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
+    eyeGazes = new List<OVREyeGaze>(GetComponentsInChildren<OVREyeGaze>());
     pinchCounter = 0;
   }
 

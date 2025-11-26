@@ -13,7 +13,7 @@ namespace Hitchhike
 
     public override void Init()
     {
-      eyeGazes = new List<OVREyeGaze>(GetComponents<OVREyeGaze>());
+      eyeGazes = new List<OVREyeGaze>(GetComponentsInChildren<OVREyeGaze>());
     }
 
     public override int UpdateSwitch()
