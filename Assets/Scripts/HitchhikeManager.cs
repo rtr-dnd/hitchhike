@@ -191,7 +191,11 @@ namespace Hitchhike
 
       // hitchhike
       int i = switchTechnique.UpdateSwitch();
-      if (i >= 0 && i < handAreas.Count && GetHandAreaIndex(GetActiveHandArea()) != i)
+      bool isHandConfident = GetActiveHandArea().wraps.Select(w => (w as InteractionHandWrap).hand.IsHighConfidence).ToList().All(e => e);
+      if (
+        isHandConfident &&
+        i >= 0 && i < handAreas.Count && GetHandAreaIndex(GetActiveHandArea()) != i
+      )
       {
         // d&d
         var beforeArea = GetActiveHandArea();

@@ -10,6 +10,8 @@ namespace Hitchhike
   public class InteractionHandWrap : HandWrap
   {
     public SkinnedMeshRenderer meshRenderer;
+    [HideInInspector]
+    public Hand hand;
     private HitchhikeFromOVRHandDataSource hds;
     private HitchhikeHandGrabInteractor grab;
     private HandGrabUseInteractor grabUse;
@@ -39,6 +41,8 @@ namespace Hitchhike
 
     void Awake()
     {
+      hand = mainHand.GetComponent<Hand>();
+
       var dataSourceGo = transform.Find("RightHitchhikeHandV2/OVRHandDataSource");
       if (dataSourceGo == null) dataSourceGo = transform.Find("LeftHitchhikeHandV2/OVRHandDataSource");
       Debug.Log("dataSourceGo: " + dataSourceGo);
@@ -52,14 +56,12 @@ namespace Hitchhike
       grab = gameObject.GetComponentInChildren<HitchhikeHandGrabInteractor>();
       grabUse = gameObject.GetComponentInChildren<HandGrabUseInteractor>();
     }
-
     protected override void Update()
     {
       base.Update();
       // initializing; waits for first confident hand data and then disables itself
       if (state == 1)
       {
-        var hand = mainHand.GetComponent<Hand>();
         if (hand == null) return;
         if (hand.IsHighConfidence)
         {
