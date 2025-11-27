@@ -46,7 +46,7 @@ public abstract class BaseTaskManager : MonoBehaviour
     [SerializeField]
     protected int randomSeed = -1; // -1 means auto-generate at Start()
 
-    protected float positionThreshold = 0.02f;
+    protected float positionThreshold = 0.0314f;
     protected float rotationThresholdDegrees = 15f;
     protected float translationDistance = 0.2355f;
 

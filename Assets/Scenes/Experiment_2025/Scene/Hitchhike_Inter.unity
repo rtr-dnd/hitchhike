@@ -911,6 +911,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 1499146331}
   gazeGizmo: {fileID: 698443459}
+  coneAngle: 10
+  minGazeDistance: 0.3
+  maxGazeDistance: 10
+  sphereCastRadius: 0.05
+  distanceWeight: 0.25
+  angleWeight: 1
+  distanceToCenterWeight: 0.5
+  angleToCenterWeight: 0
 --- !u!114 &898713012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1881,18 +1889,6 @@ PrefabInstance:
     - target: {fileID: 434857917959498592, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1588408112019479493, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.12675
-      objectReference: {fileID: 0}
-    - target: {fileID: 1588408112019479493, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.09464503
-      objectReference: {fileID: 0}
-    - target: {fileID: 1588408112019479493, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.12675
       objectReference: {fileID: 0}
     - target: {fileID: 2435549701028045198, guid: 9a10e6f02827d484297d968e9f82f541, type: 3}
       propertyPath: m_IsActive

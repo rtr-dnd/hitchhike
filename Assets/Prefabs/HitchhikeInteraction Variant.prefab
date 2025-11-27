@@ -115,7 +115,7 @@ MonoBehaviour:
   filterRatio: 1
   handPrefabIndex: 0
   gazeColliderTarget: {fileID: 1588408112019479493}
-  minVisualAngle: 3
+  minVisualAngle: 2
   referenceSize: 0.4
   meshRenderer: {fileID: 6168201462452803349}
 --- !u!1001 &781422302040348243

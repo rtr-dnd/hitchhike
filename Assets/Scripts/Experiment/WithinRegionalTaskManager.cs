@@ -105,19 +105,17 @@ public class WithinRegionalTaskManager : BaseTaskManager
             {
                 foreach (var tAxis in allTranslations)
                 {
-                    // 2 trials per region-translation combination
-                    baseConditions.Add((regionIdx, tAxis));
+                    // 1 trial per region-translation combination
                     baseConditions.Add((regionIdx, tAxis));
                 }
             }
 
-            // Generate 24 rotation conditions, each used twice = 48 total
+            // Generate 24 rotation conditions, each used once = 24 total
             List<(RotationAxisPair axis, float angle)> rotationConditions = new List<(RotationAxisPair, float)>();
             foreach (var rAxis in allRotationAxes)
             {
                 foreach (var angle in rotationAngles)
                 {
-                    rotationConditions.Add((rAxis, angle));
                     rotationConditions.Add((rAxis, angle));
                 }
             }
@@ -133,7 +131,7 @@ public class WithinRegionalTaskManager : BaseTaskManager
                 allConditions.Add(new ExperimentalCondition(regionIdx, tAxis, rAxis, rAngle));
             }
 
-            Debug.Log($"Generated {allConditions.Count} experimental conditions for {interactionType} (6 regions × 4 translations × 2 trials = 48)");
+            Debug.Log($"Generated {allConditions.Count} experimental conditions for {interactionType} (6 regions × 4 translations × 1 trial = 24)");
         }
 
         if (isPractice)
